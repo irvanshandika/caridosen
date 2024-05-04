@@ -69,7 +69,7 @@ function DosenMingguan() {
                     {dosen?.map((dosen) => (
                       <>
                         <Carousel.Slide>
-                          <Card shadow="sm" padding="xs" radius="md">
+                          <Card shadow="sm" padding="xs" radius="md" className="lg:w-[30vw] w-[80vw] lg:mt-0 mt-10">
                             <Card.Section>
                               <div className="flex justify-center items-center my-10">
                                 <img src={dosen.urlFoto} className="lg:w-[200px] lg:h-auto w-[100px] h-[100px] rounded-full" alt="Norway" />
