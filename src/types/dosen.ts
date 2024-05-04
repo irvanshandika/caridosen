@@ -1,6 +1,6 @@
 export interface NewDosenType {
   nama: string;
-  nidn: string;
+  nip: string;
   email: string;
   urlFoto: string;
   tanggalLahir?: string;

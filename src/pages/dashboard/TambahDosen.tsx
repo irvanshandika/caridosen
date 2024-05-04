@@ -8,18 +8,19 @@ import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Label } from "@components/ui/label";
 
-async function addDosen(nama: string, nidn: string, email: string, urlFoto: string, tanggalLahir: string, createdBy: string) {
+async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, createdBy: string) {
   try {
     const docRef = await addDoc(collection(db, "dosen"), {
       nama: nama,
-      nidn: nidn,
+      nip: nip,
       tanggalLahir: tanggalLahir,
       email: email,
       urlFoto: urlFoto,
+      deskripsi: deskripsi,
       createdBy: createdBy,
       createdAt: serverTimestamp(),
     });
-    console.log(`Dosen dengan nama ${nama}, NIDN ${nidn}, dan email ${email} berhasil ditambahkan.`, docRef);
+    console.log(`Dosen dengan nama ${nama}, NIP ${nip}, dan email ${email} berhasil ditambahkan.`, docRef);
     return true;
   } catch (error) {
     console.error("Terjadi kesalahan saat menambahkan dosen:", error);
@@ -32,10 +33,11 @@ const Dosen = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [nama, setNama] = useState("");
-  const [nidn, setNidn] = useState("");
+  const [nip, setNip] = useState("");
   const [email, setEmail] = useState("");
   const [urlFoto, setUrlFoto] = useState("");
   const [tanggalLahir, setTanggalLahir] = useState("");
+  const [deskripsi, setDeskripsi] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false);
@@ -56,12 +58,13 @@ const Dosen = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const added = await addDosen(nama, nidn, email, urlFoto, tanggalLahir, createdBy);
+    const added = await addDosen(nama, nip, email, urlFoto, tanggalLahir, deskripsi, createdBy);
     if (added) {
       setNama("");
-      setNidn("");
+      setNip("");
       setEmail("");
       setUrlFoto("");
+      setDeskripsi("");
       setTanggalLahir("");
       setShowAlert(true); // Show the alert
       setTimeout(() => {
@@ -170,15 +173,15 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="nidn" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  NIDN
+                <Label htmlFor="nip" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                  NIP
                 </Label>
                 <input
                   type="text"
-                  name="nidn"
-                  id="nidn"
-                  value={nidn}
-                  onChange={(e: any) => setNidn(e.target.value)}
+                  name="nip"
+                  id="nip"
+                  value={nip}
+                  onChange={(e: any) => setNip(e.target.value)}
                   className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
                   placeholder="123xxxxx"
                   required
@@ -196,6 +199,20 @@ const Dosen = () => {
                   onChange={(e: any) => setTanggalLahir(e.target.value)}
                   className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400"
                   placeholder="(01/01/1993)"
+                />
+              </div>
+              <div>
+                <Label htmlFor="deskripsi" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                  Deskripsi
+                </Label>
+                <textarea
+                  name="deskripsi"
+                  id="deskripsi"
+                  value={deskripsi}
+                  onChange={(e: any) => setDeskripsi(e.target.value)}
+                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
+                  placeholder="Deskripsi singkat tentang dosen"
+                  required
                 />
               </div>
             </div>

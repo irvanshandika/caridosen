@@ -78,10 +78,10 @@ const EditDosen = () => {
             <input type="text" name="nama" id="nama" value={dosenDetail.nama} onChange={handleChange} className="mt-1 p-2 border border-gray-300 rounded w-full" />
           </div>
           <div className="mb-4">
-            <label htmlFor="nidn" className="block text-sm font-medium text-gray-700">
-              NIDN
+            <label htmlFor="nip" className="block text-sm font-medium text-gray-700">
+              NIP
             </label>
-            <input type="text" name="nidn" id="nidn" value={dosenDetail.nidn} onChange={handleChange} className="mt-1 p-2 border border-gray-300 rounded w-full" />
+            <input type="text" name="nip" id="nip" value={dosenDetail.nip} onChange={handleChange} className="mt-1 p-2 border border-gray-300 rounded w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">

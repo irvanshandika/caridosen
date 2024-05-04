@@ -36,26 +36,45 @@ const DetailDosen = () => {
         <title>Rating Dosen | CariDosen</title>
       </Helmet>
       <div className="flex flex-col justify-center items-center lg:my-40 my-28">
-        <Card className="lg:px-28 px-1">
+        <Card className="lg:px-[100px] lg:mx-[300px] mx-[20px] px-1">
           <CardHeader>
             <CardTitle>
               <img src={dosenDetail.urlFoto} alt={dosenDetail.nama} className="w-[200px] h-[200px] rounded-full mx-auto" />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <CardDescription className="flex flex-col justify-center items-start">
-              <h1 className="font-semibold">{dosenDetail.nama}</h1>
-              <p>{dosenDetail.nidn}</p>
-              <p>{dosenDetail.email}</p>
-            </CardDescription>
-          </CardContent>
-          <CardFooter className="flex flex-col justify-center items-center my-2">
-            <Rating defaultValue={0} size="xl" />
-            <h1>Komentar</h1>
-            <div className="my-2">
-              <Textarea className="px-20" />
+            <div className="flex flex-col justify-center items-start ">
+              <CardDescription>
+                <h1 className="font-semibold">Nama Dosen</h1>
+                <p>{dosenDetail.nama}</p>
+              </CardDescription>
+              <CardDescription className="mt-4">
+                <h1 className="font-semibold">NIP Dosen</h1>
+                <p>{dosenDetail.nip}</p>
+              </CardDescription>
+              <CardDescription className=" mt-4">
+                <h1 className="font-semibold">Email Dosen</h1>
+                <p>{dosenDetail.email}</p>
+              </CardDescription>
+              <CardDescription className=" mt-4">
+                <h1 className="font-semibold">Deskripsi Dosen</h1>
+                <p>{dosenDetail.deskripsi}</p>
+              </CardDescription>
             </div>
-            <Button type="submit">Posting</Button>
+          </CardContent>
+          <CardFooter>
+            <div className="flex flex-col justify-center items-center my-2">
+              <div className="my-4">
+                <div className="flex justify-center items-center">
+                  <Rating defaultValue={0} size="xl" />
+                </div>
+                <h1>Komentar</h1>
+                <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} />
+              </div>
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                Posting
+              </Button>
+            </div>
           </CardFooter>
         </Card>
       </div>

@@ -60,7 +60,7 @@ const DetailDosen = () => {
                 <strong>Nama:</strong> {dosenDetail.nama}
               </p>
               <p>
-                <strong>NIDN:</strong> {dosenDetail.nidn}
+                <strong>NIP:</strong> {dosenDetail.nip}
               </p>
               <p>
                 <strong>Tanggal Lahir:</strong> {dosenDetail.tanggalLahir}
