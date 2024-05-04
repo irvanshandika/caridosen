@@ -20,7 +20,7 @@ function DosenMingguan() {
             return {
               id: doc.id,
               nama: doc.data().nama,
-              nidn: doc.data().nidn,
+              nip: doc.data().nip,
               email: doc.data().email,
               urlFoto: doc.data().urlFoto,
               createdBy: doc.data().createdBy,
@@ -82,7 +82,7 @@ function DosenMingguan() {
                             </Group>
 
                             <Text size="sm" c="dimmed">
-                              {dosen.nidn}
+                              {dosen.nip}
                             </Text>
 
                             <Button color="blue" mt="md" radius="md" onClick={() => navigate(`/rating/${dosen.id}`)}>
