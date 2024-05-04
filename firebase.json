@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "dosen",
     "public": "dist",
     "ignore": [
       "firebase.json",
