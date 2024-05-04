@@ -62,7 +62,7 @@ const Dosen = () => {
           return {
             id: doc.id,
             nama: doc.data().nama,
-            nidn: doc.data().nidn,
+            nip: doc.data().nip,
             email: doc.data().email,
             urlFoto: doc.data().urlFoto,
           };
@@ -137,7 +137,7 @@ const Dosen = () => {
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-100">{dosen.nama}</h3>
                       <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.id}</p>
-                      <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.nidn}</p>
+                      <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.nip}</p>
                     </div>
                   </div>
                   <div className="flex flex-col mr-5">
