@@ -8,7 +8,6 @@ import { Input } from "@components/ui/input";
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alertError, setAlertError] = useState(false);
@@ -24,7 +23,7 @@ function SignIn() {
       await signInWithPopup(authInstance, provider); // Menggunakan authInstance
       navigate("/");
     } catch (error) {
-      setError((error as Error).message); // Add type assertion to specify the type of 'error'
+      console.log(error);
     } finally {
       setLoading(false);
     }

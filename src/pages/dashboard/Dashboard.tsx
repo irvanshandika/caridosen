@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { app } from "@src/config/FirebaseConfig";
 import Sidebar from "@components/Sidebar";
 import { Helmet } from "react-helmet";
 

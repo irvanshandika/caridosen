@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useNavigate, useLocation } from "react-router-dom";
-import { app, db } from "@src/config/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
+import { db } from "@src/config/FirebaseConfig";
 import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Label } from "@components/ui/label";
@@ -30,7 +30,6 @@ async function addDosen(nama: string, nidn: string, email: string, urlFoto: stri
 const Dosen = () => {
   const auth = getAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [user, setUser] = useState<any>(null);
   const [nama, setNama] = useState("");
   const [nidn, setNidn] = useState("");
@@ -92,6 +91,7 @@ const Dosen = () => {
   return (
     <>
       <SideBar>
+        <span className="hidden">{user?.displayName}</span>
         <div className="p-8 rounded border border-gray-200 dark:border-gray-600 dark:bg-gray-700">
           <h1 className="font-medium text-3xl">Tambah Dosen</h1>
           {showAlert && (

@@ -1,30 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { app, db } from "@src/config/FirebaseConfig";
+import { useState, useEffect } from "react";
+import { db } from "@src/config/FirebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Sidebar from "@components/Sidebar";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 
-interface dosenDetail {
-  nama: string;
-  nidn: string;
-  email: string;
-  urlFoto: string;
-  tanggalLahir: string;
-}
 
 const EditDosen = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
-  const [nama, setNama] = useState("");
-  const [nidn, setNidn] = useState("");
-  const [email, setEmail] = useState("");
-  const [urlFoto, setUrlFoto] = useState("");
-  const [tanggalLahir, setTanggalLahir] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [dosenDetail, setDosenDetail] = useState<any>({});
 
@@ -80,6 +68,7 @@ const EditDosen = () => {
         <title>Edit Dosen | CariDosen</title>
       </Helmet>
       <Sidebar>
+        <span className="hidden">{user?.displayName}</span>
         <h1 className="text-center">Edit Dosen</h1>
         <form onSubmit={updateDosen}>
           <div className="mb-4">

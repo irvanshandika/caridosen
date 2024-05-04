@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { auth } from "@src/config/FirebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";

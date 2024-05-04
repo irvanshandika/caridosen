@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { app, db } from "@src/config/FirebaseConfig";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { db } from "@src/config/FirebaseConfig";
+import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { getDoc, doc } from "firebase/firestore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
@@ -12,7 +12,6 @@ import { Rating } from "@mantine/core";
 
 const DetailDosen = () => {
   const [dosenDetail, setDosenDetail] = useState<any>({});
-  const navigate = useNavigate();
 
   const params = useParams();
   console.log(params.id);

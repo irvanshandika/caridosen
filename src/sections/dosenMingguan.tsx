@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import { Card, Text, Badge, Button, Group } from "@mantine/core";
-import { app, db } from "@src/config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { DocumentData, onSnapshot, QuerySnapshot } from "firebase/firestore";
 import { DosenController } from "@src/controllers/DosenController";

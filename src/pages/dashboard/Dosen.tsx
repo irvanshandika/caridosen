@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { app, db } from "@src/config/FirebaseConfig";
+import { useState, useEffect } from "react";
+import { db } from "@src/config/FirebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@components/Sidebar";
@@ -95,6 +95,7 @@ const Dosen = () => {
         <title>Dosen | CariDosen</title>
       </Helmet>
       <Sidebar>
+        <span className="hidden">{user?.displayName}</span>
         <h1 className="text-center">Daftar Dosen</h1>
         <div className="mb-2">
           <Button onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
