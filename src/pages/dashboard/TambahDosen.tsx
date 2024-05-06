@@ -68,7 +68,7 @@ const Dosen = () => {
       setTanggalLahir("");
       setShowAlert(true); // Show the alert
       setTimeout(() => {
-        setShowAlert(false); // Hide the alert after 4000ms
+        setShowAlert(false);
       }, 4000);
       console.log("Add the todo successfully");
     } else {

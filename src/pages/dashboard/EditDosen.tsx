@@ -8,7 +8,6 @@ import { Helmet } from "react-helmet";
 import Sidebar from "@components/Sidebar";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 
-
 const EditDosen = () => {
   const auth = getAuth();
   const navigate = useNavigate();
@@ -17,7 +16,6 @@ const EditDosen = () => {
   const [dosenDetail, setDosenDetail] = useState<any>({});
 
   const params = useParams();
-  // console.log(params.id);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -37,12 +35,15 @@ const EditDosen = () => {
       if (dosenSnap.exists()) {
         setDosenDetail(dosenSnap.data());
         console.log("Document data:", dosenSnap.data());
+        if (dosenSnap.data().createdBy !== user.email) {
+          navigate("/forbidden");
+        }
       } else {
         console.log("No such document!");
       }
     };
     getDosen();
-  }, [params]);
+  }, [params, user, navigate]);
 
   const updateDosen = async (e: any) => {
     e.preventDefault();

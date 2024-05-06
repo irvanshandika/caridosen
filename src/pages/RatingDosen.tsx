@@ -2,33 +2,71 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { db } from "@src/config/FirebaseConfig";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
 import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
 import { Rating } from "@mantine/core";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import ListKomentar from "@/src/sections/ListKomentar";
 
 const DetailDosen = () => {
+  const auth = getAuth();
+  const navigate = useNavigate();
   const [dosenDetail, setDosenDetail] = useState<any>({});
+  const [user, setUser] = useState<any>(null);
+  const [rating, setRating] = useState(0);
+  const [komentar, setKomentar] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
+  const [dosenId, setDosenId] = useState("");
 
   const params = useParams();
-  console.log(params.id);
+  // console.log(params.id);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        navigate("/auth/login");
+      }
+    });
+    return () => unsubscribe();
+  }, [auth, navigate]);
 
   useEffect(() => {
     const getDosen = async () => {
+      setDosenId(params.id ?? "");
+      setCreatedBy(user.displayName);
       const dosenRef = doc(db, "dosen", params.id ?? "");
       const dosenSnap = await getDoc(dosenRef);
       if (dosenSnap.exists()) {
         setDosenDetail(dosenSnap.data());
-        console.log("Document data:", dosenSnap.data());
+        // console.log("Document data:", dosenSnap.data());
       } else {
-        console.log("No such document!");
+        // console.log("No such document!");
       }
     };
     getDosen();
-  }, [params]);
+  }, [params, user]);
+
+  const handleSubmitRating = async (e: any) => {
+    try {
+      e.preventDefault();
+      await addDoc(collection(db, "rating"), {
+        dosenId: dosenId,
+        rating: rating,
+        komentar: komentar,
+        createdBy: createdBy,
+        createdAt: serverTimestamp(),
+      });
+      console.log(komentar);
+    } catch (error) {
+      console.log("Error adding document: ", error);
+    }
+  };
 
   return (
     <>
@@ -64,17 +102,22 @@ const DetailDosen = () => {
           </CardContent>
           <CardFooter>
             <div className="flex flex-col justify-center items-center my-2">
-              <div className="my-4">
-                <div className="flex justify-center items-center">
-                  <Rating defaultValue={0} size="xl" />
+              <form onSubmit={handleSubmitRating}>
+                <div className="my-4">
+                  <div className="flex justify-center items-center">
+                    <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
+                  </div>
+                  <h1>Komentar</h1>
+                  <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
                 </div>
-                <h1>Komentar</h1>
-                <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} />
-              </div>
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
-                Posting
-              </Button>
+                <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                  Posting
+                </Button>
+              </form>
             </div>
+          </CardFooter>
+          <CardFooter>
+            <ListKomentar />
           </CardFooter>
         </Card>
       </div>

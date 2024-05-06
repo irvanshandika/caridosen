@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import Home from "@src/pages/Home";
+import OurTeam from "@src/pages/OurTeam";
 import NotFound from "@src/pages/NotFound";
 import SignIn from "@src/pages/LogIn";
 import SignUp from "@src/pages/SignUp";
@@ -48,6 +49,7 @@ function App() {
           <Route index path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="/ourteam" element={<OurTeam />} />
           <Route path="/rating/:id" element={<InformationDosen />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
