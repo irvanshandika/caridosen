@@ -6,6 +6,7 @@ import "preline/dist/preline";
 import { BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/charts/styles.css";
 import LogRocket from "logrocket";
 LogRocket.init("tdj5oo/caridosen");
 LogRocket.identify("318675", {

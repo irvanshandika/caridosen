@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import BanIcon from "@components/icons/BanIcon";
+import { Helmet } from "react-helmet";
 
 function Forbidden() {
   const navigate = useNavigate();
   return (
     <>
+      <Helmet>
+        <title>403 Forbidden | CariDosen</title>
+      </Helmet>
       <div className="flex flex-col min-h-[100vh]">
         <div className="mx-auto max-w-2xl flex-1 flex flex-col items-center justify-center px-4 text-center space-y-4">
           <BanIcon className="h-24 w-24" />

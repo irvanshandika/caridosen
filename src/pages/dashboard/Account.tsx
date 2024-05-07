@@ -54,7 +54,7 @@ const Account = () => {
               </h1>
               <p className="w-full text-gray-700 dark:text-gray-400 text-md text-pretty text-center">{user?.providerData[0].email || "No email"}</p>
 
-              <div className="px-2 flex rounded-sm bg-gray-200 text-gray-500 dark:bg-gray-700 dark:bg-opacity-30 dark:text-gray-700 hover:text-gray-600 hover:dark:text-gray-400">
+              {/* <div className="px-2 flex rounded-sm bg-gray-200 text-gray-500 dark:bg-gray-700 dark:bg-opacity-30 dark:text-gray-700 hover:text-gray-600 hover:dark:text-gray-400">
                 <a href="https://www.linkedin.com/in/samuel-abera-6593a2209/">
                   <div data-title="LinkedIn" className="p-2 hover:text-primary hover:dark:text-primary">
                     <svg className="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@ const Account = () => {
                     </svg>
                   </div>
                 </a>
-              </div>
+              </div> */}
 
               <div className="w-full flex gap-4 justify-center items-center mt-10">
                 <div className="xl:w-1/4 xl:h-32 lg:w-1/5 lg:h-32 md:w-1/5 md:h-28 sm:w-1/3 sm:h-[5rem] xs:w-1/3 xs:h-[4rem] flex justify-center items-center rounded-sm text-center text-lg px-6 py-4 border-2 border-dashed border-gray-300 dark:text-white dark:border-2 dark:border-dashed dark:border-gray-700">

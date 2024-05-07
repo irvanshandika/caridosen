@@ -5,6 +5,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@components/Sidebar";
 import { Helmet } from "react-helmet";
+import { Group, Text } from "@mantine/core";
+import { PieChart } from "@mantine/charts";
+import { data } from "./data/DataRating";
 
 const Dashboard: React.FC = () => {
   const auth = getAuth();
@@ -29,6 +32,14 @@ const Dashboard: React.FC = () => {
       </Helmet>
       <Sidebar>
         <h1>Selamat Datang {user?.displayName}</h1>
+        <Group gap={50}>
+          <div>
+            <Text fz="xs" mb="sm" ta="center">
+              Hasil Rating Dosen
+            </Text>
+            <PieChart data={data} withTooltip tooltipDataSource="segment" mx="auto" />
+          </div>
+        </Group>
       </Sidebar>
     </>
   );

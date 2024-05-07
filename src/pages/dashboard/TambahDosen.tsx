@@ -45,8 +45,6 @@ const Dosen = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
         const email = user.email;
         console.log(email);
         setCreatedBy(email ?? "");
@@ -69,13 +67,13 @@ const Dosen = () => {
       setShowAlert(true); // Show the alert
       setTimeout(() => {
         setShowAlert(false);
-      }, 4000);
+      }, 5000);
       console.log("Add the todo successfully");
     } else {
       setShowErrorAlert(true);
       setTimeout(() => {
         setShowErrorAlert(false);
-      }, 4000);
+      }, 9000);
     }
     window.location.reload();
   };
