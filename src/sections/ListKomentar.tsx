@@ -38,9 +38,9 @@ const ListKomentar = () => {
       {listKomentar?.map((user) => {
         return (
           <>
-            <Card shadow="xs" padding="md" radius="md" style={{ marginBottom: "10px" }}>
+            <Card shadow="xs" padding="xs" radius="md" className="flex flex-row gap-4 justify-center items-center" style={{ marginBottom: "10px" }}>
               <h1>{user.email}</h1>
-              <Rating value={user.rating} color="orange" readOnly/>
+              <Rating value={user.rating} color="orange" readOnly />
               <p>{user.komentar}</p>
             </Card>
           </>

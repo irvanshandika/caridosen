@@ -30,7 +30,7 @@ const DetailDosen = () => {
       if (user) {
         setUser(user);
       } else {
-        navigate("/auth/login");
+        navigate("/auth/signin");
       }
     });
     return () => unsubscribe();
@@ -39,7 +39,7 @@ const DetailDosen = () => {
   useEffect(() => {
     const getDosen = async () => {
       setDosenId(params.id ?? "");
-      setCreatedBy(user.displayName);
+      setCreatedBy(user.uid);
       const dosenRef = doc(db, "dosen", params.id ?? "");
       const dosenSnap = await getDoc(dosenRef);
       if (dosenSnap.exists()) {

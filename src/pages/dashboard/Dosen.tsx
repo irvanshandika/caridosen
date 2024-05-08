@@ -17,12 +17,13 @@ const Dosen = () => {
   const [user, setUser] = useState<any>(null);
   const [dosen, setDosen] = useState<NewDosenType[]>([]);
   const [createdBy, setCreatedBy] = useState({});
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const email = user.email;
-        console.log(email);
+        // console.log(email);
         setCreatedBy(email ?? "");
       } else {
         console.log("User is not signed in");
@@ -52,10 +53,23 @@ const Dosen = () => {
     }
   };
 
-  const q = query(collection(db, "dosen"), where("createdBy", "==", createdBy));
+  useEffect(() => {
+    const getUser = async () => {
+      if (user) {
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setIsAdmin(doc.data().roles === "admin");
+        });
+      }
+    };
+    getUser();
+  }, [user]);
+  console.log(isAdmin);
 
   useEffect(() => {
     const getData = async () => {
+      const q = query(collection(db, "dosen"), where("createdBy", "==", createdBy));
       const querySnapshot = await getDocs(q);
       setDosen(
         querySnapshot.docs.map((doc) => {
@@ -68,28 +82,11 @@ const Dosen = () => {
           };
         })
       );
-      console.log(querySnapshot);
+      // console.log(querySnapshot);
     };
     getData();
-  }, [q]);
+  }, [createdBy]);
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(DosenController, (snapshot: QuerySnapshot<DocumentData>) => {
-  //       setDosen(
-  //         snapshot.docs.map((doc) => {
-  //           return {
-  //             id: doc.id,
-  //             nama: doc.data().nama,
-  //             nidn: doc.data().nidn,
-  //             email: doc.data().email,
-  //             urlFoto: doc.data().urlFoto,
-  //           };
-  //         })
-  //       );
-  //     }),
-  //   []
-  // );
   return (
     <>
       <Helmet>
@@ -99,12 +96,14 @@ const Dosen = () => {
         <span className="hidden">{user?.displayName}</span>
         <h1 className="text-center">Daftar Dosen</h1>
         <div className="mb-2">
-          <Button onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
-            <span className="mr-1">
-              <i className="fa-solid fa-user-plus"></i>
-            </span>
-            Buat Dosen
-          </Button>
+          {isAdmin && (
+            <Button onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
+              <span className="mr-1">
+                <i className="fa-solid fa-user-plus"></i>
+              </span>
+              Buat Dosen
+            </Button>
+          )}
         </div>
         {dosen && dosen.length === 0 ? (
           <div className="min-h-60 flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
