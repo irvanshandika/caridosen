@@ -1,13 +1,44 @@
-import React, { ReactNode } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { ReactNode, useState, useEffect } from "react";
 import DropdownSidebar from "./DropdownSidebar";
 import { useNavigate } from "react-router-dom";
+import { db } from "@src/config/FirebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 type SidebarProps = {
   children: ReactNode;
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+  const auth = getAuth();
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        navigate("/forbidden");
+      }
+    });
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (user) {
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setIsAdmin(doc.data().roles === "admin");
+        });
+      }
+    };
+    getUser();
+  }, [user]);
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 sm:py-4 lg:ps-64 dark:bg-neutral-800 dark:border-neutral-700">
@@ -173,13 +204,15 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                       Lihat Dosen
                     </a>
                   </li>
-                  <li>
-                    <a
-                      className="cursor-pointer flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300"
-                      onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
-                      Tambah Dosen
-                    </a>
-                  </li>
+                  {isAdmin && (
+                    <li>
+                      <a
+                        className="cursor-pointer flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300"
+                        onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
+                        Tambah Dosen
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </div>
             </li>

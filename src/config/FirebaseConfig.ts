@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDXQQh0iNsBoeqYHKovN4vGjHL1S4Vqk2k",
-  authDomain: "caridosen-f6b46.firebaseapp.com",
-  projectId: "caridosen-f6b46",
-  storageBucket: "caridosen-f6b46.appspot.com",
-  messagingSenderId: "790104182466",
-  appId: "1:790104182466:web:c0933a29b668905238755b",
-  measurementId: "G-0ERRFS2ZC9",
+  apiKey: "AIzaSyDdgrxBiCU9alVlf0OthJh2J_nSb1wJFkA",
+  authDomain: "paraphrases.firebaseapp.com",
+  projectId: "paraphrases",
+  storageBucket: "paraphrases.appspot.com",
+  messagingSenderId: "901540884726",
+  appId: "1:901540884726:web:2dfd83ab09706f39a2fcd7",
+  measurementId: "G-609GMV5X1F",
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
