@@ -218,7 +218,7 @@ const Dosen = () => {
               <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
                 Save
               </button>
-              <button onClick={() => navigate("/dashboard/dosen")} className="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50">
+              <button onClick={() => navigate("/dashboard")} className="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50">
                 Cancel
               </button>
             </div>
