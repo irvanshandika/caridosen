@@ -8,7 +8,7 @@ import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Label } from "@components/ui/label";
 
-async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, createdBy: string) {
+async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, universitas: string, createdBy: string) {
   try {
     const docRef = await addDoc(collection(db, "dosen"), {
       nama: nama,
@@ -17,6 +17,7 @@ async function addDosen(nama: string, nip: string, email: string, urlFoto: strin
       email: email,
       urlFoto: urlFoto,
       deskripsi: deskripsi,
+      universitas: universitas,
       createdBy: createdBy,
       createdAt: serverTimestamp(),
     });
@@ -38,6 +39,7 @@ const Dosen = () => {
   const [urlFoto, setUrlFoto] = useState("");
   const [tanggalLahir, setTanggalLahir] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
+  const [universitas, setUniversitas] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false);
@@ -56,7 +58,7 @@ const Dosen = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const added = await addDosen(nama, nip, email, urlFoto, tanggalLahir, deskripsi, createdBy);
+    const added = await addDosen(nama, nip, email, urlFoto, tanggalLahir, deskripsi, universitas, createdBy);
     if (added) {
       setNama("");
       setNip("");
@@ -64,6 +66,7 @@ const Dosen = () => {
       setUrlFoto("");
       setDeskripsi("");
       setTanggalLahir("");
+      setUniversitas("");
       setShowAlert(true); // Show the alert
       setTimeout(() => {
         setShowAlert(false);
@@ -182,6 +185,21 @@ const Dosen = () => {
                   onChange={(e: any) => setNip(e.target.value)}
                   className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
                   placeholder="123xxxxx"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="universitas" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                  Dosen Universitas
+                </Label>
+                <input
+                  type="text"
+                  name="universitas"
+                  id="universitas"
+                  value={universitas}
+                  onChange={(e: any) => setUniversitas(e.target.value)}
+                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
+                  placeholder="Standford University"
                   required
                 />
               </div>

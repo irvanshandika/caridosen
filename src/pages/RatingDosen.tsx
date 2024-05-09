@@ -46,7 +46,7 @@ const DetailDosen = () => {
         setDosenDetail(dosenSnap.data());
         // console.log("Document data:", dosenSnap.data());
       } else {
-        // console.log("No such document!");
+        console.log("No such document!");
       }
     };
     getDosen();
@@ -67,6 +67,7 @@ const DetailDosen = () => {
       console.log("Error adding document: ", error);
     }
   };
+  // console.log(rating)
 
   return (
     <>
@@ -95,6 +96,10 @@ const DetailDosen = () => {
                 <p>{dosenDetail.email}</p>
               </CardDescription>
               <CardDescription className=" mt-4">
+                <h1 className="font-semibold">Dosen Universitas</h1>
+                <p>{dosenDetail.universitas}</p>
+              </CardDescription>
+              <CardDescription className=" mt-4">
                 <h1 className="font-semibold">Deskripsi Dosen</h1>
                 <p>{dosenDetail.deskripsi}</p>
               </CardDescription>
@@ -117,7 +122,9 @@ const DetailDosen = () => {
             </div>
           </CardFooter>
           <CardFooter>
-            <ListKomentar />
+            <div className="flex flex-col gap-2 justify-center items-center">
+              <ListKomentar />
+            </div>
           </CardFooter>
         </Card>
       </div>

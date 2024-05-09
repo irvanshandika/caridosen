@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
-import { Carousel } from "@mantine/carousel";
-import "@mantine/carousel/styles.css";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Card, Text, Badge, Button, Group } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { DocumentData, onSnapshot, QuerySnapshot } from "firebase/firestore";
@@ -65,11 +64,11 @@ function DosenMingguan() {
                 </div>
               ) : (
                 <>
-                  <Carousel height={500} slideGap="lg" controlsOffset="xs" controlSize={24} loop dragFree withIndicators>
+                  <Swiper spaceBetween={50} slidesPerView={1}>
                     {dosen?.map((dosen) => (
-                      <>
-                        <Carousel.Slide>
-                          <Card shadow="sm" padding="xs" radius="md" className="lg:w-[30vw] w-[80vw] lg:mt-0 mt-10">
+                      <SwiperSlide>
+                        <>
+                          <Card shadow="sm" padding="xl" radius="md" className="lg:w-[30vw] w-[80vw] lg:mt-0 mt-10">
                             <Card.Section>
                               <div className="flex justify-center items-center my-10">
                                 <img src={dosen.urlFoto} className="lg:w-[200px] lg:h-auto w-[100px] h-[100px] rounded-full" alt="Norway" />
@@ -95,10 +94,10 @@ function DosenMingguan() {
                               Lihat Detail
                             </Button>
                           </Card>
-                        </Carousel.Slide>
-                      </>
+                        </>
+                      </SwiperSlide>
                     ))}
-                  </Carousel>
+                  </Swiper>
                 </>
               )}
             </div>

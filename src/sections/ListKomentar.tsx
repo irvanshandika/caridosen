@@ -40,7 +40,9 @@ const ListKomentar = () => {
           <>
             <Card shadow="xs" padding="xs" radius="md" className="flex flex-row gap-4 justify-center items-center" style={{ marginBottom: "10px" }}>
               <h1>{user.email}</h1>
-              <Rating value={user.rating} color="orange" readOnly />
+              <div className="flex justify-end items-end">
+                <Rating value={user.rating} color="orange" readOnly />
+              </div>
               <p>{user.komentar}</p>
             </Card>
           </>
