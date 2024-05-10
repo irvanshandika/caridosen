@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Card, Text, Badge, Button, Group } from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
+import { Card, Text, Button, Group, Image } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { DocumentData, onSnapshot, QuerySnapshot } from "firebase/firestore";
 import { DosenController } from "@src/controllers/DosenController";
@@ -33,71 +33,68 @@ function DosenMingguan() {
   return (
     <>
       <section className="my-14" id="dosenmingguan">
-        <div className="container mx-auto px-5 py-5">
-          <div className="py-1 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-12 lg:gap-16">
-            <div className="flex flex-col justify-center order-2 lg:order-1 lg:mt-0 -mt-56">
-              <h1 className="mb-2 font-normal tracking-tight leading-none text-gray-900 dark:text-white md:text-5xl text-3xl lg:text-6xl lg:text-left">Dosen Minggu Ini !</h1>
-              <p className="lg:text-xl text-base">Dosen Terpopuler Setiap Minggunya</p>
+        <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
+            <div className="lg:ml-10 ml:-0">
+              <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight dark:text-white">
+                Dosen Mingguan Dari <span className="text-blue-600">CariDosen</span>!
+              </h1>
+              <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">Dosen Pilihan Kami Untuk Minggu Ini</p>
             </div>
-            <div className="flex justify-center order-1 lg:order-2">
+
+            <div className="relative lg:ms-5 ms-0">
               {dosen && dosen.length === 0 ? (
-                <div className="min-h-60 w-full flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                <div className="min-h-60 w-full flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-900 dark:shadow-neutral-700/70">
                   <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
                     <svg
-                      className="size-10 text-gray-500 dark:text-neutral-500"
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1"
+                      strokeWidth="2"
                       strokeLinecap="round"
-                      strokeLinejoin="round">
-                      <line x1="22" x2="2" y1="12" y2="12"></line>
-                      <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
-                      <line x1="6" x2="6.01" y1="16" y2="16"></line>
-                      <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                      strokeLinejoin="round"
+                      className="icon icon-tabler icons-tabler-outline icon-tabler-database-off size-10 text-gray-500 dark:text-neutral-500">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M12.983 8.978c3.955 -.182 7.017 -1.446 7.017 -2.978c0 -1.657 -3.582 -3 -8 -3c-1.661 0 -3.204 .19 -4.483 .515m-2.783 1.228c-.471 .382 -.734 .808 -.734 1.257c0 1.22 1.944 2.271 4.734 2.74" />
+                      <path d="M4 6v6c0 1.657 3.582 3 8 3c.986 0 1.93 -.067 2.802 -.19m3.187 -.82c1.251 -.53 2.011 -1.228 2.011 -1.99v-6" />
+                      <path d="M4 12v6c0 1.657 3.582 3 8 3c3.217 0 5.991 -.712 7.261 -1.74m.739 -3.26v-4" />
+                      <path d="M3 3l18 18" />
                     </svg>
-                    <p className="mt-2 text-sm text-gray-800 dark:text-neutral-300">Belum Dosen Minggu Ini</p>
+                    <p className="mt-2 text-sm text-gray-800 dark:text-neutral-300">Oops! Belum Ada Dosen Minggu Ini</p>
                   </div>
                 </div>
               ) : (
                 <>
-                  <Swiper spaceBetween={50} slidesPerView={1}>
+                  <Carousel slideSize="70%" height={450} align="start" slideGap="xs" loop dragFree withControls={false} withIndicators>
                     {dosen?.map((dosen) => (
-                      <SwiperSlide>
-                        <>
-                          <Card shadow="sm" padding="xl" radius="md" className="lg:w-[30vw] w-[80vw] lg:mt-0 mt-10">
-                            <Card.Section>
-                              <div className="flex justify-center items-center my-10">
-                                <img src={dosen.urlFoto} className="lg:w-[200px] lg:h-auto w-[100px] h-[100px] rounded-full" alt="Norway" />
-                              </div>
-                            </Card.Section>
+                      <Carousel.Slide>
+                        <Card shadow="sm" padding="xl" radius="md" withBorder style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+                          <Card.Section>
+                            <div className="flex justify-center items-center">
+                              <Image src={dosen.urlFoto} alt={dosen.nama} radius="md" h={200} w="auto" fit="contain" />
+                            </div>
+                          </Card.Section>
 
-                            <Group justify="space-between" mt="md" mb="xs">
-                              <Text fw={500}>{dosen.nama}</Text>
-                              <Badge color="pink">#1</Badge>
-                            </Group>
+                          <Group justify="space-between" mt="md" mb="xs">
+                            <Text fw={500}>{dosen.nama}</Text>
+                          </Group>
 
-                            <Text size="sm" c="dimmed">
-                              {dosen.nip}
-                            </Text>
+                          <Text size="sm" c="dimmed">
+                            {dosen.email}
+                          </Text>
 
-                            <Button color="blue" mt="md" radius="md" onClick={() => navigate(`/rating/${dosen.id}`)}>
-                              <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 size-4 mr-2" width="32" height="32" viewBox="0 0 24 24">
-                                <path
-                                  fill="currentColor"
-                                  d="M11 12q-1.65 0-2.825-1.175T7 8t1.175-2.825T11 4t2.825 1.175T15 8t-1.175 2.825T11 12m10.4 10.8l-2.5-2.5q-.525.3-1.125.5T16.5 21q-1.875 0-3.187-1.312T12 16.5t1.313-3.187T16.5 12t3.188 1.313T21 16.5q0 .675-.2 1.275t-.5 1.125l2.5 2.5q.275.275.275.7t-.275.7t-.7.275t-.7-.275M16.5 19q1.05 0 1.775-.725T19 16.5t-.725-1.775T16.5 14t-1.775.725T14 16.5t.725 1.775T16.5 19M5 20q-.825 0-1.412-.587T3 18v-.775q0-.85.425-1.575t1.175-1.1q1.125-.575 2.488-.987t2.987-.538q.3-.025.45.25t.025.575q-.275.625-.413 1.288T10 16.475q0 .65.113 1.313t.387 1.262q.15.35-.025.65t-.525.3z"
-                                />
-                              </svg>
-                              Lihat Detail
+                          <Group mt="md" justify="space-between">
+                            <Button color="blue" radius="md" onClick={() => navigate(`/rating/${dosen.id}`)}>
+                              View Details
                             </Button>
-                          </Card>
-                        </>
-                      </SwiperSlide>
+                          </Group>
+                        </Card>
+                      </Carousel.Slide>
                     ))}
-                  </Swiper>
+                  </Carousel>
                 </>
               )}
             </div>
