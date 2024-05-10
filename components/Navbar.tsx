@@ -39,7 +39,7 @@ const Navbar = () => {
                 <DropdownProfile />
               </>
             ) : (
-              <>
+              <div className="flex flex-row gap-2">
                 <a href="/auth/signin">
                   <button type="button" className="text-[#1E96FC] bg-white border-[#1E96FC] border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium lg:mr-2 mr-0 rounded-lg text-sm px-4 py-2 text-center">
                     Masuk
@@ -50,7 +50,7 @@ const Navbar = () => {
                     Daftar
                   </button>
                 </a>
-              </>
+              </div>
             )}
             <button
               data-collapse-toggle="navbar-cta"
