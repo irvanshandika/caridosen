@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
+import dotenv from "dotenv";
 
 export default defineConfig({
   plugins: [react()],
@@ -10,5 +12,14 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "./components"),
       "@src": path.resolve(__dirname, "./src"),
     },
+  },
+  define: {
+    "process.env.APIKEY": JSON.stringify(process.env.APIKEY),
+    "process.env.AUTHDOMAIN": JSON.stringify(process.env.AUTHDOMAIN),
+    "process.env.PROJECTID": JSON.stringify(process.env.PROJECTID),
+    "process.env.STORAGEBUCKET": JSON.stringify(process.env.STORAGEBUCKET),
+    "process.env.MESSAGINGSENDERID": JSON.stringify(process.env.MESSAGINGSENDERID),
+    "process.env.APPID": JSON.stringify(process.env.APPID),
+    "process.env.MEASUREMENTID": JSON.stringify(process.env.MEASUREMENTID),
   },
 });

@@ -4,15 +4,18 @@ import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@components/Sidebar";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { Helmet } from "react-helmet";
 import { UnverifiedIcon } from "@components/icons/UnverifiedIcon";
 import { VerifiedIcon } from "@components/icons/VerifiedIcon";
 import { Tooltip } from "@mantine/core";
+import { db } from "@src/config/FirebaseConfig";
 
 const Account = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -24,6 +27,19 @@ const Account = () => {
     });
     return () => unsubscribe();
   }, [auth, navigate]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (user) {
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setIsAdmin(doc.data().roles === "admin");
+        });
+      }
+    };
+    getUser();
+  }, [user]);
   return (
     <>
       <Helmet>
@@ -51,9 +67,16 @@ const Account = () => {
             <div className="xl:w-[80%] lg:w-[90%] md:w-[94%] sm:w-[96%] xs:w-[92%] mx-auto flex flex-col gap-4 justify-center items-center relative xl:-top-[6rem] lg:-top-[6rem] md:-top-[4rem] sm:-top-[3rem] xs:-top-[2.2rem]">
               <h1 className="text-center text-gray-800 dark:text-white text-4xl flex">
                 {user?.displayName}
-                <Tooltip label={user?.emailVerified? "Email Terverifikasi" : "Email Belum Terverifikasi"}>
+                {/* <Tooltip label={user?.emailVerified ? "Email Terverifikasi" : "Email Belum Terverifikasi"}>
                   <span className="ml-2">{user?.emailVerified ? <VerifiedIcon className="w-6 h-full" /> : <UnverifiedIcon className="w-6 h-full" />}</span>
-                </Tooltip>
+                </Tooltip> */}
+                {isAdmin && (
+                  <Tooltip label="Admin">
+                    <span className="ml-2">
+                      <VerifiedIcon className="w-6 h-full" />
+                    </span>
+                  </Tooltip>
+                )}
               </h1>
               <p className="w-full text-gray-700 dark:text-gray-400 text-md text-pretty text-center">{user?.providerData[0].email || "No email"}</p>
 
