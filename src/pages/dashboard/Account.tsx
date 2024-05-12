@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "@components/Sidebar";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Helmet } from "react-helmet";
-import { UnverifiedIcon } from "@components/icons/UnverifiedIcon";
+// import { UnverifiedIcon } from "@components/icons/UnverifiedIcon";
 import { VerifiedIcon } from "@components/icons/VerifiedIcon";
 import { Tooltip } from "@mantine/core";
 import { db } from "@src/config/FirebaseConfig";
