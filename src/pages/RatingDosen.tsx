@@ -39,7 +39,7 @@ const DetailDosen = () => {
   useEffect(() => {
     const getDosen = async () => {
       setDosenId(params.id ?? "");
-      setCreatedBy(user.uid);
+      setCreatedBy(user.displayName);
       const dosenRef = doc(db, "dosen", params.id ?? "");
       const dosenSnap = await getDoc(dosenRef);
       if (dosenSnap.exists()) {
