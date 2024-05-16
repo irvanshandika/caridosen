@@ -24,6 +24,7 @@ const config = {
       fontFamily: {
         "sora": ["Sora", "sans-serif"],
         "roboto": ["Roboto", "sans-serif"],
+        "qualcomm": ["Qualcomm Next", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

@@ -5,6 +5,7 @@ import OurTeam from "@src/pages/OurTeam";
 import NotFound from "@src/pages/NotFound";
 import SignIn from "@src/pages/LogIn";
 import SignUp from "@src/pages/SignUp";
+import Dosens from "@/src/pages/Dosens";
 import InformationDosen from "@/src/pages/RatingDosen";
 import Forbidden from "@src/pages/Forbidden";
 import Dashboard from "@src/pages/dashboard/Dashboard";
@@ -51,6 +52,7 @@ function App() {
           <Route path="/forbidden" element={<Forbidden />} />
           <Route path="/ourteam" element={<OurTeam />} />
           <Route path="/rating/:id" element={<InformationDosen />} />
+          <Route path="/dosens" element={<Dosens />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/account" element={<Account />} />

@@ -15,7 +15,7 @@ const DetailDosen = () => {
   const [dosenDetail, setDosenDetail] = useState<any>({});
 
   const params = useParams();
-  console.log(params.id);
+  // console.log(params.id);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

@@ -20,7 +20,9 @@ function Footer() {
       <footer className="border-t-2 border-[#1E96FC]">
         <Container className={classes.inner}>
           <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px] h-[46px]" alt="CariDosen Logo" fetchPriority="low" />
-          <Text className={classes.text}>&copy; {years} WillPower Team</Text>
+          <Text className={classes.text}>
+            &copy; <span className="font-qualcomm">{years}</span> WillPower Team
+          </Text>
           <Group className={classes.links}>{items}</Group>
         </Container>
       </footer>

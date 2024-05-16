@@ -1,4 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 function Hero() {
+  const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
+  const handleSearch = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    navigate("/dosens?search=" + search)
+  };
   return (
     <>
       <div className="flex justify-center items-center lg:px-0 px-[10px] lg:h-[90vh] lg:my-14 my-32">
@@ -9,9 +20,9 @@ function Hero() {
               Kami percaya bahwa di balik setiap pencapaian gemilang seorang mahasiswa, terdapat kehadiran dosen-dosen yang memotivasi, mendorong, dan menginspirasi.
             </h2>
             <div className="flex mt-10">
-              <form action="">
+              <form onSubmit={handleSearch}>
                 <div className="flex">
-                  <input type="text" placeholder="Cari Dosen Kalian" className="border-[#003566] border-2 rounded-[8px] w-72 bg-[#DFF6FF] placeholder:text-[#003566]" />
+                  <input type="text" value={search} onChange={(e: any) => setSearch(e.target.value)} placeholder="Cari Dosen Kalian" className="border-[#003566] border-2 rounded-[8px] w-72 bg-[#DFF6FF] placeholder:text-[#003566]" />
                   <button type="submit" className="bg-[#003566] text-white px-5 py-2 rounded-lg ml-2">
                     Cari
                   </button>
