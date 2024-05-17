@@ -19,6 +19,7 @@
       "@components/*": ["./components/*"],
       "@src/*": ["./src/*"],
       "@pages/*": ["./src/pages/*"],
+      "@config/*": ["./src/config/*"],
     },
 
     /* Linting */

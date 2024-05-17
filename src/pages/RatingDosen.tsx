@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
-import { db } from "@src/config/FirebaseConfig";
+import { db } from "@config/FirebaseConfig";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { getDoc, doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
@@ -10,7 +10,7 @@ import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
 import { Rating } from "@mantine/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import ListKomentar from "@/src/sections/ListKomentar";
+import ListKomentar from "@src/sections/ListKomentar";
 
 const DetailDosen = () => {
   const auth = getAuth();
@@ -30,7 +30,7 @@ const DetailDosen = () => {
       if (user) {
         setUser(user);
       } else {
-        navigate("/auth/signin");
+        navigate("/forbidden");
       }
     });
     return () => unsubscribe();

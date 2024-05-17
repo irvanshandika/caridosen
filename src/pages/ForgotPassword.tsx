@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth } from "@src/config/FirebaseConfig";
+import { auth } from "@config/FirebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@components/ui/alert";

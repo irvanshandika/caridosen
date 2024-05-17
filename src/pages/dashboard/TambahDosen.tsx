@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { db } from "@src/config/FirebaseConfig";
+import { db } from "@config/FirebaseConfig";
 import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Label } from "@components/ui/label";

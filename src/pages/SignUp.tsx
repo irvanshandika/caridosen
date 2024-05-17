@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth, db } from "@src/config/FirebaseConfig";
+import { auth, db } from "@config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@components/ui/input";
 import { Helmet } from "react-helmet";
