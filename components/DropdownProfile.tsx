@@ -36,7 +36,7 @@ const DropdownSidebar = () => {
     <>
       <div className="relative inline-flex">
         <DropdownMenu>
-          <DropdownMenuTrigger>{user && user.photoURL ? <img src={user.photoURL} alt="Profile Picture" className="w-8 h-8 rounded-full ml-2" /> : <UserIcon />}</DropdownMenuTrigger>
+          <DropdownMenuTrigger>{user && user.photoURL ? <img src={user.photoURL} alt="Profile Picture" className="w-8 h-8 rounded-full ml-2" fetchPriority="low" /> : <UserIcon />}</DropdownMenuTrigger>
           <DropdownMenuContent>
             <button>
               <div className="py-3 px-5 -m-2 bg-gray-100 rounded-t-lg dark:bg-neutral-800">

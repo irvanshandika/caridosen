@@ -2,7 +2,6 @@
 import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
-import dotenv from "dotenv";
 
 export default defineConfig({
   plugins: [react()],
@@ -11,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./"),
       "@components": path.resolve(__dirname, "./components"),
       "@src": path.resolve(__dirname, "./src"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
     },
   },
   define: {
@@ -21,5 +21,8 @@ export default defineConfig({
     "process.env.MESSAGINGSENDERID": JSON.stringify(process.env.MESSAGINGSENDERID),
     "process.env.APPID": JSON.stringify(process.env.APPID),
     "process.env.MEASUREMENTID": JSON.stringify(process.env.MEASUREMENTID),
+  },
+  optimizeDeps: {
+    exclude: ["js-big-decimal"],
   },
 });

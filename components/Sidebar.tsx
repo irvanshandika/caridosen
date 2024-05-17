@@ -127,9 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         <nav className="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
           <ul className="space-y-1.5">
             <li>
-              <a
-                className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-300"
-                onClick={() => navigate("/dashboard")}>
+              <a className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-300" href="/dashboard">
                 <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <polyline points="9 22 9 12 15 12 15 22" />
@@ -140,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             <li>
               <a
                 className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-300"
-                onClick={() => navigate("/dashboard/account")}>
+                href="/dashboard/account">
                 <svg className="flex-shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="18" cy="15" r="3" />
                   <circle cx="9" cy="7" r="4" />
@@ -200,7 +198,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   <li>
                     <a
                       className="cursor-pointer flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300"
-                      onClick={() => navigate("/dashboard/dosen/lihat-dosen")}>
+                      href="/dashboard/dosen/lihat-dosen">
                       Lihat Dosen
                     </a>
                   </li>
@@ -208,7 +206,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                     <li>
                       <a
                         className="cursor-pointer flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300"
-                        onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
+                        href="/dashboard/dosen/tambah-dosen">
                         Tambah Dosen
                       </a>
                     </li>
@@ -220,7 +218,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             <li>
               <a
                 className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
-                onClick={() => navigate("/dashboard/calendar")}>
+                href="/dashboard/calendar">
                 <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
                   <line x1="16" x2="16" y1="2" y2="6" />

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { db } from "../config/FirebaseConfig";
+import { db } from "@/src/config/FirebaseConfig";
 import { collection, where, query, getDocs } from "@firebase/firestore";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
