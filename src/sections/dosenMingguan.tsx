@@ -66,22 +66,26 @@ function DosenMingguan() {
               </div>
             ) : (
               <>
-                <Carousel slideSize="70%" style={{ height: "100%" }} align="start" slideGap="xs" controlsOffset="xl" controlSize={14} loop dragFree withIndicators>
+                <Carousel slideSize="70%" style={{ height: "100%" }} slideGap="xs" controlsOffset="xl" controlSize={14} loop dragFree withIndicators>
                   {dosen.map((item) => (
-                    <Card key={item.id} className="w-full h-auto">
-                      <CardHeader>
-                        <img src={item.urlFoto} alt={item.nama} className="object-cover w-full h-40 rounded-t-lg" fetchPriority="low" />
-                      </CardHeader>
-                      <CardContent>
-                        <CardTitle className="text-xs">{item.nama}</CardTitle>
-                        <CardDescription>{item.nip}</CardDescription>
-                      </CardContent>
-                      <CardFooter>
-                        <button onClick={() => navigate(`/rating/${item.id}`)} className="w-full px-4 py-2 mt-2 text-sm font-semibold text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600">
-                          Beri Rating
-                        </button>
-                      </CardFooter>
-                    </Card>
+                    <Carousel.Slide key={item.id}>
+                      <Card className="w-full h-auto">
+                        <CardHeader>
+                          <img src={item.urlFoto} alt={item.nama} className="object-cover w-full h-40 rounded-t-lg" fetchPriority="low" />
+                        </CardHeader>
+                        <CardContent>
+                          <CardTitle className="text-xs">{item.nama}</CardTitle>
+                          <CardDescription>{item.nip}</CardDescription>
+                        </CardContent>
+                        <CardFooter>
+                          <button
+                            onClick={() => navigate(`/rating/${item.id}`)}
+                            className="w-full px-4 py-2 mt-2 text-sm font-semibold text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600">
+                            Beri Rating
+                          </button>
+                        </CardFooter>
+                      </Card>
+                    </Carousel.Slide>
                   ))}
                 </Carousel>
               </>

@@ -63,6 +63,7 @@ const DetailDosen = () => {
         createdAt: serverTimestamp(),
       });
       console.log(komentar);
+      window.location.reload();
     } catch (error) {
       console.log("Error adding document: ", error);
     }
