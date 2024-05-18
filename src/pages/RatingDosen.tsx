@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { db } from "@config/FirebaseConfig";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { getDoc, doc, addDoc, collection, serverTimestamp, query, where, getDocs } from "firebase/firestore";
+import { getDoc, doc, addDoc, collection, serverTimestamp, query, where, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
 import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
@@ -23,6 +23,7 @@ const RatingDosen = () => {
   const [dosenId, setDosenId] = useState("");
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const [ratingDistribution, setRatingDistribution] = useState<number[]>([0, 0, 0, 0, 0]);
+  const [userRatingId, setUserRatingId] = useState<string | null>(null);
 
   const params = useParams();
 
@@ -60,7 +61,7 @@ const RatingDosen = () => {
 
       const q = query(collection(db, "rating"), where("dosenId", "==", dosenId));
       const querySnapshot = await getDocs(q);
-      const ratings = querySnapshot.docs.map(doc => doc.data().rating);
+      const ratings = querySnapshot.docs.map((doc) => doc.data().rating);
       const totalRating = ratings.reduce((acc, curr) => acc + curr, 0);
       const avgRating = totalRating / ratings.length;
 
@@ -80,19 +81,64 @@ const RatingDosen = () => {
     }
   }, [dosenId]);
 
+  useEffect(() => {
+    const getUserRating = async () => {
+      if (!user || !dosenId) return;
+
+      const q = query(collection(db, "rating"), where("dosenId", "==", dosenId), where("createdBy", "==", user.displayName));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userRatingDoc = querySnapshot.docs[0];
+        setRating(userRatingDoc.data().rating);
+        setKomentar(userRatingDoc.data().komentar);
+        setUserRatingId(userRatingDoc.id);
+      }
+    };
+
+    if (dosenId && user) {
+      getUserRating();
+    }
+  }, [dosenId, user]);
+
   const handleSubmitRating = async (e: any) => {
+    e.preventDefault();
+
     try {
-      e.preventDefault();
-      await addDoc(collection(db, "rating"), {
-        dosenId: dosenId,
-        rating: rating,
-        komentar: komentar,
-        createdBy: createdBy,
-        createdAt: serverTimestamp(),
-      });
+      if (userRatingId) {
+        const ratingRef = doc(db, "rating", userRatingId);
+        await updateDoc(ratingRef, {
+          rating: rating,
+          komentar: komentar,
+          updatedAt: serverTimestamp(),
+        });
+      } else {
+        await addDoc(collection(db, "rating"), {
+          dosenId: dosenId,
+          rating: rating,
+          komentar: komentar,
+          createdBy: user.displayName,
+          createdAt: serverTimestamp(),
+        });
+      }
       window.location.reload();
     } catch (error) {
       console.log("Error adding document: ", error);
+    }
+  };
+
+  const handleDeleteRating = async () => {
+    try {
+      if (userRatingId) {
+        const ratingRef = doc(db, "rating", userRatingId);
+        await deleteDoc(ratingRef);
+        setRating(0);
+        setKomentar("");
+        setUserRatingId(null);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("Error deleting document: ", error);
     }
   };
 
@@ -157,8 +203,12 @@ const RatingDosen = () => {
                       <div className="flex-1 mx-2 h-3 bg-gray-200 rounded relative">
                         <div
                           className="h-3 bg-green-500 rounded"
-                          style={{ width: getPercentage(ratingDistribution[star - 1], ratingDistribution.reduce((a, b) => a + b, 0)) }}
-                        ></div>
+                          style={{
+                            width: getPercentage(
+                              ratingDistribution[star - 1],
+                              ratingDistribution.reduce((a, b) => a + b, 0)
+                            ),
+                          }}></div>
                       </div>
                     </div>
                   ))}
@@ -168,18 +218,36 @@ const RatingDosen = () => {
           </CardContent>
           <CardFooter>
             <div className="flex flex-col justify-center items-center my-2">
-              <form onSubmit={handleSubmitRating}>
-                <div className="my-2">
-                  <div className="flex justify-center items-center">
-                    <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
+              {userRatingId ? (
+                <form onSubmit={handleSubmitRating}>
+                  <div className="my-2">
+                    <div className="flex justify-center items-center">
+                      <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
+                    </div>
+                    <h1>Komentar</h1>
+                    <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
                   </div>
-                  <h1>Komentar</h1>
-                  <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
-                </div>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
-                  Posting
-                </Button>
-              </form>
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                    Update
+                  </Button>
+                  <Button type="button" className="bg-red-600 hover:bg-red-500 ml-2" onClick={handleDeleteRating}>
+                    Delete
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={handleSubmitRating}>
+                  <div className="my-2">
+                    <div className="flex justify-center items-center">
+                      <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
+                    </div>
+                    <h1>Komentar</h1>
+                    <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
+                  </div>
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                    Posting
+                  </Button>
+                </form>
+              )}
             </div>
           </CardFooter>
           <CardFooter>
