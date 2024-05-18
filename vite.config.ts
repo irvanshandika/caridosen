@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";

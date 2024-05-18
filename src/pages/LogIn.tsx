@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import { useState } from "react";
 import { app, auth } from "@config/FirebaseConfig";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
