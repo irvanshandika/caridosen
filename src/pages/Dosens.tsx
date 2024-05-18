@@ -5,14 +5,14 @@ import { Helmet } from "react-helmet";
 import { db } from "@config/FirebaseConfig";
 import { collection, getDocs } from "@firebase/firestore";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Alert, Card, Text, Badge } from "@mantine/core";
+import { IconInfoCircleFilled } from "@tabler/icons-react";
 
 function Dosens() {
   const [Data, setData] = useState<any[]>([]);
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [search, setSearch] = useState("");
-  // const [notFoundMessage, setNotFoundMessage] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -42,16 +42,10 @@ function Dosens() {
     setSearch(searchQuery);
     const filtered = Data.filter((dosen) => dosen.nama.toLowerCase().includes(searchQuery));
     setFilteredData(filtered);
-
-    if (filtered.length === 0 && searchQuery) {
-      Swal.fire({
-        title: "Tidak Ditemukan",
-        text: `Nama Dosen "${searchParams.get("search")}" Tidak Ditemukan`,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-    }
+    setErrorMessage(filtered.length === 0 ? `Nama Dosen "${searchParams.get("search")}" Tidak Ditemukan` : "");
   }, [searchParams, Data]);
+
+  const icon = <IconInfoCircleFilled />;
 
   return (
     <>
@@ -68,17 +62,29 @@ function Dosens() {
           </div>
         </form>
         <div className="flex flex-wrap justify-center">
-          {/* {notFoundMessage && <div className="text-center text-red-500 mt-4">{notFoundMessage}</div>} */}
-          {filteredData.map((data: any) => (
-            <div key={data.id} className="m-4">
-              <div className="flex flex-col items-center">
-                <img src={data.urlFoto} alt={data.nama} className="w-40 h-40 rounded-full" />
-                <h1 className="text-center">{data.nama}</h1>
-                <h2 className="text-center">{data.nip}</h2>
-                <h3 className="text-center">{data.email}</h3>
-              </div>
+          {errorMessage ? (
+            <div className="mt-10">
+              <Alert variant="filled" color="red" withCloseButton title="Dosen Not Found" icon={icon}>
+                {errorMessage}
+              </Alert>
             </div>
-          ))}
+          ) : (
+            filteredData.map((data: any) => (
+              <>
+                <Card shadow="xs" className="m-5" style={{ width: 300 }}>
+                  <img src={data.urlFoto} alt={data.nama} className="w-full h-48 object-cover" />
+                  <div className="p-3">
+                    <Text>{data.nama}</Text>
+                    <Text size="xs">{data.nip}</Text>
+                    <Text size="xs">{data.email}</Text>
+                    <Badge color="blue" className="mt-2">
+                      Dosen
+                    </Badge>
+                  </div>
+                </Card>
+              </>
+            ))
+          )}
         </div>
       </div>
     </>

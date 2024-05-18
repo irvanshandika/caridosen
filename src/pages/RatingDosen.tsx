@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { db } from "@config/FirebaseConfig";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { getDoc, doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { getDoc, doc, addDoc, collection, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
 import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
@@ -12,7 +12,7 @@ import { Rating } from "@mantine/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListKomentar from "@src/sections/ListKomentar";
 
-const DetailDosen = () => {
+const RatingDosen = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [dosenDetail, setDosenDetail] = useState<any>({});
@@ -21,9 +21,10 @@ const DetailDosen = () => {
   const [komentar, setKomentar] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [dosenId, setDosenId] = useState("");
+  const [averageRating, setAverageRating] = useState<number | null>(null);
+  const [ratingDistribution, setRatingDistribution] = useState<number[]>([0, 0, 0, 0, 0]);
 
   const params = useParams();
-  // console.log(params.id);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -39,18 +40,45 @@ const DetailDosen = () => {
   useEffect(() => {
     const getDosen = async () => {
       setDosenId(params.id ?? "");
-      setCreatedBy(user.displayName);
+      setCreatedBy(user?.displayName || "");
       const dosenRef = doc(db, "dosen", params.id ?? "");
       const dosenSnap = await getDoc(dosenRef);
       if (dosenSnap.exists()) {
         setDosenDetail(dosenSnap.data());
-        // console.log("Document data:", dosenSnap.data());
       } else {
         console.log("No such document!");
       }
     };
-    getDosen();
+    if (user) {
+      getDosen();
+    }
   }, [params, user]);
+
+  useEffect(() => {
+    const getAverageRating = async () => {
+      if (!dosenId) return;
+
+      const q = query(collection(db, "rating"), where("dosenId", "==", dosenId));
+      const querySnapshot = await getDocs(q);
+      const ratings = querySnapshot.docs.map(doc => doc.data().rating);
+      const totalRating = ratings.reduce((acc, curr) => acc + curr, 0);
+      const avgRating = totalRating / ratings.length;
+
+      const distribution = [0, 0, 0, 0, 0];
+      ratings.forEach((rating: number) => {
+        if (rating >= 1 && rating <= 5) {
+          distribution[rating - 1]++;
+        }
+      });
+
+      setAverageRating(avgRating);
+      setRatingDistribution(distribution);
+    };
+
+    if (dosenId) {
+      getAverageRating();
+    }
+  }, [dosenId]);
 
   const handleSubmitRating = async (e: any) => {
     try {
@@ -62,54 +90,86 @@ const DetailDosen = () => {
         createdBy: createdBy,
         createdAt: serverTimestamp(),
       });
-      console.log(komentar);
       window.location.reload();
     } catch (error) {
       console.log("Error adding document: ", error);
     }
   };
-  // console.log(rating)
+
+  const getPercentage = (count: number, total: number) => {
+    if (total === 0) return "0%";
+    return `${((count / total) * 100).toFixed(2)}%`;
+  };
 
   return (
     <>
       <Helmet>
         <title>Rating Dosen | CariDosen</title>
       </Helmet>
-      <div className="flex flex-col justify-center items-center lg:my-40 my-28">
-        <Card className="lg:px-[100px] lg:mx-[300px] mx-[20px] px-1">
+      <div className="flex flex-col justify-center items-center lg:my-24 my-16">
+        <Card className="lg:px-16 lg:mx-40 mx-4 px-2">
           <CardHeader>
             <CardTitle>
-              <img src={dosenDetail.urlFoto} alt={dosenDetail.nama} className="w-[200px] h-[200px] rounded-full mx-auto" />
+              <img src={dosenDetail.urlFoto} alt={dosenDetail.nama} className="w-32 h-32 lg:w-48 lg:h-48 rounded-full mx-auto" />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col justify-center items-start ">
+            <div className="flex flex-col justify-center items-start">
               <CardDescription>
                 <h1 className="font-semibold">Nama Dosen</h1>
                 <p>{dosenDetail.nama}</p>
               </CardDescription>
-              <CardDescription className="mt-4">
+              <CardDescription className="mt-2">
                 <h1 className="font-semibold">NIP Dosen</h1>
                 <p>{dosenDetail.nip}</p>
               </CardDescription>
-              <CardDescription className=" mt-4">
+              <CardDescription className="mt-2">
                 <h1 className="font-semibold">Email Dosen</h1>
                 <p>{dosenDetail.email}</p>
               </CardDescription>
-              <CardDescription className=" mt-4">
+              <CardDescription className="mt-2">
                 <h1 className="font-semibold">Dosen Universitas</h1>
                 <p>{dosenDetail.universitas}</p>
               </CardDescription>
-              <CardDescription className=" mt-4">
+              <CardDescription className="mt-2">
                 <h1 className="font-semibold">Deskripsi Dosen</h1>
                 <p>{dosenDetail.deskripsi}</p>
               </CardDescription>
             </div>
           </CardContent>
+          <CardContent>
+            <div className="flex flex-col lg:flex-row lg:items-center w-full">
+              <div className="flex flex-col items-center lg:items-start lg:w-1/4 text-center lg:text-left">
+                {averageRating !== null ? (
+                  <>
+                    <div className="text-4xl font-bold">{averageRating.toFixed(1)}</div>
+                    <div className="text-sm text-gray-600">{ratingDistribution.reduce((a, b) => a + b, 0)} reviews</div>
+                  </>
+                ) : (
+                  <p>Loading...</p>
+                )}
+              </div>
+              <div className="flex-1 mt-2 lg:mt-0">
+                <div className="flex flex-col w-full">
+                  {[5, 4, 3, 2, 1].map((star) => (
+                    <div key={star} className="flex items-center my-1 w-full">
+                      <span className="w-6 text-right">{star}</span>
+                      <div className="flex-1 mx-2 h-3 bg-gray-200 rounded relative">
+                        <div
+                          className="h-3 bg-green-500 rounded"
+                          style={{ width: getPercentage(ratingDistribution[star - 1], ratingDistribution.reduce((a, b) => a + b, 0)) }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
           <CardFooter>
             <div className="flex flex-col justify-center items-center my-2">
               <form onSubmit={handleSubmitRating}>
-                <div className="my-4">
+                <div className="my-2">
                   <div className="flex justify-center items-center">
                     <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
                   </div>
@@ -133,4 +193,4 @@ const DetailDosen = () => {
   );
 };
 
-export default DetailDosen;
+export default RatingDosen;
