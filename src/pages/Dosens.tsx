@@ -79,27 +79,29 @@ function Dosens() {
             </div>
           ) : (
             filteredData.map((data: any) => (
-              <Card shadow="xs" className="m-4 w-80" key={data.id}>
-                <Card.Section>
-                  <img src={data.urlFoto} alt={data.nama} className="w-full h-48 object-cover" />
-                </Card.Section>
-                <div className="p-3">
-                  <Text className="text-lg font-semibold">{data.nama}</Text>
-                  <Text size="sm" color="dimmed">
-                    {data.nip}
-                  </Text>
-                  <Text size="sm" color="dimmed">
-                    {data.email}
-                  </Text>
-                  <Group className="mt-2">
-                    <Badge color="blue">Dosen</Badge>
-                    <div className="flex items-center">
-                      <Text className="mr-1">{data.averageRating}/5</Text>
-                      <IconStar size={16} />
-                    </div>
-                  </Group>
-                </div>
-              </Card>
+              <button onClick={() => navigate(`/rating/${data.id}`)}>
+                <Card shadow="xs" className="m-4 w-80" key={data.id}>
+                  <Card.Section>
+                    <img src={data.urlFoto} alt={data.nama} className="w-full h-48 object-cover" />
+                  </Card.Section>
+                  <div className="p-3">
+                    <Text className="text-lg font-semibold">{data.nama}</Text>
+                    <Text size="sm" color="dimmed">
+                      {data.nip}
+                    </Text>
+                    <Text size="sm" color="dimmed">
+                      {data.email}
+                    </Text>
+                    <Group className="mt-2">
+                      <Badge color="blue">Dosen</Badge>
+                      <div className="flex items-center">
+                        <Text className="mr-1">{data.averageRating}/5</Text>
+                        <IconStar size={16} />
+                      </div>
+                    </Group>
+                  </div>
+                </Card>
+              </button>
             ))
           )}
         </div>
