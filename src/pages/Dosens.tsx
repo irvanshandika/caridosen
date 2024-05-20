@@ -5,7 +5,7 @@ import { db } from "@config/FirebaseConfig";
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Alert, Card, Text, Badge, Group } from "@mantine/core";
-import { IconStar, IconInfoCircleFilled } from "@tabler/icons-react";
+import { IconStarFilled, IconInfoCircleFilled } from "@tabler/icons-react";
 
 function Dosens() {
   const [Data, setData] = useState<any[]>([]);
@@ -96,7 +96,9 @@ function Dosens() {
                       <Badge color="blue">Dosen</Badge>
                       <div className="flex items-center">
                         <Text className="mr-1">{data.averageRating}/5</Text>
-                        <IconStar size={16} />
+                        <span className="ml-2">
+                          <IconStarFilled className="text-yellow-300" size={16} />
+                        </span>
                       </div>
                     </Group>
                   </div>

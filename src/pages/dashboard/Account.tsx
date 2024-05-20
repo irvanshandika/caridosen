@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
- 
+
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -34,12 +34,18 @@ const Account = () => {
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          setIsAdmin(doc.data().roles === "admin");
+          const userData = doc.data();
+          setIsAdmin(userData.roles === "admin");
+          // Ensure displayName is set for credential users if not already
+          if (!user.displayName) {
+            setUser({ ...user, displayName: userData.displayName });
+          }
         });
       }
     };
     getUser();
   }, [user]);
+
   return (
     <>
       <Helmet>

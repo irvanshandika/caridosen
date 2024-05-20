@@ -5,13 +5,14 @@ import { auth, db } from "@config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@components/ui/input";
 import { Helmet } from "react-helmet";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>("");
+  const [photoURL, setPhotoURL] = useState<string>("");
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
 
   const handleSignUp = async (e: any) => {
@@ -19,13 +20,18 @@ const SignUp: React.FC = () => {
     try {
       const res = await createUserWithEmailAndPassword(email, password);
       console.log(res);
-      await addDoc(collection(db, "users"), {
+      await addDoc(collection(db, "user"), {
         uid: res?.user.uid,
+        email: res?.user.email,
+        displayName: displayName,
+        photoURL: photoURL,
         roles: "user",
       });
       sessionStorage.setItem("user", "true");
       setEmail("");
       setPassword("");
+      setDisplayName("");
+      setPhotoURL("");
       navigate("/auth/signin");
     } catch (e) {
       console.error(e);
@@ -81,9 +87,16 @@ const SignUp: React.FC = () => {
                 <div className="mx-auto max-w-xs">
                   <form onSubmit={handleSignUp}>
                     <Input
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      value={displayName}
+                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                      type="text"
+                      placeholder="Name"
+                    />
+                    <Input
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
-                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                       type="email"
                       placeholder="Email"
                     />
@@ -93,6 +106,13 @@ const SignUp: React.FC = () => {
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                       type="password"
                       placeholder="Password"
+                    />
+                    <Input
+                      onChange={(e) => setPhotoURL(e.target.value)}
+                      value={photoURL}
+                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                      type="text"
+                      placeholder="Photo URL"
                     />
                     <div className="flex justify-end my-5">
                       <p>

@@ -1,4 +1,3 @@
- 
 import { useState } from "react";
 import { app, auth } from "@config/FirebaseConfig";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -29,7 +28,8 @@ function SignIn() {
     }
   };
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault(); // Mencegah tindakan default pada form submit
     try {
       const res = await signInWithEmailAndPassword(email, password);
       console.log({ res });
@@ -90,15 +90,23 @@ function SignIn() {
 
                 <div className="mx-auto max-w-xs">
                   <form onSubmit={handleSignIn}>
-                    <Input className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white" type="email" placeholder="Email" />
+                    <Input
+                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                      type="email"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                     <Input
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                       type="password"
                       placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     {alertError && (
                       <div className="my-4">
-                        <span className="text-red-600 text-center font-semibold">Wrong Email or Password !</span>
+                        <span className="text-red-600 text-center font-semibold">Wrong Email or Password!</span>
                       </div>
                     )}
                     <div className="flex flex-col justify-end items-end my-5">

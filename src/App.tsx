@@ -55,7 +55,7 @@ function App() {
           <Route path="/dosens" element={<Dosens />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/account" element={<Account />} />
+        <Route path="/dashboard/account/:id" element={<Account />} />
         <Route path="/dashboard/calendar" element={<Calendar />} />
         <Route path="/dashboard/dosen/lihat-dosen" element={<Dosen />} />
         <Route path="/dashboard/dosen/tambah-dosen" element={<TambahDosen />} />
