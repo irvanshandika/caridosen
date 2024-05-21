@@ -241,7 +241,7 @@ const RatingDosen = () => {
                       <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
                     </div>
                     <h1>Komentar</h1>
-                    <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
+                    <Textarea className="w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
                   </div>
                   <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
                     Posting

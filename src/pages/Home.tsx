@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet";
 import Hero from "@src/sections/hero";
 import DosenMingguan from "@src/sections/dosenMingguan";
+import Contact from "@src/sections/Contact";
 import Fitur from "@src/sections/Fitur";
 
 function Home() {
@@ -12,6 +13,7 @@ function Home() {
       <Hero />
       <DosenMingguan />
       <Fitur />
+      <Contact />
     </>
   );
 }

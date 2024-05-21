@@ -1,0 +1,33 @@
+/* Custom styles for the DosenMingguan component */
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  margin: 0 10px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .card {
+    margin: 0 5px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    margin: 0 2px;
+  }
+
+  .swiper-slide {
+    flex-direction: column;
+    width: 100%;
+  }
+}

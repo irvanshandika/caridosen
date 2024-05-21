@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import "preline/dist/preline";
+// import "preline/dist/preline";
 import { BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
