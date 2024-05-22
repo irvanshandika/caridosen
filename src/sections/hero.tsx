@@ -8,7 +8,7 @@ function Hero() {
   const navigate = useNavigate();
   const handleSearch = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    navigate("/dosens?search=" + search)
+    navigate("/dosens?search=" + search);
   };
   return (
     <>
@@ -22,7 +22,13 @@ function Hero() {
             <div className="flex mt-10">
               <form onSubmit={handleSearch}>
                 <div className="flex">
-                  <input type="text" value={search} onChange={(e: any) => setSearch(e.target.value)} placeholder="Cari Dosen Kalian" className="border-[#003566] border-2 rounded-[8px] lg:w-72 w-[200px] bg-[#DFF6FF] placeholder:text-[#003566]" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e: any) => setSearch(e.target.value)}
+                    placeholder="Cari Dosen Kalian"
+                    className="border-[#003566] border-2 rounded-[8px] lg:w-72 w-[200px] bg-[#DFF6FF] placeholder:text-[#003566]"
+                  />
                   <button type="submit" className="bg-[#003566] text-white px-5 py-2 rounded-lg ml-2">
                     Cari
                   </button>

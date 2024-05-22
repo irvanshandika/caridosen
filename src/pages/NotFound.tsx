@@ -5,9 +5,9 @@ import { Button } from "@components/ui/button";
 function NotFound() {
   return (
     <>
-    <Helmet>
-      <title>404 Not Found | CariDosen</title>
-    </Helmet>
+      <Helmet>
+        <title>404 Not Found | CariDosen</title>
+      </Helmet>
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-4xl font-bold">404 Not Found</h1>
         <div className="mt-3">

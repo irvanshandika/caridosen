@@ -61,7 +61,7 @@ function DosenMingguan() {
             </h1>
             <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">Dosen Pilihan Kami Untuk Minggu Ini</p>
           </div>
-          <div className="flex justify-center lg:mt-0 lg:col-span-5 lg:flex order-1 lg:order-2">
+          <div className="flex justify-center lg:mt-0 lg:col-span-5 lg:flex order-1 lg:order-2 overflow-x-hidden">
             {dosen && dosen.length === 0 ? (
               <div className="min-h-60 w-full flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-900 dark:shadow-neutral-700/70">
                 <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">

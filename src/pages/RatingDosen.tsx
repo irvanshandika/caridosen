@@ -11,6 +11,7 @@ import { Button } from "@components/ui/button";
 import { Rating } from "@mantine/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListKomentar from "@src/sections/ListKomentar";
+import { IconTrashFilled, IconPencil } from "@tabler/icons-react";
 
 const RatingDosen = () => {
   const auth = getAuth();
@@ -225,14 +226,22 @@ const RatingDosen = () => {
                       <Rating defaultValue={0} size="xl" value={rating} onChange={setRating} />
                     </div>
                     <h1>Komentar</h1>
-                    <Textarea className="lg:w-[50vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
+                    <Textarea className="lg:w-[80vw] w-[80vw]" rows={8} value={komentar} onChange={(e) => setKomentar(e.target.value)} />
                   </div>
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
-                    Update
-                  </Button>
-                  <Button type="button" className="bg-red-600 hover:bg-red-500 ml-2" onClick={handleDeleteRating}>
-                    Delete
-                  </Button>
+                  <div className="mt-5">
+                    <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                      <span className="mr-1">
+                        <IconPencil className="w-5 h-5" />
+                      </span>
+                      Update
+                    </Button>
+                    <Button type="button" className="bg-red-600 hover:bg-red-500 ml-2" onClick={handleDeleteRating}>
+                      <span className="mr-1">
+                        <IconTrashFilled className="w-5 h-5" />
+                      </span>
+                      Delete
+                    </Button>
+                  </div>
                 </form>
               ) : (
                 <form onSubmit={handleSubmitRating}>
