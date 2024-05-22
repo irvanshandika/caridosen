@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactNode, useState, useEffect } from "react";
-// import DropdownSidebar from "./DropdownSidebar";
+import DropdownSidebar from "./DropdownSidebar";
 import { useNavigate } from "react-router-dom";
 import { db } from "@src/config/FirebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -53,6 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             <button onClick={() => navigate("/")}>
               <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px]" alt="Logo CariDosen" fetchPriority="low" />
             </button>
+            <DropdownSidebar />
           </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
