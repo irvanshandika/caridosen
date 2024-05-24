@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
- 
+
 import { useState, useEffect } from "react";
 import { db } from "@config/FirebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -8,8 +8,9 @@ import Sidebar from "@components/Sidebar";
 import { Helmet } from "react-helmet";
 import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { NewDosenType } from "@src/types/dosen";
-import { Button } from "@components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { Menu, Button, rem, Modal, TextInput, Group, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconTrashFilled, IconPencil } from "@tabler/icons-react";
 
 const Dosen = () => {
   const auth = getAuth();
@@ -18,12 +19,14 @@ const Dosen = () => {
   const [dosen, setDosen] = useState<NewDosenType[]>([]);
   const [createdBy, setCreatedBy] = useState({});
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [selectedDosen, setSelectedDosen] = useState<NewDosenType | null>(null);
+  const [confirmDosenId, setConfirmDosenId] = useState<string>("");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const email = user.email;
-        // console.log(email);
         setCreatedBy(email ?? "");
       } else {
         console.log("User is not signed in");
@@ -43,13 +46,17 @@ const Dosen = () => {
   }, [auth, navigate]);
 
   const handleDelete = async (id: string | undefined) => {
-    try {
-      if (id) {
+    if (id && id === confirmDosenId) {
+      try {
         await deleteDoc(doc(db, "dosen", id));
         setDosen(dosen.filter((item: NewDosenType) => item.id !== id));
+        close();
+        setConfirmDosenId("");
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      console.log("ID does not match");
     }
   };
 
@@ -65,7 +72,6 @@ const Dosen = () => {
     };
     getUser();
   }, [user]);
-  console.log(isAdmin);
 
   useEffect(() => {
     const getData = async () => {
@@ -82,7 +88,6 @@ const Dosen = () => {
           };
         })
       );
-      // console.log(querySnapshot);
     };
     getData();
   }, [createdBy]);
@@ -130,67 +135,57 @@ const Dosen = () => {
         ) : (
           <>
             {dosen?.map((dosen) => (
-              <>
-                <div className="flex mt-2 items-center justify-between p-2 bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                  <div className="flex items-center">
-                    <img className="w-12 h-12 rounded-full" src={dosen.urlFoto} alt="profil" />
-                    <div className="ml-4">
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-100">{dosen.nama}</h3>
-                      <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.id}</p>
-                      <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.nip}</p>
-                    </div>
+              <div key={dosen.id} className="flex mt-2 items-center justify-between p-2 bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                <div className="flex items-center">
+                  <img className="w-12 h-12 rounded-full" src={dosen.urlFoto} alt="profil" />
+                  <div className="ml-4">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-100">{dosen.nama}</h3>
+                    <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.id}</p>
+                    <p className="text-sm text-gray-500 dark:text-neutral-400">{dosen.nip}</p>
                   </div>
-                  <div className="flex flex-col mr-5">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
+                </div>
+                <div className="flex flex-col mr-5">
+                  <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                      <Button px="10px">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                           <g fill="none">
                             <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
                             <path fill="currentColor" d="M12 16.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3m0-6a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3m0-6a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3" />
                           </g>
                         </svg>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem>
-                          <Button
-                            onClick={() => {
-                              navigate(`/dashboard/dosen/edit-dosen/${dosen.id}`);
-                            }}>
-                            <span className="mr-2">
-                              <i className="fa-solid fa-pencil-alt"></i>
-                            </span>
-                            Edit
-                          </Button>
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem className="my-2">
-                          <Button
-                            onClick={() => {
-                              navigate(`/dashboard/dosen/detail-dosen/${dosen.id}`);
-                            }}>
-                            <span className="mr-2">
-                              <i className="fa-solid fa-eye"></i>
-                            </span>
-                            Detail
-                          </Button>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Button variant="destructive" onClick={() => handleDelete(dosen.id)}>
-                            <span className="mr-2">
-                              <i className="fa-solid fa-trash"></i>
-                            </span>
-                            Hapus
-                          </Button>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
+                      </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Menu.Item leftSection={<IconPencil style={{ width: rem(20), height: rem(20) }} />} onClick={() => navigate(`/dashboard/dosen/edit-dosen/${dosen.id}`)}>
+                        Edit
+                      </Menu.Item>
+                      <Menu.Item
+                        leftSection={<IconTrashFilled style={{ width: rem(20), height: rem(20) }} />}
+                        onClick={() => {
+                          setSelectedDosen(dosen);
+                          open();
+                        }}>
+                        Hapus
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
                 </div>
-              </>
+              </div>
             ))}
           </>
         )}
       </Sidebar>
+      <Modal opened={opened} onClose={close} title="Konfirmasi Hapus">
+        <Text>Masukkan ID dosen untuk konfirmasi penghapusan:</Text>
+        <TextInput value={confirmDosenId} onChange={(event) => setConfirmDosenId(event.currentTarget.value)} placeholder="Masukkan ID dosen" />
+        <Group mt="md">
+          <Button onClick={() => handleDelete(selectedDosen?.id)}>Hapus</Button>
+          <Button variant="default" onClick={close}>
+            Batal
+          </Button>
+        </Group>
+      </Modal>
     </>
   );
 };

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import UserIcon from "@components/icons/UserIcon";
 import { Menu, Text, rem } from "@mantine/core";
-import { IconUserCircle } from "@tabler/icons-react";
+import { IconUserCircle, IconRun } from "@tabler/icons-react";
 
 const DropdownSidebar = () => {
   const [user, setUser] = useState<any>(null);
@@ -52,7 +52,7 @@ const DropdownSidebar = () => {
             <Menu.Item leftSection={<IconUserCircle style={{ width: rem(15), height: rem(15) }} />} onClick={() => navigate(`/dashboard/account/${user.uid}`)}>
               Profile
             </Menu.Item>
-            <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+            <Menu.Item leftSection={<IconRun style={{ width: rem(15), height: rem(15) }} />} onClick={handleLogout}>Logout</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </div>
