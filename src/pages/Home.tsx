@@ -8,7 +8,7 @@ function Home() {
   return (
     <>
       <Helmet>
-        <title>Home | CariDosen</title>
+        <title>Temukan Dosen Terbaik Menuju Kesuksesan Akademis | CariDosen</title>
       </Helmet>
       <Hero />
       <DosenMingguan />
