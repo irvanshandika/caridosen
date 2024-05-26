@@ -8,13 +8,13 @@ function Footer() {
         <div className="text-center">
           <div className="flex justify-center items-center">
             <a className="flex-none text-xl font-semibold text-black dark:text-white" href="/" aria-label="Brand">
-              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[100px]" alt="Logo Brand" />
+              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[100px]" alt="Logo Brand" loading="lazy" fetchPriority="low" />
             </a>
           </div>
 
           <div className="mt-3">
             <p className="text-gray-500 dark:text-neutral-500">
-              <span className="font-roboto">©</span> WillPower Team. {years} All rights reserved.
+              <span className="font-roboto">©</span> <a href="/ourteam">WillPower Team</a>. {years} All rights reserved.
             </p>
           </div>
 
