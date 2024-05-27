@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect } from "react";
@@ -35,9 +36,21 @@ const Dosen = () => {
   }, [auth]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        let isAdmin = false;
+        querySnapshot.forEach((doc) => {
+          if (doc.data().roles === "admin") {
+            isAdmin = true;
+          }
+        });
+        setIsAdmin(isAdmin);
+        if (!isAdmin) {
+          navigate("/forbidden");
+        }
       } else {
         navigate("/forbidden");
       }
@@ -60,18 +73,18 @@ const Dosen = () => {
     }
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      if (user) {
-        const q = query(collection(db, "users"), where("uid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          setIsAdmin(doc.data().roles === "admin");
-        });
-      }
-    };
-    getUser();
-  }, [user]);
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     if (user) {
+  //       const q = query(collection(db, "users"), where("uid", "==", user.uid));
+  //       const querySnapshot = await getDocs(q);
+  //       querySnapshot.forEach((doc) => {
+  //         setIsAdmin(doc.data().roles === "admin");
+  //       });
+  //     }
+  //   };
+  //   getUser();
+  // }, [user, navigate]);
 
   useEffect(() => {
     const getData = async () => {
@@ -101,14 +114,12 @@ const Dosen = () => {
         <span className="hidden">{user?.displayName}</span>
         <h1 className="text-center">Daftar Dosen</h1>
         <div className="mb-2">
-          {isAdmin && (
-            <Button onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
-              <span className="mr-1">
-                <i className="fa-solid fa-user-plus"></i>
-              </span>
-              Buat Dosen
-            </Button>
-          )}
+          <Button onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
+            <span className="mr-1">
+              <i className="fa-solid fa-user-plus"></i>
+            </span>
+            Buat Dosen
+          </Button>
         </div>
         {dosen && dosen.length === 0 ? (
           <div className="min-h-60 flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">

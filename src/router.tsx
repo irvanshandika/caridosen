@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import NotFound from "@pages/NotFound";
 
-
 const router = createBrowserRouter([
   {
     path: "/auth/forgot-password",
@@ -107,6 +106,12 @@ const router = createBrowserRouter([
     path: "/dashboard/dosen/edit-dosen/:id",
     lazy: async () => ({
       Component: (await import("@pages/dashboard/EditDosen")).default,
+    }),
+  },
+  {
+    path: "/dashboard/manajemen-users",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/Users")).default,
     }),
   },
 ]);

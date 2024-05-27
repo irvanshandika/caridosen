@@ -92,42 +92,58 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               </li>
 
               {isAdmin && (
-                <li className="hs-accordion" id="projects-accordion">
-                  <Menu shadow="md" width={200}>
-                    <Menu.Target>
-                      <button
-                        type="button"
-                        className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hs-accordion-active:text-white">
-                        <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
-                          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                        </svg>
-                        Dosen
-                        <svg
-                          className="hs-accordion-active:hidden ms-auto block size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round">
-                          <path d="m6 9 6 6 6-6" />
-                        </svg>
-                      </button>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                      <Menu.Item leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />} onClick={() => navigate("/dashboard/dosen/lihat-dosen")}>
-                        List Dosen
-                      </Menu.Item>
-                      <Menu.Item leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />} onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
-                        Tambah Dosen
-                      </Menu.Item>
-                    </Menu.Dropdown>
-                  </Menu>
-                </li>
+                <>
+                  <li>
+                    <a
+                      className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-300"
+                      href="/dashboard/manajemen-users">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 mt-0.5 size-4" width="32" height="32" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                          <circle cx="9" cy="7" r="4" />
+                          <path d="M22 21v-2a4 4 0 0 0-3-3.87m-3-12a4 4 0 0 1 0 7.75" />
+                        </g>
+                      </svg>
+                      Manajement Users
+                    </a>
+                  </li>
+                  <li className="hs-accordion" id="projects-accordion">
+                    <Menu shadow="md" width={200}>
+                      <Menu.Target>
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hs-accordion-active:text-white">
+                          <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                          </svg>
+                          Dosen
+                          <svg
+                            className="hs-accordion-active:hidden ms-auto block size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        <Menu.Item leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />} onClick={() => navigate("/dashboard/dosen/lihat-dosen")}>
+                          List Dosen
+                        </Menu.Item>
+                        <Menu.Item leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />} onClick={() => navigate("/dashboard/dosen/tambah-dosen")}>
+                          Tambah Dosen
+                        </Menu.Item>
+                      </Menu.Dropdown>
+                    </Menu>
+                  </li>
+                </>
               )}
 
               <li>
