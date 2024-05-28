@@ -73,18 +73,18 @@ const Dosen = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     if (user) {
-  //       const q = query(collection(db, "users"), where("uid", "==", user.uid));
-  //       const querySnapshot = await getDocs(q);
-  //       querySnapshot.forEach((doc) => {
-  //         setIsAdmin(doc.data().roles === "admin");
-  //       });
-  //     }
-  //   };
-  //   getUser();
-  // }, [user, navigate]);
+  useEffect(() => {
+    const getUser = async () => {
+      if (user) {
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setIsAdmin(doc.data().roles === "admin");
+        });
+      }
+    };
+    getUser();
+  }, [user, navigate]);
 
   useEffect(() => {
     const getData = async () => {
