@@ -148,7 +148,7 @@ const ManajemenUsers: React.FC = () => {
         {loading ? (
           <>
             <div className="mb-4">
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center">
                 <Skeleton height={30} width="30%" radius="md" mb="lg" />
               </div>
             </div>
