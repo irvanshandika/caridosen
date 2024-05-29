@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
@@ -5,28 +6,63 @@ import { auth, db } from "@config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@components/ui/input";
 import { Helmet } from "react-helmet";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
+import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
+import { Modal, Button } from "@mantine/core";
+import useSignInWithGoogle from "@src/hooks/GoogleSignIn"; // Assuming the custom hook is in the same directory
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle();
+  const [modalOpened, setModalOpened] = useState(false);
+
+  const checkEmailExists = async (email: string) => {
+    const methods = await fetchSignInMethodsForEmail(auth, email);
+    return methods.length > 0;
+  };
+
+  const handleSignUpWithGoogle = async () => {
+    try {
+      await signInWithGoogle();
+
+      if (user) {
+        const { user: userInfo } = user;
+        const emailExists = await checkEmailExists(userInfo.email!);
+        if (!emailExists) {
+          await addDoc(collection(db, "users"), {
+            uid: userInfo.uid,
+            displayName: userInfo.displayName,
+            email: userInfo.email,
+            roles: "user",
+          });
+        }
+        sessionStorage.setItem("user", "true");
+        navigate("/auth/signin");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSignUp = async (e: any) => {
     e.preventDefault();
     try {
       const res = await createUserWithEmailAndPassword(email, password);
-      console.log(res);
-      await addDoc(collection(db, "users"), {
-        uid: res?.user.uid,
-        roles: "user",
-      });
-      sessionStorage.setItem("user", "true");
-      setEmail("");
-      setPassword("");
-      navigate("/auth/signin");
+      if (res) {
+        await addDoc(collection(db, "users"), {
+          uid: res.user.uid,
+          displayName: res.user.displayName,
+          email: res.user.email,
+          roles: "user",
+        });
+        sessionStorage.setItem("user", "true");
+        setEmail("");
+        setPassword("");
+        navigate("/auth/signin");
+      }
     } catch (e) {
       console.error(e);
     }
@@ -47,7 +83,9 @@ const SignUp: React.FC = () => {
               <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
               <div className="w-full flex-1 mt-8">
                 <div className="flex flex-col items-center">
-                  <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                  <button
+                    onClick={handleSignUpWithGoogle}
+                    className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                     <div className="bg-white p-2 rounded-full">
                       <svg className="w-4" viewBox="0 0 533.5 544.3">
                         <path d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z" fill="#4285f4" />
@@ -66,8 +104,7 @@ const SignUp: React.FC = () => {
                       <svg className="w-6" viewBox="0 0 32 32">
                         <path
                           fillRule="evenodd"
-                          d="M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.3-.535-1.523.117-3.175 0 0 1.008-.32 3.301 1.23A11.487 11.487 0 0116 9.805c1.02.004 2.047.136 3.004.402 2.293-1.55 3.297-1.23 3.297-1.23.656 1.652.246 2.875.12 3.175.77.84 1.231 1.91 1.231 3.223 0 4.61-2.804 5.621-5.476 5.922.43.367.812 1.101.812 2.219 0 1.605-.011 2.898-.011 3.293 0 .32.214.695.824.578C24.566 25.797 28 21.3 28 16c0-6.629-5.371-12-12-12z"
-                        />
+                          d="M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.302 1.23.96-.267 1.984-.4 3.003-.404 1.02.004 2.043.137 3.003.404 2.293-1.552 3.3-1.23 3.3-1.23.653 1.653.24 2.873.12 3.176.767.84 1.232 1.91 1.232 3.223 0 4.61-2.803 5.625-5.473 5.92.432.372.815 1.103.815 2.222 0 1.606-.015 2.9-.015 3.293 0 .324.216.694.826.576C24.565 25.8 28 21.3 28 16c0-6.629-5.371-12-12-12z"></path>
                       </svg>
                     </div>
                     <span className="ml-4">Sign Up with GitHub</span>
@@ -135,6 +172,9 @@ const SignUp: React.FC = () => {
           </div>
         </div>
       </div>
+      <Modal opened={modalOpened} onClose={() => setModalOpened(false)} title="Error">
+        <div>The email address is not registered.</div>
+      </Modal>
     </>
   );
 };

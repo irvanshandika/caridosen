@@ -3,8 +3,7 @@ import { Carousel } from "@mantine/carousel";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@config/FirebaseConfig";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
-import { Text, Badge, Group } from "@mantine/core";
+import { Card, Text, Button, Group } from "@mantine/core";
 import { IconStarFilled } from "@tabler/icons-react";
 
 type NewDosenType = {
@@ -89,29 +88,30 @@ function DosenMingguan() {
               <Carousel slideSize="70%" style={{ height: "100%" }} slideGap="xs" controlsOffset="xl" controlSize={14} loop dragFree withIndicators>
                 {dosen.map((item) => (
                   <Carousel.Slide key={item.id}>
-                    <Card className="w-full h-auto">
-                      <CardHeader>
-                        <img src={item.urlFoto} alt={item.nama} className="object-cover w-full h-40 rounded-t-lg" fetchPriority="low" />
-                      </CardHeader>
-                      <CardContent>
-                        <CardTitle className="text-xs">{item.nama}</CardTitle>
-                        <CardDescription>{item.nip}</CardDescription>
-                        <Group className="mt-2">
-                          <Badge color="blue">Dosen</Badge>
-                          <div className="flex items-center">
-                            <Text className="mr-1">{item.averageRating.toFixed(1)}/5</Text>
-                            <IconStarFilled className="text-yellow-300" size={16} />
-                            <Text className="ml-1">({item.ratingCount})</Text>
-                          </div>
-                        </Group>
-                      </CardContent>
-                      <CardFooter>
-                        <button
-                          onClick={() => navigate(`/rating/${item.id}`)}
-                          className="w-full px-4 py-2 mt-2 text-sm font-semibold text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600">
-                          Beri Rating
-                        </button>
-                      </CardFooter>
+                    <Card shadow="sm" p="lg" radius="md" withBorder style={{ height: "100%" }}>
+                      <Card.Section>
+                        <img src={item.urlFoto} alt={item.nama} className="object-cover w-full h-52 rounded-t-lg" fetchPriority="low" loading="lazy" />
+                      </Card.Section>
+
+                      <Group mt="md" mb="xs">
+                        <Text style={{ minHeight: "1.5em" }}>{item.nama}</Text>
+                      </Group>
+
+                      <Text size="sm" color="dimmed">
+                        {item.nip}
+                      </Text>
+
+                      <Group className="mt-2">
+                        <div className="flex items-center">
+                          <Text className="mr-1">{item.averageRating.toFixed(1)}/5</Text>
+                          <IconStarFilled className="text-yellow-300" size={16} />
+                          <Text className="ml-1">({item.ratingCount})</Text>
+                        </div>
+                      </Group>
+
+                      <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={() => navigate(`/rating/${item.id}`)}>
+                        Beri Rating
+                      </Button>
                     </Card>
                   </Carousel.Slide>
                 ))}

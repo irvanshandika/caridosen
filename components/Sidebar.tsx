@@ -178,7 +178,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </nav>
         </AppShell.Navbar>
         <AppShell.Main>
-          <Card shadow="xs" padding="xl" className="-m-[10px] bg-gray-300">
+          <Card shadow="xs" padding="xl" className="-m-[10px] bg-gray-300 h-screen">
             {children}
           </Card>
         </AppShell.Main>
