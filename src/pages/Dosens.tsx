@@ -60,6 +60,8 @@ function Dosens() {
     <>
       <Helmet>
         <title>Search Dosen | CariDosen</title>
+        <meta name="description" content="Search Dosen" />
+        <meta name="keywords" content="search, dosen, caridosen" />
       </Helmet>
       <div className="flex flex-col justify-center items-center min-h-screen mt-20 mb-20">
         <form onSubmit={handleSearch} className="mb-5">

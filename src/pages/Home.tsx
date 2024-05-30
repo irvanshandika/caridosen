@@ -9,6 +9,8 @@ function Home() {
     <>
       <Helmet>
         <title>Temukan Dosen Terbaik Menuju Kesuksesan Akademis | CariDosen</title>
+        <meta name="description" content="Temukan Dosen Terbaik Menuju Kesuksesan Akademis" />
+        <meta name="keywords" content="dosen, terbaik, akademis, caridosen" />
       </Helmet>
       <Hero />
       <DosenMingguan />

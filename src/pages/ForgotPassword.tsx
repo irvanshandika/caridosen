@@ -33,6 +33,8 @@ const ForgotPassword: React.FC = () => {
     <>
       <Helmet>
         <title>Reset Password | CariDosen</title>
+        <meta name="description" content="Reset Password" />
+        <meta name="keywords" content="reset, password, caridosen" />
       </Helmet>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">

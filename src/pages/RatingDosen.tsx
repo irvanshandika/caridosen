@@ -155,6 +155,8 @@ const RatingDosen = () => {
     <>
       <Helmet>
         <title>Rating Dosen | CariDosen</title>
+        <meta name="description" content="Rating Dosen" />
+        <meta name="keywords" content="rating, dosen, caridosen" />
       </Helmet>
       <div className="flex flex-col justify-center items-center lg:my-24 my-16">
         <Card className="lg:px-16 lg:mx-40 mx-4 px-2">

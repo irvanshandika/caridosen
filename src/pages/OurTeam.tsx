@@ -8,6 +8,8 @@ const OurTeam: React.FC = () => {
     <>
       <Helmet>
         <title>WillPower Team | CariDosen</title>
+        <meta name="description" content="WillPower Team | CariDosen" />
+        <meta name="keywords" content="team, caridosen, willpower team" />
       </Helmet>
       <section className="bg-white dark:bg-gray-900 my-20">
         <div className="container px-6 py-10 mx-auto">

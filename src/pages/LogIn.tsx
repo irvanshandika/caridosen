@@ -4,6 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Input } from "@components/ui/input";
+import { Helmet } from "react-helmet";
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ function SignIn() {
     }
   };
 
-  const handleSignIn = async (e: { preventDefault: () => void; }) => {
+  const handleSignIn = async (e: { preventDefault: () => void }) => {
     e.preventDefault(); // Mencegah tindakan default pada form submit
     try {
       const res = await signInWithEmailAndPassword(email, password);
@@ -45,6 +46,11 @@ function SignIn() {
 
   return (
     <>
+      <Helmet>
+        <title>Sign In | Caridosen</title>
+        <meta name="description" content="Sign In to Caridosen" />
+        <meta name="keywords" content="sign in, caridosen, login" />
+      </Helmet>
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center font-sora">
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
@@ -125,7 +131,8 @@ function SignIn() {
                     </div>
                     <button
                       type="submit"
-                      className="tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                      disabled={!email || !password}
+                      className="tracking-wide font-semibold disabled:cursor-not-allowed bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 -ml-2" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M9 2h9c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H9c-1.1 0-2-.9-2-2v-1a1 1 0 0 1 2 0v1h9V4H9v1a1 1 0 1 1-2 0V4c0-1.1.9-2 2-2" />
                         <path fill="currentColor" d="M10.795 16.295c.39.39 1.02.39 1.41 0l3.588-3.588a1 1 0 0 0 0-1.414l-3.588-3.588a.999.999 0 0 0-1.411 1.411L12.67 11H4a1 1 0 0 0 0 2h8.67l-1.876 1.884a.999.999 0 0 0 .001 1.411" />

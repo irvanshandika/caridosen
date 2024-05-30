@@ -8,6 +8,8 @@ function Forbidden() {
     <>
       <Helmet>
         <title>403 Forbidden | CariDosen</title>
+        <meta name="description" content="403 Forbidden" />
+        <meta name="keywords" content="403, forbidden, caridosen" />
       </Helmet>
       <div className="flex flex-col min-h-[100vh]">
         <div className="mx-auto max-w-2xl flex-1 flex flex-col items-center justify-center px-4 text-center space-y-4">

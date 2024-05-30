@@ -7,6 +7,8 @@ function NotFound() {
     <>
       <Helmet>
         <title>404 Not Found | CariDosen</title>
+        <meta name="description" content="404 Not Found" />
+        <meta name="keywords" content="404, not found, caridosen" />
       </Helmet>
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-4xl font-bold">404 Not Found</h1>
