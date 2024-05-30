@@ -12,10 +12,10 @@ const OurTeam: React.FC = () => {
       <Container size="lg" py="xl" my="100px" style={{ minHeight: "100vh" }}>
         <Box mb="xl" style={{ textAlign: "center" }}>
           <Title order={2} mb="sm">
-            Our Team
+            WillPower Team
           </Title>
           <Text color="dimmed" size="sm">
-            Creative people
+            Ayo Berkenalan Dengan Orang-Orang Keren Pembuat <span className="text-blue-500 font-bold underline-offset-2 underline decoration-solid decoration-blue-400">CariDosen</span>
           </Text>
         </Box>
         <SimpleGrid cols={2} spacing="lg">

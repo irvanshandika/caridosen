@@ -27,7 +27,7 @@ const teamMembers: TeamMember[] = [
     imgSrc: "https://res.cloudinary.com/dszhlpm81/image/upload/v1717047597/assets/caridosen/RapoL_m9cmxd.jpg",
   },
   {
-    name: "Fauzan",
+    name: "Fauzan Lutfi Muzaki",
     role: "Product Owner",
     imgSrc: "https://lets-votely.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffirman.6c1b4d4f.png&w=640&q=75",
   },
