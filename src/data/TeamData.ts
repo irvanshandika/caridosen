@@ -39,7 +39,7 @@ const teamMembers: TeamMember[] = [
     name: "Muhammad Taqiyuddin",
     role: "Quality Assurance",
     imgSrc:
-      "https://res.cloudinary.com/dszhlpm81/image/upload/v1717047597/assets/caridosen/Taqi.jpg",
+      "https://res.cloudinary.com/dszhlpm81/image/upload/v1717077367/assets/caridosen/Taqi_pjruo2.jpg",
   },
 ];
 
