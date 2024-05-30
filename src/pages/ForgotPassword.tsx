@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { auth } from "@config/FirebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { Alert, AlertDescription, AlertTitle } from "@components/ui/alert";
-import { RocketIcon } from "@radix-ui/react-icons";
+// import { Alert, AlertDescription, AlertTitle } from "@components/ui/alert";
+// import { RocketIcon } from "@radix-ui/react-icons";
+import { Alert } from "@mantine/core";
+import { IconRocket } from "@tabler/icons-react";
 import { Helmet } from "react-helmet";
 
 const ForgotPassword: React.FC = () => {
@@ -39,10 +42,8 @@ const ForgotPassword: React.FC = () => {
 
         {showAlert && (
           <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
-            <Alert>
-              <RocketIcon className="h-4 w-4" />
-              <AlertTitle>URL Reset Password Telah Dikirim Ke Alamat Email Anda</AlertTitle>
-              <AlertDescription>Silahkan cek email Anda dan ikuti petunjuk yang diberikan untuk mereset kata sandi Anda.</AlertDescription>
+            <Alert title="Email Reset Password Terkirim" color="blue" icon={<IconRocket size={18} />} className="dark:bg-gray-800">
+              <p className="text-sm dark:text-white">Silahkan cek email anda untuk mereset password.</p>
             </Alert>
           </div>
         )}
