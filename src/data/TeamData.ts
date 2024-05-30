@@ -19,7 +19,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Aryawijaya",
     role: "Scrum Master",
-    imgSrc: "https://lets-votely.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Faryawijaya.41f13978.png&w=640&q=75",
+    imgSrc: "https://drive.google.com/file/d/1iW4QExuhUXsPXUQ4S270ItMJ9tjCsn8a/view?usp=drive_link",
   },
   {
     name: "Raffa Nur Listiawan D.E.S",
