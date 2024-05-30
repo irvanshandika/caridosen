@@ -21,6 +21,7 @@ const RatingDosen = () => {
   const [rating, setRating] = useState(0);
   const [komentar, setKomentar] = useState("");
   const [createdBy, setCreatedBy] = useState("");
+  const [userName, setUserName] = useState("");
   const [dosenId, setDosenId] = useState("");
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const [ratingDistribution, setRatingDistribution] = useState<number[]>([0, 0, 0, 0, 0]);
@@ -32,6 +33,8 @@ const RatingDosen = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        setCreatedBy(user.uid);
+        setUserName(user.displayName || "");
       } else {
         navigate("/forbidden");
       }
@@ -42,7 +45,6 @@ const RatingDosen = () => {
   useEffect(() => {
     const getDosen = async () => {
       setDosenId(params.id ?? "");
-      setCreatedBy(user?.displayName || "");
       const dosenRef = doc(db, "dosen", params.id ?? "");
       const dosenSnap = await getDoc(dosenRef);
       if (dosenSnap.exists()) {
@@ -86,7 +88,7 @@ const RatingDosen = () => {
     const getUserRating = async () => {
       if (!user || !dosenId) return;
 
-      const q = query(collection(db, "rating"), where("dosenId", "==", dosenId), where("createdBy", "==", user.displayName));
+      const q = query(collection(db, "rating"), where("dosenId", "==", dosenId), where("createdBy", "==", user.uid));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
@@ -118,7 +120,8 @@ const RatingDosen = () => {
           dosenId: dosenId,
           rating: rating,
           komentar: komentar,
-          createdBy: user.displayName,
+          createdBy: user.uid,
+          userName: userName,
           createdAt: serverTimestamp(),
         });
       }

@@ -29,7 +29,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Fauzan Lutfi Muzaki",
     role: "Product Owner",
-    imgSrc: "https://drive.google.com/file/d/1LKC2LZGMdZNX7jW9Fl-659nA7irTxSli/view?usp=drive_link",
+    imgSrc: "https://res.cloudinary.com/dszhlpm81/image/upload/v1717073722/assets/caridosen/Fauzan_ozpddo.png",
   },
   {
     name: "Muhammad Taqiyuddin",
