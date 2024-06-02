@@ -6,9 +6,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { getDoc, doc, addDoc, collection, serverTimestamp, query, where, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
-import { Textarea } from "@components/ui/textarea";
-import { Button } from "@components/ui/button";
-import { Rating } from "@mantine/core";
+// import { Textarea } from "@components/ui/textarea";
+// import { Button } from "@components/ui/button";
+import { Rating, Textarea, Button } from "@mantine/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListKomentar from "@src/sections/ListKomentar";
 import { IconTrashFilled, IconPencil } from "@tabler/icons-react";
@@ -236,13 +236,13 @@ const RatingDosen = () => {
                   <div className="mt-5">
                     <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
                       <span className="mr-1">
-                        <IconPencil className="w-5 h-5" />
+                        <IconPencil className="w-4 h-4" />
                       </span>
                       Update
                     </Button>
-                    <Button type="button" className="bg-red-600 hover:bg-red-500 ml-2" onClick={handleDeleteRating}>
+                    <Button type="button" className="ml-2" variant="filled" color="red" onClick={handleDeleteRating}>
                       <span className="mr-1">
-                        <IconTrashFilled className="w-5 h-5" />
+                        <IconTrashFilled className="w-4 h-4" />
                       </span>
                       Delete
                     </Button>
