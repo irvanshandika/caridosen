@@ -1,8 +1,9 @@
 name: Sync on DOM Cloud
-'on':
+"on":
   workflow_dispatch: {}
   push:
     branches:
+      - main
       - master
 jobs:
   build:
@@ -11,6 +12,6 @@ jobs:
       - name: Invoke deployment hook
         uses: distributhor/workflow-webhook@v2
         with:
-          webhook_url: https://my.domcloud.co/api/githubdeploy
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
           webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
