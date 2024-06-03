@@ -79,7 +79,7 @@ const router = createBrowserRouter([
     }),
   },
   {
-    path: "/dashboard/calendar",
+    path: "/dashboard/kalender",
     lazy: async () => ({
       Component: (await import("@pages/dashboard/Calendar")).default,
     }),
