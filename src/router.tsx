@@ -15,6 +15,7 @@ import DetailDosen from "@pages/dashboard/DetailDosen";
 import UpdateDosen from "@pages/dashboard/EditDosen";
 import TambahDosen from "@pages/dashboard/TambahDosen";
 import ForgotPassword from "@pages/ForgotPassword";
+import ManajemenUsers from "@pages/dashboard/Users";
 import Navbar from "@components/Navbar";
 import Footer from "@components/Footer";
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/auth/signin" element={<SignIn />} />
         <Route path="/auth/signup" element={<SignUp />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/dashboard/manajemen-users" element={<ManajemenUsers />} />
       </Routes>
     </>
   );
