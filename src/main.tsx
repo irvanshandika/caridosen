@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import router from "./router";
+import Router from "./router.tsx";
 // import "preline/dist/preline";
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
@@ -20,8 +21,11 @@ LogRocket.identify("318675", {
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <MantineProvider>
-      <RouterProvider router={router} />
-    </MantineProvider>
+    <BrowserRouter>
+      <MantineProvider>
+        {/* <RouterProvider router={router} /> */}
+        <Router />
+      </MantineProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

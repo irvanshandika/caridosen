@@ -8,7 +8,6 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     "./index.html",
-    './node_modules/preline/preline.js',
     "./node_modules/flowbite/**/*.js"
   ],
   prefix: "",
@@ -42,7 +41,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require('preline/plugin'), require('flowbite/plugin')],
+  plugins: [require("tailwindcss-animate"), require('flowbite/plugin')],
 } satisfies Config
 
 export default config

@@ -88,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               <li>
                 <a
                   className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-300"
-                  href={`/dashboard/account/${user?.uid}`}>
+                  href={`/dashboard/akun-saya/${user?.uid}`}>
                   <svg className="flex-shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="18" cy="15" r="3" />
                     <circle cx="9" cy="7" r="4" />
