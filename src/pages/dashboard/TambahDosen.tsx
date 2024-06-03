@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
- 
+
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { db } from "@config/FirebaseConfig";
 import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Label } from "@components/ui/label";
+import { Helmet } from "react-helmet";
 
 async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, universitas: string, createdBy: string) {
   try {
@@ -94,6 +95,10 @@ const Dosen = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Tambah Dosen | Sistem Informasi Akademik</title>
+        <meta name="description" content="Tambah dosen baru di Sistem Informasi Akademik" />
+      </Helmet>
       <SideBar>
         <span className="hidden">{user?.displayName}</span>
         <div className="p-8 rounded border border-gray-200 dark:border-gray-600 dark:bg-gray-700">
