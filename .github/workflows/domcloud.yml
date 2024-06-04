@@ -3,14 +3,16 @@ name: Sync on DOM Cloud
   workflow_dispatch: {}
   push:
     branches:
-      - master
+      - main
 jobs:
-  build:
+  push:
     runs-on: ubuntu-latest
     steps:
-      - name: Invoke deployment hook
-        uses: distributhor/workflow-webhook@v2
+      - name: Invoke SGA deployment hook
+        uses: distributhor/workflow-webhook@v3
         env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-          webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
+          webhook_url: ${{ secrets.WEBHOOK_URL_SGA }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET_SGA }}
+          webhook_auth: ${{ secrets.WEBHOOK_AUTH_SGA }}
+          data: >-
+            {"commands":["git pull","npm i","npm run build"]}
