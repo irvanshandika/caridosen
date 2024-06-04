@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import { useCreateUserWithEmailAndPassword, useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "@config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@components/ui/input";
 import { Helmet } from "react-helmet";
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
-import { Modal, Button } from "@mantine/core";
+import { Modal, TextInput, PasswordInput } from "@mantine/core";
 import useSignInWithGoogle from "@src/hooks/GoogleSignIn"; // Assuming the custom hook is in the same directory
 
 const SignUp: React.FC = () => {
@@ -126,20 +125,8 @@ const SignUp: React.FC = () => {
 
                 <div className="mx-auto max-w-xs">
                   <form onSubmit={handleSignUp}>
-                    <Input
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                      type="email"
-                      placeholder="Email"
-                    />
-                    <Input
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                      type="password"
-                      placeholder="Password"
-                    />
+                    <TextInput id="email" required type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
+                    <PasswordInput id="password" required placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="mb-4" />
                     <div className="flex justify-end my-5">
                       <p>
                         Sudah Punya Akun?

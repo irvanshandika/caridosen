@@ -49,7 +49,7 @@ const DropdownSidebar = () => {
                 {user && user.displayName}
               </Text>
             </Menu.Label>
-            <Menu.Item leftSection={<IconUserCircle style={{ width: rem(15), height: rem(15) }} />} onClick={() => navigate(`/dashboard/account/${user.uid}`)}>
+            <Menu.Item leftSection={<IconUserCircle style={{ width: rem(15), height: rem(15) }} />} onClick={() => navigate(`/dashboard/akun-saya/${user.uid}`)}>
               Profile
             </Menu.Item>
             <Menu.Item leftSection={<IconRun style={{ width: rem(15), height: rem(15) }} />} onClick={handleLogout}>Logout</Menu.Item>

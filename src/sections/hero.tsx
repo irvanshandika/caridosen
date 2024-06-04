@@ -10,7 +10,6 @@ function Hero() {
     e.preventDefault();
     navigate("/dosens?search=" + search);
   };
-  console.log(import.meta.env);
   return (
     <>
       <div className="flex justify-center items-center lg:px-0 px-[10px] lg:h-[90vh] lg:my-14 my-32">

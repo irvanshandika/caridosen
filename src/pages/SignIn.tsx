@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { app, auth } from "@config/FirebaseConfig";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Input } from "@components/ui/input";
+// import { Input } from "@components/ui/input";
+import { Alert, TextInput, PasswordInput } from "@mantine/core";
 import { Helmet } from "react-helmet";
+import { IconAlertTriangle } from "@tabler/icons-react";
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -29,27 +32,38 @@ function SignIn() {
 
   const signInWithGoogle = async () => {
     setLoading(true);
-    const authInstance = getAuth(app); // Menggunakan nama variabel yang berbeda untuk menghindari konflik
+    const authInstance = getAuth(app);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(authInstance, provider); // Menggunakan authInstance
-      navigate("/");
+      const result = await signInWithPopup(authInstance, provider);
+      const user = result.user;
+      // Check if the user is in the Firebase auth table
+      if (user) {
+        navigate("/");
+      } else {
+        setAlertError(true);
+        authInstance.signOut();
+      }
     } catch (error) {
       console.log(error);
+      setAlertError(true);
     } finally {
       setLoading(false);
     }
   };
 
   const handleSignIn = async (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // Mencegah tindakan default pada form submit
+    e.preventDefault();
     try {
       const res = await signInWithEmailAndPassword(email, password);
-      console.log({ res });
-      sessionStorage.setItem("user", "true"); // Mengubah nilai menjadi string
-      setEmail("");
-      setPassword("");
-      navigate("/");
+      if (res) {
+        sessionStorage.setItem("user", "true");
+        setEmail("");
+        setPassword("");
+        navigate("/");
+      } else {
+        setAlertError(true);
+      }
     } catch (e) {
       console.error(e);
       setAlertError(true);
@@ -108,24 +122,20 @@ function SignIn() {
 
                 <div className="mx-auto max-w-xs">
                   <form onSubmit={handleSignIn}>
-                    <Input
-                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <Input
-                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <TextInput id="email" required type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
+                    <PasswordInput id="password" required placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="mb-4" />
                     {alertError && (
-                      <div className="my-4">
-                        <span className="text-red-600 text-center font-semibold">Wrong Email or Password!</span>
-                      </div>
+                      <Alert color="red" className="mt-4" onClose={() => setAlertError(false)}>
+                        <div className="flex justify-center items-center">
+                          <h1 className="flex text-red-500 font-bold">
+                            <span className="mr-1">
+                              <IconAlertTriangle className="w-5 h-5" />
+                            </span>
+                            ERROR
+                          </h1>
+                        </div>
+                        <p className="text-center text-red-400">There was an error with your submission. Please make sure your email and password are correct and try again.</p>
+                      </Alert>
                     )}
                     <div className="flex flex-col justify-end items-end my-5">
                       <p>

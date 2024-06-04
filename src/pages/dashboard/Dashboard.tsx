@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 import { Button, TextInput, Group, Text, Modal, Alert } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { db } from "@config/FirebaseConfig";
-import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { doc, collection, query, where, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 
 const Dashboard: React.FC = () => {
   const auth = getAuth();
@@ -38,10 +38,17 @@ const Dashboard: React.FC = () => {
       try {
         await updateProfile(user, { displayName, photoURL });
         setUser({ ...user, displayName, photoURL });
+
+        // Update user information in Firestore
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, {
+          displayName,
+          photoURL,
+        });
+
         setAlertSubmit(true);
         setTimeout(() => {
           setAlertSubmit(false);
-          window.location.reload();
         }, 1000);
       } catch (error) {
         console.error("Error updating profile:", error);
@@ -57,6 +64,8 @@ const Dashboard: React.FC = () => {
 
       try {
         await Promise.all(deletePromises);
+        const userDocRef = doc(db, "users", user.uid);
+        await deleteDoc(userDocRef);
         await deleteUser(user);
         closeModal();
         navigate("/");
