@@ -85,7 +85,7 @@ function DosenMingguan() {
                 </div>
               </div>
             ) : (
-              <Carousel slideSize="70%" style={{ height: "100%" }} slideGap="xs" controlsOffset="xl" controlSize={14} loop dragFree withIndicators>
+              <Carousel slideSize="70%" style={{ height: "100%" }} slideGap="xs" controlsOffset="xl" withControls={false} controlSize={14} loop dragFree withIndicators>
                 {dosen.map((item) => (
                   <Carousel.Slide key={item.id}>
                     <Card shadow="sm" p="lg" radius="md" withBorder style={{ height: "100%" }}>

@@ -66,7 +66,7 @@ function Dosens() {
       <div className="flex flex-col justify-center items-center min-h-screen mt-20 mb-20">
         <form onSubmit={handleSearch} className="mb-5">
           <div className="flex">
-            <input type="text" value={search} onChange={(e: any) => setSearch(e.target.value)} placeholder="Cari Dosen Kalian" className="border-[#003566] border-2 rounded-[8px] w-72 bg-[#DFF6FF] placeholder:text-[#003566]" />
+            <input type="text" required value={search} onChange={(e: any) => setSearch(e.target.value)} placeholder="Cari Dosen Kalian" className="border-[#003566] border-2 rounded-[8px] w-72 bg-[#DFF6FF] placeholder:text-[#003566]" />
             <button type="submit" className="bg-[#003566] text-white px-5 py-2 rounded-lg ml-2">
               Cari
             </button>

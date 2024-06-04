@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useState, useEffect } from "react";
+import { useCreateUserWithEmailAndPassword, useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "@config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@components/ui/input";
@@ -18,6 +18,13 @@ const SignUp: React.FC = () => {
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle();
   const [modalOpened, setModalOpened] = useState(false);
+  const [userLoggedIn] = useAuthState(auth);
+
+  useEffect(() => {
+    if (userLoggedIn) {
+      navigate("/");
+    }
+  }, [userLoggedIn, navigate]);
 
   const checkEmailExists = async (email: string) => {
     const methods = await fetchSignInMethodsForEmail(auth, email);

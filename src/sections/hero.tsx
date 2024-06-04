@@ -25,6 +25,7 @@ function Hero() {
                 <div className="flex">
                   <input
                     type="text"
+                    required
                     value={search}
                     onChange={(e: any) => setSearch(e.target.value)}
                     placeholder="Cari Dosen Kalian"

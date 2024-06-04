@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { app, auth } from "@config/FirebaseConfig";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Input } from "@components/ui/input";
@@ -14,6 +14,18 @@ function SignIn() {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const authInstance = getAuth(app);
+    const unsubscribe = onAuthStateChanged(authInstance, (user) => {
+      if (user) {
+        navigate("/"); // Redirect to the dashboard or home page if the user is logged in
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [navigate]);
 
   const signInWithGoogle = async () => {
     setLoading(true);

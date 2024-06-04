@@ -163,10 +163,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                       </Menu.Target>
                       <Menu.Dropdown>
                         <Menu.Item leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />} onClick={() => navigate("/dashboard/dosen/lihat-dosen")}>
-                          <Anchor href="/dashboard/dosen/lihat-dosen">List Dosen</Anchor>
+                          <Anchor href="/dashboard/dosen/lihat-dosen" style={{ color: "black" }}>
+                            List Dosen
+                          </Anchor>
                         </Menu.Item>
                         <Menu.Item leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />} onClick={() => navigate("/dashboard/dosen/dosen/tambah-dosen")}>
-                          <Anchor href="/dashboard/dosen/tambah-dosen">Tambah Dosen</Anchor>
+                          <Anchor href="/dashboard/dosen/tambah-dosen" style={{ color: "black" }}>Tambah Dosen</Anchor>
                         </Menu.Item>
                       </Menu.Dropdown>
                     </Menu>
