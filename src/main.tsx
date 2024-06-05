@@ -7,7 +7,6 @@ import Router from "./router.tsx";
 import { RouterProvider, BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
-import "@mantine/charts/styles.css";
 import "swiper/css";
 import "@mantine/carousel/styles.css";
 import LogRocket from "logrocket";

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { db } from "@config/FirebaseConfig";
 import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Label } from "@components/ui/label";
+// import { Label } from "@components/ui/label";
 import { Helmet } from "react-helmet";
 
 async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, universitas: string, createdBy: string) {
@@ -135,9 +135,9 @@ const Dosen = () => {
           <form onSubmit={handleSubmit}>
             <div className="mt-8 grid lg:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="urlFoto" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="urlFoto" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   Url Foto
-                </Label>
+                </label>
                 <input
                   type="text"
                   name="urlFoto"
@@ -149,9 +149,9 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="nama" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="nama" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   Nama
-                </Label>
+                </label>
                 <input
                   type="text"
                   name="nama"
@@ -164,9 +164,9 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="email" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="email" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   Email Adress
-                </Label>
+                </label>
                 <input
                   type="text"
                   name="email"
@@ -179,9 +179,9 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="nip" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="nip" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   NIP
-                </Label>
+                </label>
                 <input
                   type="text"
                   name="nip"
@@ -194,9 +194,9 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="universitas" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="universitas" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   Dosen Universitas
-                </Label>
+                </label>
                 <input
                   type="text"
                   name="universitas"
@@ -209,9 +209,9 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="tanggalLahir" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="tanggalLahir" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   Tanggal Lahir
-                </Label>
+                </label>
                 <input
                   type="date"
                   name="tanggalLahir"
@@ -223,9 +223,9 @@ const Dosen = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="deskripsi" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
+                <label htmlFor="deskripsi" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
                   Deskripsi
-                </Label>
+                </label>
                 <textarea
                   name="deskripsi"
                   id="deskripsi"
