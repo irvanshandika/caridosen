@@ -1,30 +1,37 @@
-# React + TypeScript + Vite
+![Logo](https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png)
+# CariDosen
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CariDosen merupakan website untuk mencari dosen serta memberikan rating performa mengajar dari sang dosen.
+## Fitur
 
-Currently, two official plugins are available:
+## Untuk superadmin
+- Manajamen User
+- Tambah, Edit, dan Delete Dosen
+## Untuk pengguna non admin
+- Memberikan rating serta komentar
+- Update Profil
+- Delete Profil
+- Support PWA
+## Authors
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [@irvanshandika](https://www.github.com/irvanshandika)
+- [@muhammadtaqiyuddin](https://www.github.com/muhammadtaqiyuddin)
+- [@AlfaZidan](https://www.github.com/AlfaZidan)
+- [@fauzanlutfi-4309](https://www.github.com/fauzanlutfi-4309)
+- [@RaffaNurListiawan](https://www.github.com/RaffaNurListiawan)
+- [@aryawijaya508](https://www.github.com/aryawijaya508)
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+**Client:** React, Typescript, TailwindCSS, Mantine UI
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+**Server:** Firebase
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## Badges
+
+Add badges from somewhere like: [shields.io](https://shields.io/)
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
