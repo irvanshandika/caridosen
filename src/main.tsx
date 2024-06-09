@@ -7,8 +7,8 @@ import Router from "./router.tsx";
 import { RouterProvider, BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
-import "swiper/css";
 import "@mantine/carousel/styles.css";
+import "@mantine/dropzone/styles.css";
 import LogRocket from "logrocket";
 LogRocket.init("tdj5oo/caridosen");
 LogRocket.identify("318675", {
