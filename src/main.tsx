@@ -9,13 +9,6 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
 import "@mantine/dropzone/styles.css";
-import LogRocket from "logrocket";
-LogRocket.init("tdj5oo/caridosen");
-LogRocket.identify("318675", {
-  name: "Muhammad Irvan Shandika",
-  email: "shandikamuhammadirvan@students.amikom.ac.id",
-  subscriptionType: "pro",
-});
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(

@@ -22,7 +22,7 @@ const OurTeam: React.FC = () => {
           <div className="grid gap-6 mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {teamMembers.map((member: TeamMember) => (
               <div key={member.name} className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div className="flex items-end justify-end w-full h-[350px] bg-cover" style={{ backgroundImage: `url(${member.imgSrc})` }}>
+                <div className="flex items-end justify-end w-full h-[350px] bg-cover hover:zoom-in-75" style={{ backgroundImage: `url(${member.imgSrc})` }}>
                   <button className="px-3 py-1 bg-gray-800 text-white text-sm rounded-md m-2"> {member.role} </button>
                 </div>
 

@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "@components/Sidebar";
 import { Helmet } from "react-helmet";
 import { Button, TextInput, Group, Text, Modal, Alert, rem, Progress } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { IconUpload, IconPhoto, IconX, IconEdit } from "@tabler/icons-react";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { db, storage } from "@config/FirebaseConfig";
 import { doc, collection, query, where, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
@@ -22,6 +22,7 @@ const Dashboard: React.FC = () => {
   const [photoURL, setPhotoURL] = useState<string>("");
   const [deleteConfirm, setDeleteConfirm] = useState<string>("");
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+  const [dropzoneOpened, { open: openDropzoneModal, close: closeDropzoneModal }] = useDisclosure(false);
   const [alertSubmit, setAlertSubmit] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState<number>(0);
@@ -123,54 +124,67 @@ const Dashboard: React.FC = () => {
       </Helmet>
       <Sidebar>
         {photoURL && (
-          <div className="flex justify-center items-center">
-            <img src={photoURL} alt="Profile Preview" style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "50%" }} />
-          </div>
-        )}
+          <>
+            <div className="flex justify-center items-center">
+              <button onClick={openDropzoneModal}>
+                <img src={photoURL} alt="Profile Preview" className="w-[200px] h-[200px] object-cover rounded-[50%]" />
+                <IconEdit size={24} className="translate-x-[180px] -translate-y-[40px]" />
+              </button>
 
-        {alertSubmit && (
-          <div className="my-4">
-            <Alert color="teal" title="Profil berhasil diperbarui" onClose={() => setAlertSubmit(false)}>
-              Profil Anda berhasil diperbarui.
-            </Alert>
-          </div>
-        )}
+              <Modal opened={dropzoneOpened} onClose={closeDropzoneModal} title="Upload Foto Profil" centered>
+                {alertSubmit && (
+                  <div className="my-4">
+                    <Alert color="teal" title="Profil berhasil diperbarui" onClose={() => setAlertSubmit(false)}>
+                      Profil Anda berhasil diperbarui.
+                    </Alert>
+                  </div>
+                )}
 
-        {error && (
-          // <Alert color="red" title="Upload Error" onClose={() => setError(null)}>
-          //   {error}
-          // </Alert>
-          <div role="alert" className="rounded my-4 border-s-4 border-red-500 bg-red-50 p-4">
-            <strong className="block font-medium text-red-800"> Upload Gagal </strong>
+                {error && (
+                  <div role="alert" className="rounded my-4 border-s-4 border-red-500 bg-red-50 p-4">
+                    <strong className="block font-medium text-red-800"> Upload Gagal </strong>
 
-            <p className="mt-2 text-sm text-red-700">{error}</p>
-          </div>
-        )}
+                    <p className="mt-2 text-sm text-red-700">{error}</p>
+                  </div>
+                )}
+                <Dropzone onDrop={handleImageUpload} onReject={(files) => setError("File size exceeds 5MB limit. Please upload a smaller file.")} maxSize={5 * 1024 * 1024} accept={IMAGE_MIME_TYPE}>
+                  <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
+                    <Dropzone.Accept>
+                      <IconUpload style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-blue-6)" }} stroke={1.5} />
+                    </Dropzone.Accept>
+                    <Dropzone.Reject>
+                      <IconX style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-red-6)" }} stroke={1.5} />
+                    </Dropzone.Reject>
+                    <Dropzone.Idle>
+                      <IconPhoto style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-dimmed)" }} stroke={1.5} />
+                    </Dropzone.Idle>
 
-        <TextInput label="Nama" placeholder="Masukkan nama" value={displayName} onChange={(event) => setDisplayName(event.currentTarget.value)} />
-
-        <Dropzone onDrop={handleImageUpload} onReject={(files) => setError("File size exceeds 5MB limit. Please upload a smaller file.")} maxSize={5 * 1024 * 1024} accept={IMAGE_MIME_TYPE}>
-          <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
-            <Dropzone.Accept>
-              <IconUpload style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-blue-6)" }} stroke={1.5} />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-red-6)" }} stroke={1.5} />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconPhoto style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-dimmed)" }} stroke={1.5} />
-            </Dropzone.Idle>
-
-            <div>
-              <Text size="xl" inline>
-                Drag images here or click to select files
-              </Text>
-              <Text size="sm" c="dimmed" inline mt={7}>
-                Attach as many files as you like, each file should not exceed 5MB
-              </Text>
+                    <div>
+                      <Text size="xl" inline>
+                        Drag images here or click to select files
+                      </Text>
+                      <Text size="sm" c="dimmed" inline mt={7}>
+                        Attach as many files as you like, each file should not exceed 5MB
+                      </Text>
+                    </div>
+                  </Group>
+                </Dropzone>
+                {uploading && (
+                  // <Progress value={progress} label={`${Math.round(progress)}%`} size="lg" mt="md" />
+                  <Progress.Root size="lg" mt="md">
+                    <Progress.Section value={progress}>
+                      <Progress.Label>{Math.round(progress)}%</Progress.Label>
+                    </Progress.Section>
+                  </Progress.Root>
+                )}
+              </Modal>
             </div>
-          </Group>
-        </Dropzone>
+          </>
+        )}
+
+        <div className="mb-4">
+          <TextInput label="Nama" placeholder="Masukkan nama" value={displayName} onChange={(event) => setDisplayName(event.currentTarget.value)} />
+        </div>
 
         {uploading && (
           // <Progress value={progress} label={`${Math.round(progress)}%`} size="lg" mt="md" />
