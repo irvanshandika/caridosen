@@ -122,12 +122,14 @@ const Dashboard: React.FC = () => {
         <title>Dashboard | CariDosen</title>
       </Helmet>
       <Sidebar>
-        <div className="mb-4">
-          <h1>Selamat Datang {user?.displayName}</h1>
-        </div>
+        {photoURL && (
+          <div className="flex justify-center items-center">
+            <img src={photoURL} alt="Profile Preview" style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "50%" }} />
+          </div>
+        )}
 
         {alertSubmit && (
-          <div className="mb-4">
+          <div className="my-4">
             <Alert color="teal" title="Profil berhasil diperbarui" onClose={() => setAlertSubmit(false)}>
               Profil Anda berhasil diperbarui.
             </Alert>
@@ -138,13 +140,11 @@ const Dashboard: React.FC = () => {
           // <Alert color="red" title="Upload Error" onClose={() => setError(null)}>
           //   {error}
           // </Alert>
-          <>
-            <div role="alert" className="rounded border-s-4 border-red-500 bg-red-50 p-4">
-              <strong className="block font-medium text-red-800"> Upload Gagal </strong>
+          <div role="alert" className="rounded my-4 border-s-4 border-red-500 bg-red-50 p-4">
+            <strong className="block font-medium text-red-800"> Upload Gagal </strong>
 
-              <p className="mt-2 text-sm text-red-700">{error}</p>
-            </div>
-          </>
+            <p className="mt-2 text-sm text-red-700">{error}</p>
+          </div>
         )}
 
         <TextInput label="Nama" placeholder="Masukkan nama" value={displayName} onChange={(event) => setDisplayName(event.currentTarget.value)} />
@@ -179,13 +179,6 @@ const Dashboard: React.FC = () => {
               <Progress.Label>{Math.round(progress)}%</Progress.Label>
             </Progress.Section>
           </Progress.Root>
-        )}
-
-        {photoURL && (
-          <div>
-            <Text mt="md">Image Preview:</Text>
-            <img src={photoURL} alt="Profile Preview" style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "50%" }} />
-          </div>
         )}
 
         <Group mt="md">

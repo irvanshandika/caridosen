@@ -6,8 +6,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { getDoc, doc, addDoc, collection, serverTimestamp, query, where, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
-// import { Textarea } from "@components/ui/textarea";
-// import { Button } from "@components/ui/button";
 import { Rating, Textarea, Button } from "@mantine/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListKomentar from "@src/sections/ListKomentar";
@@ -22,6 +20,7 @@ const RatingDosen = () => {
   const [komentar, setKomentar] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [userName, setUserName] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const [dosenId, setDosenId] = useState("");
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const [ratingDistribution, setRatingDistribution] = useState<number[]>([0, 0, 0, 0, 0]);
@@ -35,6 +34,7 @@ const RatingDosen = () => {
         setUser(user);
         setCreatedBy(user.uid);
         setUserName(user.displayName || "");
+        setPhotoURL(user.photoURL || "");
       } else {
         navigate("/forbidden");
       }
@@ -122,6 +122,7 @@ const RatingDosen = () => {
           komentar: komentar,
           createdBy: user.uid,
           userName: userName,
+          photoURL: photoURL,
           createdAt: serverTimestamp(),
         });
       }
