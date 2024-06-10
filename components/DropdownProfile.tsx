@@ -38,7 +38,7 @@ const DropdownSidebar = () => {
     <>
       <Menu shadow="md">
         <Menu.Target>
-          <button>{user && user.photoURL ? <img src={user.photoURL} alt="Profile Picture" className="w-8 h-8 rounded-full ml-2" fetchPriority="low" /> : <UserIcon />}</button>
+          <button>{user && user.photoURL ? <img src={user.photoURL} alt="Profile Picture" className="lg:size-11 size-11 rounded-full ml-2" fetchPriority="low" /> : <UserIcon />}</button>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>

@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { db } from "@config/FirebaseConfig";
+import { db, storage } from "@config/FirebaseConfig";
 import SideBar from "@components/Sidebar";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-// import { Label } from "@components/ui/label";
 import { Helmet } from "react-helmet";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, universitas: string, createdBy: string) {
   try {
@@ -30,7 +31,7 @@ async function addDosen(nama: string, nip: string, email: string, urlFoto: strin
   }
 }
 
-const Dosen = () => {
+const TambahDosen = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
@@ -44,6 +45,10 @@ const Dosen = () => {
   const [createdBy, setCreatedBy] = useState("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false);
+  const [alertSubmit, setAlertSubmit] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -82,6 +87,38 @@ const Dosen = () => {
     window.location.reload();
   };
 
+  const handleImageUpload = (files: File[]) => {
+    const file = files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size exceeds 5MB limit. Please upload a smaller file.");
+      return;
+    }
+
+    setError(null); // Reset error state if file size is valid
+    const storageRef = ref(storage, `dosenProfilePics/${user.uid}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    setUploading(true);
+    setProgress(0);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progress);
+      },
+      (error) => {
+        console.error("Error uploading image:", error);
+        setUploading(false);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setUrlFoto(downloadURL);
+        setUploading(false);
+      }
+    );
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -101,155 +138,147 @@ const Dosen = () => {
       </Helmet>
       <SideBar>
         <span className="hidden">{user?.displayName}</span>
-        <div className="p-8 rounded border border-gray-200 dark:border-gray-600 dark:bg-gray-700">
-          <h1 className="font-medium text-3xl">Tambah Dosen</h1>
-          {showAlert && (
-            <div className="px-8 py-6 bg-green-400 text-white flex justify-between rounded">
-              <div className="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-6" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                </svg>
-                <p>Data Dosen Berhasil Ditambahkan</p>
+        <h1 className="text-center">Tambah Dosen</h1>
+        {showAlert && (
+          <div className="mt-4 p-4 bg-green-100 text-green-700">
+            Data Dosen Berhasil Ditambahkan
+          </div>
+        )}
+        {showErrorAlert && (
+          <div className="mt-4 p-4 bg-red-100 text-red-700">
+            Oops... Sepertinya Ada Masalah Pada Database!
+          </div>
+        )}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="nama" className="block text-sm font-medium text-gray-700">
+              Nama
+            </label>
+            <input
+              type="text"
+              name="nama"
+              id="nama"
+              value={nama}
+              onChange={(e: any) => setNama(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="nip" className="block text-sm font-medium text-gray-700">
+              NIP
+            </label>
+            <input
+              type="text"
+              name="nip"
+              id="nip"
+              value={nip}
+              onChange={(e: any) => setNip(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e: any) => setEmail(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="urlFoto" className="block text-sm font-medium text-gray-700">
+              Foto
+            </label>
+            <input
+              type="file"
+              name="urlFoto"
+              id="urlFoto"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImageUpload([file]);
+                }
+              }}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
+            {urlFoto && <img src={urlFoto} alt="Preview" className="mt-2 w-32 h-32 object-cover" />}
+            {uploading && (
+              <div className="mt-2">
+                <div className="w-full bg-gray-200 h-2 rounded">
+                  <div className="bg-blue-600 h-2 rounded" style={{ width: `${progress}%` }}></div>
+                </div>
+                <div className="text-sm text-gray-600 mt-1">{progress.toFixed(2)}%</div>
               </div>
-              <button className="text-green-100 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-          )}
-          {showErrorAlert && (
-            <div className="px-8 py-6 bg-red-400 text-white flex justify-between rounded">
-              <div className="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-6 text-white" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="m15.46 15.88l1.42-1.42L19 16.59l2.12-2.12l1.41 1.41L20.41 18l2.13 2.12l-1.42 1.42L19 19.41l-2.12 2.12l-1.41-1.41L17.59 18zM12 3c4.42 0 8 1.79 8 4s-3.58 4-8 4s-8-1.79-8-4s3.58-4 8-4M4 9c0 2.21 3.58 4 8 4s8-1.79 8-4v3.08L19 12c-2.59 0-4.8 1.64-5.64 3.94L12 16c-4.42 0-8-1.79-8-4zm0 5c0 2.21 3.58 4 8 4h1c0 1.05.27 2.04.75 2.9L12 21c-4.42 0-8-1.79-8-4z"
-                  />
-                </svg>
-                <p>Oops... Sepertinya Ada Masalah Pada Database!</p>
-              </div>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            <div className="mt-8 grid lg:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="urlFoto" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  Url Foto
-                </label>
-                <input
-                  type="text"
-                  name="urlFoto"
-                  id="urlFoto"
-                  value={urlFoto}
-                  onChange={(e: any) => setUrlFoto(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
-                  placeholder="https://example.com"
-                />
-              </div>
-              <div>
-                <label htmlFor="nama" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  Nama
-                </label>
-                <input
-                  type="text"
-                  name="nama"
-                  id="nama"
-                  value={nama}
-                  onChange={(e: any) => setNama(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  Email Adress
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  value={email}
-                  onChange={(e: any) => setEmail(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
-                  placeholder="yourmail@provider.com"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="nip" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  NIP
-                </label>
-                <input
-                  type="text"
-                  name="nip"
-                  id="nip"
-                  value={nip}
-                  onChange={(e: any) => setNip(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
-                  placeholder="123xxxxx"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="universitas" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  Dosen Universitas
-                </label>
-                <input
-                  type="text"
-                  name="universitas"
-                  id="universitas"
-                  value={universitas}
-                  onChange={(e: any) => setUniversitas(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
-                  placeholder="Standford University"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="tanggalLahir" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  Tanggal Lahir
-                </label>
-                <input
-                  type="date"
-                  name="tanggalLahir"
-                  id="tanggalLahir"
-                  value={tanggalLahir}
-                  onChange={(e: any) => setTanggalLahir(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400"
-                  placeholder="(01/01/1993)"
-                />
-              </div>
-              <div>
-                <label htmlFor="deskripsi" className="text-sm text-gray-700 block mb-1 font-medium dark:text-gray-200">
-                  Deskripsi
-                </label>
-                <textarea
-                  name="deskripsi"
-                  id="deskripsi"
-                  value={deskripsi}
-                  onChange={(e: any) => setDeskripsi(e.target.value)}
-                  className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-400 dark:placeholder:text-gray-400"
-                  placeholder="Deskripsi singkat tentang dosen"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-x-4 mt-8">
-              <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
-                Save
-              </button>
-              <button onClick={() => navigate("/dashboard")} className="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50">
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="tanggalLahir" className="block text-sm font-medium text-gray-700">
+              Tanggal Lahir
+            </label>
+            <input
+              type="date"
+              name="tanggalLahir"
+              id="tanggalLahir"
+              value={tanggalLahir}
+              onChange={(e: any) => setTanggalLahir(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="deskripsi" className="block text-sm font-medium text-gray-700">
+              Deskripsi
+            </label>
+            <textarea
+              name="deskripsi"
+              id="deskripsi"
+              value={deskripsi}
+              onChange={(e: any) => setDeskripsi(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="universitas" className="block text-sm font-medium text-gray-700">
+              Universitas
+            </label>
+            <input
+              type="text"
+              name="universitas"
+              id="universitas"
+              value={universitas}
+              onChange={(e: any) => setUniversitas(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 mr-2"
+              disabled={uploading} // Disable submit button while uploading
+            >
+              Simpan
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/dashboard")}
+              className="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700"
+            >
+              Batal
+            </button>
+          </div>
+          {error && <div className="mt-4 text-red-600">{error}</div>}
+        </form>
       </SideBar>
     </>
   );
 };
 
-export default Dosen;
+export default TambahDosen;

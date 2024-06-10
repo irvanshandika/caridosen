@@ -188,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </nav>
         </AppShell.Navbar>
         <AppShell.Main>
-          <Card shadow="xs" padding="xl" className="-m-[10px] bg-gray-300 h-screen">
+          <Card shadow="xs" padding="xl" className="-m-[10px] bg-gray-300 h-full">
             <div className="mb-4">
               <Breadcrumbs>
                 {breadcrumbs.map((crumb, index) => {
