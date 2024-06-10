@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import Router from "./router.tsx";
+import Router from "./router.tsx.backup";
 // import "preline/dist/preline";
 import { RouterProvider, BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";

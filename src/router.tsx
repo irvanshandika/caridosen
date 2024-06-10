@@ -1,60 +1,119 @@
-import { Routes, Route, Outlet } from "react-router-dom";
-import Home from "@pages/Home";
-import OurTeam from "@pages/OurTeam";
+import { createBrowserRouter } from "react-router-dom";
 import NotFound from "@pages/NotFound";
-import SignIn from "@pages/SignIn";
-import SignUp from "@pages/SignUp";
-import Dosens from "@pages/Dosens";
-import RatingDosen from "@pages/RatingDosen";
-import Forbidden from "@pages/Forbidden";
-import Dashboard from "@pages/dashboard/Dashboard";
-import Account from "@pages/dashboard/Account";
-import Calendar from "@pages/dashboard/Calendar";
-import Dosen from "@pages/dashboard/Dosen";
-import DetailDosen from "@pages/dashboard/DetailDosen";
-import UpdateDosen from "@pages/dashboard/EditDosen";
-import TambahDosen from "@pages/dashboard/TambahDosen";
-import ForgotPassword from "@pages/ForgotPassword";
-import ManajemenUsers from "@pages/dashboard/Users";
-import Navbar from "@components/Navbar";
-import Footer from "@components/Footer";
 
-const Layout = () => {
-  return (
-    <>
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: "/auth/forgot-password",
+    lazy: async () => ({
+      Component: (await import("@pages/ForgotPassword")).default,
+    }),
+  },
+  {
+    path: "/auth/signin",
+    lazy: async () => ({
+      Component: (await import("@pages/SignIn")).default,
+    }),
+  },
+  {
+    path: "/auth/signup",
+    lazy: async () => ({
+      Component: (await import("@pages/SignUp")).default,
+    }),
+  },
+  {
+    path: "/",
+    lazy: async () => {
+      const AppShell = await import("@components/AppShell");
+      return { Component: AppShell.default };
+    },
+    errorElement: <NotFound />,
+    children: [
+      {
+        index: true,
+        lazy: async () => ({
+          Component: (await import("@pages/Home")).default,
+        }),
+      },
+      {
+        path: "*",
+        lazy: async () => ({
+          Component: (await import("@pages/NotFound")).default,
+        }),
+      },
+      {
+        path: "/forbidden",
+        lazy: async () => ({
+          Component: (await import("@pages/Forbidden")).default,
+        }),
+      },
+      {
+        path: "ourteam",
+        lazy: async () => ({
+          Component: (await import("@pages/OurTeam")).default,
+        }),
+      },
+      {
+        path: "/rating/:id",
+        lazy: async () => ({
+          Component: (await import("@pages/RatingDosen")).default,
+        }),
+      },
+      {
+        path: "/dosens",
+        lazy: async () => ({
+          Component: (await import("@pages/Dosens")).default,
+        }),
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/Dashboard")).default,
+    }),
+  },
+  {
+    path: "/dashboard/akun-saya/:id",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/Account")).default,
+    }),
+  },
+  {
+    path: "/dashboard/kalender",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/Calendar")).default,
+    }),
+  },
+  {
+    path: "/dashboard/dosen/lihat-dosen",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/Dosen")).default,
+    }),
+  },
+  {
+    path: "/dashboard/dosen/tambah-dosen",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/TambahDosen")).default,
+    }),
+  },
+  {
+    path: "/dashboard/dosen/detail-dosen/:id",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/DetailDosen")).default,
+    }),
+  },
+  {
+    path: "/dashboard/dosen/edit-dosen/:id",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/EditDosen")).default,
+    }),
+  },
+  {
+    path: "/dashboard/manajemen-users",
+    lazy: async () => ({
+      Component: (await import("@pages/dashboard/Users")).default,
+    }),
+  },
+]);
 
-function App() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/forbidden" element={<Forbidden />} />
-          <Route path="/ourteam" element={<OurTeam />} />
-          <Route path="/rating/:id" element={<RatingDosen />} />
-          <Route path="/dosens" element={<Dosens />} />
-        </Route>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/akun-saya/:id" element={<Account />} />
-        <Route path="/dashboard/kalender" element={<Calendar />} />
-        <Route path="/dashboard/dosen/lihat-dosen" element={<Dosen />} />
-        <Route path="/dashboard/dosen/tambah-dosen" element={<TambahDosen />} />
-        <Route path="/dashboard/dosen/detail-dosen/:id" element={<DetailDosen />} />
-        <Route path="/dashboard/dosen/edit-dosen/:id" element={<UpdateDosen />} />
-        <Route path="/auth/signin" element={<SignIn />} />
-        <Route path="/auth/signup" element={<SignUp />} />
-        <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard/manajemen-users" element={<ManajemenUsers />} />
-      </Routes>
-    </>
-  );
-}
-
-export default App;
+export default router;
