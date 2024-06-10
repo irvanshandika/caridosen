@@ -59,7 +59,7 @@ const EditDosen = () => {
 
     try {
       if (imageFile) {
-        const imageRef = ref(storage, `dosenImages/${params.id}`);
+        const imageRef = ref(storage, `dosenProfilePics/${params.id}`);
         await uploadBytes(imageRef, imageFile);
         imageUrl = await getDownloadURL(imageRef);
       }
