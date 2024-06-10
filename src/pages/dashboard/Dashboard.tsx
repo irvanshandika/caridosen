@@ -132,14 +132,6 @@ const Dashboard: React.FC = () => {
               </button>
 
               <Modal opened={dropzoneOpened} onClose={closeDropzoneModal} title="Upload Foto Profil" centered>
-                {alertSubmit && (
-                  <div className="my-4">
-                    <Alert color="teal" title="Profil berhasil diperbarui" onClose={() => setAlertSubmit(false)}>
-                      Profil Anda berhasil diperbarui.
-                    </Alert>
-                  </div>
-                )}
-
                 {error && (
                   <div role="alert" className="rounded my-4 border-s-4 border-red-500 bg-red-50 p-4">
                     <strong className="block font-medium text-red-800"> Upload Gagal </strong>
@@ -180,6 +172,13 @@ const Dashboard: React.FC = () => {
               </Modal>
             </div>
           </>
+        )}
+        {alertSubmit && (
+          <div className="my-4">
+            <Alert color="teal" title="Profil berhasil diperbarui" onClose={() => setAlertSubmit(false)}>
+              Profil Anda berhasil diperbarui.
+            </Alert>
+          </div>
         )}
 
         <div className="mb-4">
