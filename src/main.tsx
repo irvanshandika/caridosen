@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import router from "./router.tsx";
+import Router from "./router.tsx";
 // import "preline/dist/preline";
 import { RouterProvider, BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
@@ -15,8 +15,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <MantineProvider>
-        <RouterProvider router={router} />
-        {/* <Router /> */}
+        {/* <RouterProvider router={router} /> */}
+        <Router />
       </MantineProvider>
     </BrowserRouter>
   </React.StrictMode>
