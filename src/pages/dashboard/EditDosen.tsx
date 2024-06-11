@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Sidebar from "@components/Sidebar";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const EditDosen = () => {
   const auth = getAuth();
@@ -19,6 +19,9 @@ const EditDosen = () => {
   const [dosenDetail, setDosenDetail] = useState<any>({});
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
 
   const params = useParams();
 
@@ -60,18 +63,45 @@ const EditDosen = () => {
     try {
       if (imageFile) {
         const imageRef = ref(storage, `dosenProfilePics/${params.id}`);
-        await uploadBytes(imageRef, imageFile);
-        imageUrl = await getDownloadURL(imageRef);
+        const uploadTask = uploadBytesResumable(imageRef, imageFile);
+
+        setUploading(true);
+        setProgress(0);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgress(progress);
+          },
+          (error) => {
+            console.error("Error uploading image:", error);
+            setUploading(false);
+            setError("Gagal mengunggah gambar");
+          },
+          async () => {
+            imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+            setUploading(false);
+            const dosenRef = doc(db, "dosen", params.id ?? "");
+            await updateDoc(dosenRef, {
+              ...dosenDetail,
+              urlFoto: imageUrl,
+            });
+
+            setAlertMessage("Data berhasil diupdate");
+            setAlertType("success");
+          }
+        );
+      } else {
+        const dosenRef = doc(db, "dosen", params.id ?? "");
+        await updateDoc(dosenRef, {
+          ...dosenDetail,
+          urlFoto: imageUrl,
+        });
+
+        setAlertMessage("Data berhasil diupdate");
+        setAlertType("success");
       }
-
-      const dosenRef = doc(db, "dosen", params.id ?? "");
-      await updateDoc(dosenRef, {
-        ...dosenDetail,
-        urlFoto: imageUrl,
-      });
-
-      setAlertMessage("Data berhasil diupdate");
-      setAlertType("success");
     } catch (error) {
       console.error("Error updating document: ", error);
       setAlertMessage("Gagal mengupdate data");
@@ -138,6 +168,14 @@ const EditDosen = () => {
             </label>
             <input type="file" name="urlFoto" id="urlFoto" onChange={handleImageChange} className="mt-1 p-2 border border-gray-300 rounded w-full" />
             {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2 w-32 h-32 object-cover" />}
+            {uploading && (
+              <div className="mt-2">
+                <div className="w-full bg-gray-200 h-2 rounded">
+                  <div className="bg-blue-600 h-2 rounded" style={{ width: `${progress}%` }}></div>
+                </div>
+                <div className="text-sm text-gray-600 mt-1">{progress.toFixed(2)}%</div>
+              </div>
+            )}
           </div>
           <div className="mb-4">
             <label htmlFor="tanggalLahir" className="block text-sm font-medium text-gray-700">
@@ -145,10 +183,11 @@ const EditDosen = () => {
             </label>
             <input type="date" name="tanggalLahir" id="tanggalLahir" value={dosenDetail.tanggalLahir} onChange={handleChange} className="mt-1 p-2 border border-gray-300 rounded w-full" />
           </div>
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={uploading}>
             Submit
           </button>
         </form>
+        {error && <div className="mt-4 text-red-600">{error}</div>}
       </Sidebar>
     </>
   );
