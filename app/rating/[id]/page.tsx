@@ -6,7 +6,7 @@ import Main from "./main";
 import { generateStaticParams as importedGenerateStaticParams } from "../generateStaticParams";
 
 export const metadata = {
-  title: "Rating Dosen | CariDosen",
+  title: "Rating Dosen",
 };
 
 export async function generateStaticParams() {

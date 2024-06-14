@@ -3,7 +3,7 @@ import Main from "./main";
 import Sidebar from "@components/Sidebar";
 
 export const metadata = {
-  title: "Kalender | CariDosen",
+  title: "Kalender",
 };
 
 function Kalender() {

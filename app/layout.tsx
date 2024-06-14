@@ -1,16 +1,39 @@
 /* eslint-disable @next/next/next-script-for-ga */
 /* eslint-disable @next/next/no-sync-scripts */
 /* eslint-disable @next/next/no-page-custom-font */
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
 import { MantineProvider } from "@mantine/core";
 import PrelineScript from "@components/PrelineScript";
 
+const APP_NAME = "Temukan Dosen Terbaik Menuju Kesuksesan Akademis | CariDosen";
+const APP_DEFAULT_TITLE = "Temukan Dosen Terbaik Menuju Kesuksesan Akademis | CariDosen";
+const APP_TITLE_TEMPLATE = "%s - CariDosen";
+const APP_DESCRIPTION = "Temukan Dosen Terbaik Menuju Kesuksesan Akademis";
+
 export const metadata: Metadata = {
-  title: "Temukan Dosen Terbaik Menuju Kesuksesan Akademis | CariDosen",
-  description: "Temukan Dosen Terbaik Menuju Kesuksesan Akademis",
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffff",
 };
 
 export default function RootLayout({
@@ -42,6 +65,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora&amp;display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" />
         <link href="https://db.onlinewebfonts.com/c/359d857da0b957059a42b643ad6e743e?family=Qualcomm+Next" rel="stylesheet" type="text/css" />
+        <link rel="icon" href="/icon-192x192.png" type="image/png" />
       </head>
       <body className="font-sora">
         <MantineProvider>

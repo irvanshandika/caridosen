@@ -3,7 +3,7 @@ import Main from "./main";
 import Navbar from "@components/Navbar";
 
 export const metadata = {
-  title: "Search Dosen | CariDosen",
+  title: "Search Dosen",
 };
 
 function SearchDosen() {

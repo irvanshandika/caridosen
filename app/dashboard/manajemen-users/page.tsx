@@ -3,7 +3,7 @@ import Main from "./main";
 import Sidebar from "@components/Sidebar";
 
 export const metadata = {
-  title: "Manajemen Users | CariDosen",
+  title: "Manajemen Users",
 };
 
 function ManajemenUsers() {

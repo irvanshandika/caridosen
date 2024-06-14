@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, updateProfile, deleteUser } from "firebase/auth";
@@ -179,15 +179,6 @@ const Dashboard: React.FC = () => {
       <div className="mb-4">
         <TextInput label="Nama" placeholder="Masukkan nama" value={displayName} onChange={(event) => setDisplayName(event.currentTarget.value)} />
       </div>
-
-      {uploading && (
-        // <Progress value={progress} label={`${Math.round(progress)}%`} size="lg" mt="md" />
-        <Progress.Root size="lg" mt="md">
-          <Progress.Section value={progress}>
-            <Progress.Label>{Math.round(progress)}%</Progress.Label>
-          </Progress.Section>
-        </Progress.Root>
-      )}
 
       <Group mt="md">
         <Button onClick={handleUpdateProfile} disabled={uploading}>
