@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import GeminiChat from "./GeminiChat";
 
 function Hero() {
   const [search, setSearch] = useState("");
@@ -46,6 +47,7 @@ function Hero() {
           </div>
         </div>
       </div>
+      <GeminiChat />
     </>
   );
 }
