@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,9 +17,9 @@ function Hero() {
           <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5 relative">
             <span className="absolute top-0 right-0 translate-x-[1vw] translate-y-[9vh] rotate-12 md:block lg:-translate-x-[9vw] lg:translate-y-20">
               <svg className="lg:w-16 w-[40px] h-auto text-orange-500" width="121" height="135" viewBox="0 0 121 135" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 16.4754C11.7688 27.4499 21.2452 57.3224 5 89.0164" stroke="currentColor" stroke-width="10" stroke-linecap="round" />
-                <path d="M33.6761 112.104C44.6984 98.1239 74.2618 57.6776 83.4821 5" stroke="currentColor" stroke-width="10" stroke-linecap="round" />
-                <path d="M50.5525 130C68.2064 127.495 110.731 117.541 116 78.0874" stroke="currentColor" stroke-width="10" stroke-linecap="round" />
+                <path d="M5 16.4754C11.7688 27.4499 21.2452 57.3224 5 89.0164" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
+                <path d="M33.6761 112.104C44.6984 98.1239 74.2618 57.6776 83.4821 5" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
+                <path d="M50.5525 130C68.2064 127.495 110.731 117.541 116 78.0874" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
               </svg>
             </span>
             <h1 className="lg:text-5xl text-2xl text-center font-bold text-[#003566] lg:px-28 px-6 flex items-center">Temukan Dosen Terbaik Menuju Kesuksesan Akademis</h1>
@@ -35,7 +35,7 @@ function Hero() {
                     value={search}
                     onChange={(e: any) => setSearch(e.target.value)}
                     placeholder="Cari Dosen Kalian"
-                    className="border-[#003566] border-2 rounded-[8px] lg:w-72 w-[200px] bg-[#DFF6FF] placeholder:text-[#003566]"
+                    className="border-[#003566] border-2 rounded-[8px] lg:w-72 w-[200px] bg-[#DFF6FF] placeholder:text-[#003566] placeholder:pl-2"
                   />
                   <button type="submit" className="bg-[#003566] text-white px-5 py-2 rounded-lg ml-2">
                     Cari
