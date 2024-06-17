@@ -53,10 +53,10 @@ const GeminiChat = () => {
       let md = new MarkdownIt();
       for await (let response of result.stream) {
         buffer.push(response.text());
-        const renderedOutput = md.render(buffer.join(""));
-        setOutput(renderedOutput);
-        setChatHistory((prev) => [...prev, { user: prompt, gemini: renderedOutput }]);
       }
+      const renderedOutput = md.render(buffer.join(""));
+      setOutput(renderedOutput);
+      setChatHistory((prev) => [...prev, { user: prompt, gemini: renderedOutput }]);
     } catch (e) {
       setOutput("<hr>" + e);
     }
@@ -86,17 +86,64 @@ const GeminiChat = () => {
     return now.toLocaleDateString("id-ID", options);
   };
 
-  const ChatBubble = ({ sender, message }: { sender: "user" | "gemini"; message: string }) => (
-    <div className={`flex ${sender === "user" ? "justify-end" : "justify-start"} my-2`}>
-      <div className={`p-3 rounded-lg ${sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}>
-        <div dangerouslySetInnerHTML={{ __html: message }} />
+  const ChatBubble = ({ sender, message }: { sender: "user" | "gemini"; message: string }) => {
+    const renderMessage = (msg: string) => {
+      const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+      const parts = [];
+      let lastIndex = 0;
+      let match;
+
+      while ((match = codeBlockRegex.exec(msg)) !== null) {
+        if (match.index > lastIndex) {
+          parts.push(msg.slice(lastIndex, match.index));
+        }
+
+        parts.push(
+          <div key={match.index} className="relative my-2">
+            <CopyToClipboard text={match[2]}>
+              <Button
+                variant="outline"
+                size="xs"
+                style={{ position: "absolute", top: 0, right: 0 }}
+              >
+                Copy
+              </Button>
+            </CopyToClipboard>
+            <SyntaxHighlighter language={match[1]} style={tomorrow}>
+              {match[2]}
+            </SyntaxHighlighter>
+          </div>
+        );
+
+        lastIndex = match.index + match[0].length;
+      }
+
+      if (lastIndex < msg.length) {
+        parts.push(msg.slice(lastIndex));
+      }
+
+      return parts.map((part, index) => {
+        if (typeof part === "string") {
+          return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+        }
+        return part;
+      });
+    };
+
+    return (
+      <div className={`flex ${sender === "user" ? "justify-end" : "justify-start"} my-2`}>
+        <div
+          className={`p-3 rounded-lg ${sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
+        >
+          {renderMessage(message)}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <>
-      <Modal opened={chatbotOpened} onClose={close} title="Chatbot AI" className="lg:p-[10px]">
+      <Modal opened={chatbotOpened} onClose={close} title="Chatbot AI" size="xl" className="lg:p-[10px]">
         <div className="flex flex-col h-[500px]">
           <ScrollArea className="flex-grow overflow-y-auto">
             <div className="p-4">
