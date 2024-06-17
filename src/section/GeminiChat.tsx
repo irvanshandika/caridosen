@@ -19,7 +19,7 @@ const GeminiChat = () => {
   const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY ?? "";
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({
-    model: "gemini-pro",
+    model: "gemini-1.5-flash",
     safetySettings: [
       {
         category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -63,15 +63,7 @@ const GeminiChat = () => {
   };
 
   const isAskingDate = (message: string): boolean => {
-    const dateQuestions = [
-      "hari apa",
-      "tanggal berapa",
-      "bulan apa",
-      "tahun berapa",
-      "hari ini",
-      "sekarang tanggal",
-      "sekarang hari apa",
-    ];
+    const dateQuestions = ["hari apa", "tanggal berapa", "bulan apa", "tahun berapa", "hari ini", "sekarang tanggal", "sekarang hari apa"];
     return dateQuestions.some((question) => message.toLowerCase().includes(question));
   };
 
@@ -101,11 +93,7 @@ const GeminiChat = () => {
         parts.push(
           <div key={match.index} className="relative my-2">
             <CopyToClipboard text={match[2]}>
-              <Button
-                variant="outline"
-                size="xs"
-                style={{ position: "absolute", top: 0, right: 0 }}
-              >
+              <Button variant="outline" size="xs" style={{ position: "absolute", top: 0, right: 0 }}>
                 Copy
               </Button>
             </CopyToClipboard>
@@ -132,11 +120,7 @@ const GeminiChat = () => {
 
     return (
       <div className={`flex ${sender === "user" ? "justify-end" : "justify-start"} my-2`}>
-        <div
-          className={`p-3 rounded-lg ${sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
-        >
-          {renderMessage(message)}
-        </div>
+        <div className={`p-3 rounded-t-lg ${sender === "user" ? "bg-blue-500 text-white rounded-bl-lg" : "bg-gray-300 text-black rounded-br-lg"}`}>{renderMessage(message)}</div>
       </div>
     );
   };
@@ -163,7 +147,7 @@ const GeminiChat = () => {
           </form>
         </div>
       </Modal>
-      <button onClick={open} className="fixed right-[1rem] bottom-[1rem] z-20 bg-gray-200 rounded-full p-2">
+      <button onClick={open} className="fixed right-[1rem] bottom-[1rem] z-20">
         <IconRobot className="text-blue-400 lg:size-[50px] size-[40px]" />
       </button>
     </>

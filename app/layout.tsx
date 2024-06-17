@@ -66,6 +66,9 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" />
         <link href="https://db.onlinewebfonts.com/c/359d857da0b957059a42b643ad6e743e?family=Qualcomm+Next" rel="stylesheet" type="text/css" />
         <link rel="icon" href="/icon-192x192.png" type="image/png" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/solid.css" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/thinline.css" />
       </head>
       <body className="font-sora">
         <MantineProvider>
@@ -88,6 +91,7 @@ export default function RootLayout({
         />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562971560092974" crossOrigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/c7e6574aa8.js" crossOrigin="anonymous"></script>
+        <script src="https://unicons.iconscout.com/release/v4.0.8/script/monochrome/bundle.js" />
       </body>
     </html>
   );
