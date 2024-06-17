@@ -1,206 +1,51 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 
 function Contact() {
   return (
     <>
-      <section id="contact" className="py-10 bg-white sm:py-16 lg:py-24">
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          <div className="max-w-2xl lg:max-w-5xl mx-auto">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl">
-                Contact <span className="text-blue-500">us</span>
-              </h1>
-              <p className="mt-1 text-gray-600">We'd love to talk about how we can help you.</p>
+      <section className="bg-white">
+        <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact Us</h2>
+          <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.</p>
+          <form action="mailto:shandikamuhammadirvan@gmail.com" className="space-y-8">
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                Your email
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                placeholder="name@flowbite.com"
+                required
+              />
             </div>
-
-            <div className="mt-12 grid items-center lg:grid-cols-2 gap-6 lg:gap-16">
-              <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8">
-                <h2 className="mb-8 text-xl font-semibold text-gray-800">Fill in the form</h2>
-
-                <form>
-                  <div className="grid gap-4">
-                    <div>
-                      <div>
-                        <label htmlFor="hs-firstname-contacts-1" className="sr-only">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          name="hs-firstname-contacts-1"
-                          id="hs-firstname-contacts-1"
-                          className="py-3 px-4 block w-full border-gray-200 border-2 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                          placeholder="Your Name"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="hs-email-contacts-1" className="sr-only">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="hs-email-contacts-1"
-                        id="hs-email-contacts-1"
-                        autoComplete="email"
-                        className="py-3 px-4 block w-full border-gray-200 border-2 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                        placeholder="Email"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="hs-about-contacts-1" className="sr-only">
-                        Details
-                      </label>
-                      <textarea
-                        id="hs-about-contacts-1"
-                        name="hs-about-contacts-1"
-                        rows={parseInt("4")}
-                        className="py-3 px-4 block w-full border-gray-200 border-2 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                        placeholder="Details"></textarea>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid">
-                    <button
-                      type="submit"
-                      className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                      Send inquiry
-                    </button>
-                  </div>
-
-                  <div className="mt-3 text-center">
-                    <p className="text-sm text-gray-500">We'll get back to you in 1-2 business days.</p>
-                  </div>
-                </form>
-              </div>
-
-              <div className="divide-y divide-gray-200">
-                <div className="flex gap-x-7 py-6">
-                  <svg
-                    className="flex-shrink-0 size-6 mt-1.5 text-gray-800"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                    <path d="M12 17h.01" />
-                  </svg>
-                  <div className="grow">
-                    <h3 className="font-semibold text-gray-800">Knowledgebase</h3>
-                    <p className="mt-1 text-sm text-gray-500">We're here to help with any questions or code.</p>
-                    <a className="mt-2 inline-flex items-center gap-x-2 text-sm font-medium text-gray-600 hover:text-gray-800" href="#">
-                      Contact support
-                      <svg className="flex-shrink-0 size-2.5 transition ease-in-out group-hover:translate-x-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M0.975821 6.92249C0.43689 6.92249 -3.50468e-07 7.34222 -3.27835e-07 7.85999C-3.05203e-07 8.37775 0.43689 8.79749 0.975821 8.79749L12.7694 8.79748L7.60447 13.7596C7.22339 14.1257 7.22339 14.7193 7.60447 15.0854C7.98555 15.4515 8.60341 15.4515 8.98449 15.0854L15.6427 8.68862C16.1191 8.23098 16.1191 7.48899 15.6427 7.03134L8.98449 0.634573C8.60341 0.268455 7.98555 0.268456 7.60447 0.634573C7.22339 1.00069 7.22339 1.59428 7.60447 1.9604L12.7694 6.92248L0.975821 6.92249Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex gap-x-7 py-6">
-                  <svg
-                    className="flex-shrink-0 size-6 mt-1.5 text-gray-800"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round">
-                    <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z" />
-                    <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
-                  </svg>
-                  <div className="grow">
-                    <h3 className="font-semibold text-gray-800">FAQ</h3>
-                    <p className="mt-1 text-sm text-gray-500">Search our FAQ for answers to anything you might ask.</p>
-                    <a className="mt-2 inline-flex items-center gap-x-2 text-sm font-medium text-gray-600 hover:text-gray-800" href="#">
-                      Visit FAQ
-                      <svg className="flex-shrink-0 size-2.5 transition ease-in-out group-hover:translate-x-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M0.975821 6.92249C0.43689 6.92249 -3.50468e-07 7.34222 -3.27835e-07 7.85999C-3.05203e-07 8.37775 0.43689 8.79749 0.975821 8.79749L12.7694 8.79748L7.60447 13.7596C7.22339 14.1257 7.22339 14.7193 7.60447 15.0854C7.98555 15.4515 8.60341 15.4515 8.98449 15.0854L15.6427 8.68862C16.1191 8.23098 16.1191 7.48899 15.6427 7.03134L8.98449 0.634573C8.60341 0.268455 7.98555 0.268456 7.60447 0.634573C7.22339 1.00069 7.22339 1.59428 7.60447 1.9604L12.7694 6.92248L0.975821 6.92249Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-
-                <div className=" flex gap-x-7 py-6">
-                  <svg
-                    className="flex-shrink-0 size-6 mt-1.5 text-gray-800"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round">
-                    <path d="m7 11 2-2-2-2" />
-                    <path d="M11 13h4" />
-                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                  </svg>
-                  <div className="grow">
-                    <h3 className="font-semibold text-gray-800">Developer APIs</h3>
-                    <p className="mt-1 text-sm text-gray-500">Check out our development quickstart guide.</p>
-                    <a className="mt-2 inline-flex items-center gap-x-2 text-sm font-medium text-gray-600 hover:text-gray-800" href="#">
-                      Contact sales
-                      <svg className="flex-shrink-0 size-2.5 transition ease-in-out group-hover:translate-x-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M0.975821 6.92249C0.43689 6.92249 -3.50468e-07 7.34222 -3.27835e-07 7.85999C-3.05203e-07 8.37775 0.43689 8.79749 0.975821 8.79749L12.7694 8.79748L7.60447 13.7596C7.22339 14.1257 7.22339 14.7193 7.60447 15.0854C7.98555 15.4515 8.60341 15.4515 8.98449 15.0854L15.6427 8.68862C16.1191 8.23098 16.1191 7.48899 15.6427 7.03134L8.98449 0.634573C8.60341 0.268455 7.98555 0.268456 7.60447 0.634573C7.22339 1.00069 7.22339 1.59428 7.60447 1.9604L12.7694 6.92248L0.975821 6.92249Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-
-                <div className=" flex gap-x-7 py-6">
-                  <svg
-                    className="flex-shrink-0 size-6 mt-1.5 text-gray-800"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round">
-                    <path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z" />
-                    <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10" />
-                  </svg>
-                  <div className="grow">
-                    <h3 className="font-semibold text-gray-800">Contact us by email</h3>
-                    <p className="mt-1 text-sm text-gray-500">If you wish to write us an email instead please use</p>
-                    <a className="mt-2 inline-flex items-center gap-x-2 text-sm font-medium text-gray-600 hover:text-gray-800" href="mailto:support@caridosen.my.id">
-                      support@caridosen.my.id
-                    </a>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-900">
+                Subject
+              </label>
+              <input
+                type="text"
+                id="subject"
+                className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Let us know how we can help you"
+                required
+              />
             </div>
-          </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900">
+                Your message
+              </label>
+              <textarea
+                id="message"
+                rows={6}
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Leave a comment..."></textarea>
+            </div>
+            <button type="submit" className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300">
+              Send message
+            </button>
+          </form>
         </div>
       </section>
     </>
