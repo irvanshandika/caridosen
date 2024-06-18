@@ -6,7 +6,7 @@ import DropdownSidebar from "./DropdownSidebar";
 import { db } from "@config/FirebaseConfig"; // Adjust the import path as needed
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { AppShell, Burger, Group, Card, Menu, rem, Breadcrumbs, Anchor } from "@mantine/core";
+import { AppShell, Burger, Group, Menu, rem, Breadcrumbs, Anchor } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconUserFilled, IconCirclePlus } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
@@ -180,23 +180,21 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </nav>
         </AppShell.Navbar>
         <AppShell.Main>
-          <Card shadow="xs" padding="xl" className="-m-[10px] bg-gray-300 h-auto">
-            <div className="mb-4">
-              <Breadcrumbs>
-                {breadcrumbs.map((crumb, index) => {
-                  if (index === 0 || crumb.label !== "dashboard") {
-                    return (
-                      <Anchor key={crumb.path} href={crumb.path}>
-                        {crumb.label.charAt(0).toUpperCase() + crumb.label.slice(1)}
-                      </Anchor>
-                    );
-                  }
-                  return null;
-                })}
-              </Breadcrumbs>
-            </div>
-            {children}
-          </Card>
+          <div className="mb-4">
+            <Breadcrumbs>
+              {breadcrumbs.map((crumb, index) => {
+                if (index === 0 || crumb.label !== "dashboard") {
+                  return (
+                    <Anchor key={crumb.path} href={crumb.path}>
+                      {crumb.label.charAt(0).toUpperCase() + crumb.label.slice(1)}
+                    </Anchor>
+                  );
+                }
+                return null;
+              })}
+            </Breadcrumbs>
+          </div>
+          {children}
         </AppShell.Main>
       </AppShell>
     </>

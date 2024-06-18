@@ -3,11 +3,11 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useState, useEffect } from "react";
-import { app, auth } from "@config/FirebaseConfig";
+import { app, auth, db } from "@config/FirebaseConfig"; // Import db for Firestore
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { collection, doc, getDoc } from "firebase/firestore"; // Firestore imports
 import { useRouter } from "next/navigation";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-// import { Input } from "@components/ui/input";
 import { Alert, TextInput, PasswordInput } from "@mantine/core";
 import { IconAlertTriangle } from "@tabler/icons-react";
 
@@ -24,13 +24,19 @@ function SignIn() {
     const authInstance = getAuth(app);
     const unsubscribe = onAuthStateChanged(authInstance, (user) => {
       if (user) {
-        router.push("/"); // Redirect to the dashboard or home page if the user is logged in
+        // router.push("/"); // Redirect to the dashboard or home page if the user is logged in
       }
     });
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [router]);
+
+  const checkUserInDatabase = async (userId: string) => {
+    const userDocRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userDocRef);
+    return userDoc.exists();
+  };
 
   const signInWithGoogle = async () => {
     setLoading(true);
@@ -39,12 +45,17 @@ function SignIn() {
     try {
       const result = await signInWithPopup(authInstance, provider);
       const user = result.user;
-      // Check if the user is in the Firebase auth table
+
       if (user) {
-        router.push("/");
+        const userExists = await checkUserInDatabase(user.uid);
+        if (userExists) {
+          router.push("/");
+        } else {
+          setAlertError(true);
+          authInstance.signOut();
+        }
       } else {
         setAlertError(true);
-        authInstance.signOut();
       }
     } catch (error) {
       console.log(error);
@@ -58,11 +69,17 @@ function SignIn() {
     e.preventDefault();
     try {
       const res = await signInWithEmailAndPassword(email, password);
-      if (res) {
-        sessionStorage.setItem("user", "true");
-        setEmail("");
-        setPassword("");
-        router.push("/");
+      if (res && res.user) {
+        const userExists = await checkUserInDatabase(res.user.uid);
+        if (userExists) {
+          sessionStorage.setItem("user", "true");
+          setEmail("");
+          setPassword("");
+          router.push("/");
+        } else {
+          setAlertError(true);
+          auth.signOut();
+        }
       } else {
         setAlertError(true);
       }
@@ -131,7 +148,7 @@ function SignIn() {
                             ERROR
                           </h1>
                         </div>
-                        <p className="text-center text-red-400">There was an error with your submission. Please make sure your email and password are correct and try again.</p>
+                        <p className="text-center text-red-400">Maaf akun yang anda masukkan belum terdaftar. Harap melakukan pendaftaran.</p>
                       </Alert>
                     )}
                     <div className="flex flex-col justify-end items-end my-5">
