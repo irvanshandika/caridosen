@@ -40,7 +40,7 @@ function SignIn() {
           router.push("/");
         }
       } catch (error) {
-        console.log(error);
+        console.log("Redirect result error:", error);
         setAlertError(true);
       }
     };
@@ -54,7 +54,7 @@ function SignIn() {
     try {
       await signInWithRedirect(authInstance, provider);
     } catch (error) {
-      console.log(error);
+      console.log("Google sign-in error:", error);
       setAlertError(true);
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ function SignIn() {
         setAlertError(true);
       }
     } catch (e) {
-      console.error(e);
+      console.error("Email sign-in error:", e);
       setAlertError(true);
     }
   };
