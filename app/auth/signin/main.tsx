@@ -4,7 +4,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { app, auth } from "@config/FirebaseConfig";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, getRedirectResult } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Alert, TextInput, PasswordInput } from "@mantine/core";
@@ -31,20 +31,28 @@ function SignIn() {
     return () => unsubscribe();
   }, [router]);
 
+  useEffect(() => {
+    const checkRedirectResult = async () => {
+      const authInstance = getAuth(app);
+      try {
+        const result = await getRedirectResult(authInstance);
+        if (result?.user) {
+          router.push("/");
+        }
+      } catch (error) {
+        console.log(error);
+        setAlertError(true);
+      }
+    };
+    checkRedirectResult();
+  }, [router]);
+
   const signInWithGoogle = async () => {
     setLoading(true);
     const authInstance = getAuth(app);
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(authInstance, provider);
-      const user = result.user;
-      // Check if the user is in the Firebase auth table
-      if (user) {
-        router.push("/");
-      } else {
-        setAlertError(true);
-        authInstance.signOut();
-      }
+      await signInWithRedirect(authInstance, provider);
     } catch (error) {
       console.log(error);
       setAlertError(true);
