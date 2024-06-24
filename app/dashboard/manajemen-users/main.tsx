@@ -126,6 +126,15 @@ const ManajemenUsers: React.FC = () => {
       console.error("Error removing admin role:", error);
     }
   };
+  const handleRemoveSuperAdminRole = async (user: UserType) => {
+    try {
+      const userRef = doc(db, "users", user.id);
+      await updateDoc(userRef, { roles: "user" });
+      setUsers(users.map((u) => (u.id === user.id ? { ...u, roles: "user" } : u)));
+    } catch (error) {
+      console.error("Error removing super admin role:", error);
+    }
+  };
 
   const handleDeleteUser = async () => {
     if (selectedUser && deleteConfirm === "DELETE") {
@@ -208,8 +217,15 @@ const ManajemenUsers: React.FC = () => {
                                 </Tooltip>
                               </Menu.Item>
                               <Menu.Item>
-                                <Tooltip label="Hapus Admin">
+                                <Tooltip label="Hapus Admin Role">
                                   <ActionIcon color="red" onClick={() => handleRemoveAdminRole(user)}>
+                                    <IconUserMinus size={16} />
+                                  </ActionIcon>
+                                </Tooltip>
+                              </Menu.Item>
+                              <Menu.Item>
+                                <Tooltip label="Hapus Super Admin Role">
+                                  <ActionIcon color="red" onClick={() => handleRemoveSuperAdminRole(user)}>
                                     <IconUserMinus size={16} />
                                   </ActionIcon>
                                 </Tooltip>

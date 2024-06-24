@@ -131,7 +131,7 @@ const Dosen = () => {
         setDosen(dosen.filter((item: NewDosenType) => item.id !== id));
         close();
         setConfirmDosenId("");
-        router.refresh();
+        router.push("/dashboard/dosen/list-dosen");
       } catch (err) {
         console.log(err);
       }
