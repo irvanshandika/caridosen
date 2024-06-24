@@ -28,8 +28,8 @@ const DropdownSidebar = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
       router.push("/");
+      await signOut(auth);
     } catch (error: any) {
       console.log("Error signing out: ", error.message);
     }

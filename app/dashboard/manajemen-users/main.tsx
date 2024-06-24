@@ -23,7 +23,7 @@ const ManajemenUsers: React.FC = () => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<UserType[]>([]);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
@@ -35,14 +35,14 @@ const ManajemenUsers: React.FC = () => {
         setCurrentUser(user);
         await syncUserWithFirestore(user);
         const userDoc = await getDocs(collection(db, "users"));
-        let isAdmin = false;
+        let isSuperAdmin = false;
         userDoc.forEach((doc) => {
-          if (doc.data().uid === user.uid && doc.data().roles === "admin") {
-            isAdmin = true;
+          if (doc.data().uid === user.uid && doc.data().roles === "superadmin") {
+            isSuperAdmin = true;
           }
         });
-        setIsAdmin(isAdmin);
-        if (!isAdmin) {
+        setIsSuperAdmin(isSuperAdmin);
+        if (!isSuperAdmin) {
           router.push("/forbidden");
         }
       } else {
@@ -107,6 +107,15 @@ const ManajemenUsers: React.FC = () => {
       console.error("Error adding admin role:", error);
     }
   };
+  const handleAddSuperAdminRole = async (user: UserType) => {
+    try {
+      const userRef = doc(db, "users", user.id);
+      await updateDoc(userRef, { roles: "superadmin" });
+      setUsers(users.map((u) => (u.id === user.id ? { ...u, roles: "superadmin" } : u)));
+    } catch (error) {
+      console.error("Error adding super admin role:", error);
+    }
+  };
 
   const handleRemoveAdminRole = async (user: UserType) => {
     try {
@@ -142,6 +151,7 @@ const ManajemenUsers: React.FC = () => {
       <div className="mb-4">
         <h2 className="text-center">Daftar Pengguna</h2>
       </div>
+
       <div className="flex flex-col">
         <div className="-m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
@@ -183,23 +193,27 @@ const ManajemenUsers: React.FC = () => {
                               </button>
                             </Menu.Target>
                             <Menu.Dropdown>
-                              {user.roles === "user" ? (
-                                <Menu.Item>
-                                  <Tooltip label="Tambah Role Admin">
-                                    <ActionIcon color="blue" onClick={() => handleAddAdminRole(user)}>
-                                      <IconUserPlus size={16} />
-                                    </ActionIcon>
-                                  </Tooltip>
-                                </Menu.Item>
-                              ) : (
-                                <Menu.Item>
-                                  <Tooltip label="Hapus Role Admin">
-                                    <ActionIcon color="yellow" onClick={() => handleRemoveAdminRole(user)}>
-                                      <IconUserMinus size={16} />
-                                    </ActionIcon>
-                                  </Tooltip>
-                                </Menu.Item>
-                              )}
+                              <Menu.Item>
+                                <Tooltip label="Tambah Admin">
+                                  <ActionIcon color="blue" onClick={() => handleAddAdminRole(user)}>
+                                    <IconUserPlus size={16} />
+                                  </ActionIcon>
+                                </Tooltip>
+                              </Menu.Item>
+                              <Menu.Item>
+                                <Tooltip label="Tambah Super Admin">
+                                  <ActionIcon color="blue" onClick={() => handleAddSuperAdminRole(user)}>
+                                    <IconUserPlus size={16} />
+                                  </ActionIcon>
+                                </Tooltip>
+                              </Menu.Item>
+                              <Menu.Item>
+                                <Tooltip label="Hapus Admin">
+                                  <ActionIcon color="red" onClick={() => handleRemoveAdminRole(user)}>
+                                    <IconUserMinus size={16} />
+                                  </ActionIcon>
+                                </Tooltip>
+                              </Menu.Item>
                               <Menu.Item>
                                 <Tooltip label="Ban">
                                   <ActionIcon color="red" onClick={() => openDeleteModal(user)}>

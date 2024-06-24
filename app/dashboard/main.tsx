@@ -1,7 +1,8 @@
+"use client";
+import { IconUser } from "@tabler/icons-react"; // Placeholder for the UserIcon component
+
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, updateProfile, deleteUser } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -43,8 +44,16 @@ const Dashboard: React.FC = () => {
   const handleUpdateProfile = async () => {
     if (user) {
       try {
+        // Update the Firebase Auth profile
         await updateProfile(user, { displayName, photoURL });
-        setUser({ ...user, displayName, photoURL });
+
+        // Ensure the user object is updated after the profile update
+        const refreshedUser = getAuth().currentUser;
+        if (refreshedUser) {
+          setUser(refreshedUser);
+          setDisplayName(refreshedUser.displayName ?? "");
+          setPhotoURL(refreshedUser.photoURL ?? "");
+        }
 
         // Update user information in Firestore
         const userDocRef = doc(db, "users", user.uid);
@@ -52,6 +61,8 @@ const Dashboard: React.FC = () => {
           displayName,
           photoURL,
         });
+
+        console.log("User profile updated in Firestore");
 
         setAlertSubmit(true);
         setTimeout(() => {
@@ -118,56 +129,51 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      {photoURL && (
-        <>
-          <div className="flex justify-center items-center">
-            <button onClick={openDropzoneModal}>
-              <img src={photoURL} alt="Profile Preview" className="w-[200px] h-[200px] object-cover rounded-[50%]" fetchPriority="high" />
-              <IconEdit size={24} className="translate-x-[180px] -translate-y-[40px]" />
-            </button>
+      <div className="flex justify-center items-center">
+        <button onClick={openDropzoneModal}>
+          {photoURL ? <img src={photoURL} alt="Profile Preview" className="w-[200px] h-[200px] object-cover rounded-[50%]" fetchPriority="high" loading="lazy" /> : <IconUser size={200} className="text-gray-500" />}
+          <IconEdit size={24} className="translate-x-[180px] -translate-y-[40px]" />
+        </button>
 
-            <Modal opened={dropzoneOpened} onClose={closeDropzoneModal} title="Upload Foto Profil" centered>
-              {error && (
-                <div role="alert" className="rounded my-4 border-s-4 border-red-500 bg-red-50 p-4">
-                  <strong className="block font-medium text-red-800"> Upload Gagal </strong>
+        <Modal opened={dropzoneOpened} onClose={closeDropzoneModal} title="Upload Foto Profil" centered>
+          {error && (
+            <div role="alert" className="rounded my-4 border-s-4 border-red-500 bg-red-50 p-4">
+              <strong className="block font-medium text-red-800"> Upload Gagal </strong>
+              <p className="mt-2 text-sm text-red-700">{error}</p>
+            </div>
+          )}
+          <Dropzone onDrop={handleImageUpload} onReject={(files) => setError("File size exceeds 5MB limit. Please upload a smaller file.")} maxSize={5 * 1024 * 1024} accept={IMAGE_MIME_TYPE}>
+            <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
+              <Dropzone.Accept>
+                <IconUpload style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-blue-6)" }} stroke={1.5} />
+              </Dropzone.Accept>
+              <Dropzone.Reject>
+                <IconX style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-red-6)" }} stroke={1.5} />
+              </Dropzone.Reject>
+              <Dropzone.Idle>
+                <IconPhoto style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-dimmed)" }} stroke={1.5} />
+              </Dropzone.Idle>
 
-                  <p className="mt-2 text-sm text-red-700">{error}</p>
-                </div>
-              )}
-              <Dropzone onDrop={handleImageUpload} onReject={(files) => setError("File size exceeds 5MB limit. Please upload a smaller file.")} maxSize={5 * 1024 * 1024} accept={IMAGE_MIME_TYPE}>
-                <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
-                  <Dropzone.Accept>
-                    <IconUpload style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-blue-6)" }} stroke={1.5} />
-                  </Dropzone.Accept>
-                  <Dropzone.Reject>
-                    <IconX style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-red-6)" }} stroke={1.5} />
-                  </Dropzone.Reject>
-                  <Dropzone.Idle>
-                    <IconPhoto style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-dimmed)" }} stroke={1.5} />
-                  </Dropzone.Idle>
+              <div>
+                <Text size="xl" inline>
+                  Drag images here or click to select files
+                </Text>
+                <Text size="sm" c="dimmed" inline mt={7}>
+                  Attach as many files as you like, each file should not exceed 5MB
+                </Text>
+              </div>
+            </Group>
+          </Dropzone>
+          {uploading && (
+            <Progress.Root size="lg" mt="md">
+              <Progress.Section value={progress}>
+                <Progress.Label>{Math.round(progress)}%</Progress.Label>
+              </Progress.Section>
+            </Progress.Root>
+          )}
+        </Modal>
+      </div>
 
-                  <div>
-                    <Text size="xl" inline>
-                      Drag images here or click to select files
-                    </Text>
-                    <Text size="sm" c="dimmed" inline mt={7}>
-                      Attach as many files as you like, each file should not exceed 5MB
-                    </Text>
-                  </div>
-                </Group>
-              </Dropzone>
-              {uploading && (
-                // <Progress value={progress} label={`${Math.round(progress)}%`} size="lg" mt="md" />
-                <Progress.Root size="lg" mt="md">
-                  <Progress.Section value={progress}>
-                    <Progress.Label>{Math.round(progress)}%</Progress.Label>
-                  </Progress.Section>
-                </Progress.Root>
-              )}
-            </Modal>
-          </div>
-        </>
-      )}
       {alertSubmit && (
         <div className="my-4">
           <Alert color="teal" title="Profil berhasil diperbarui" onClose={() => setAlertSubmit(false)}>

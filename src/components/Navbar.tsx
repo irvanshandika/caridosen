@@ -31,7 +31,7 @@ const Navbar = () => {
       <nav className="bg-white border-solid border-y fixed w-full z-20 top-0 start-0 border-[#7ECBFF]">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px] h-[46px]" alt="CariDosen Logo" fetchPriority="high" />
+            <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px] h-[46px]" alt="CariDosen Logo" fetchPriority="high" loading="lazy" />
           </a>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {user ? (
@@ -66,30 +66,22 @@ const Navbar = () => {
           <div className={`${isOpen ? "block" : "hidden"} items-center justify-between w-full md:flex md:w-auto md:order-1`} id="navbar-cta">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
               <li>
-                <a
-                  href="/"
-                  className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <a href="/" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Home
                 </a>
               </li>
               <li>
-                <a
-                  href="#fitur"
-                  className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <a href="#fitur" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Fitur
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <a href="#" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Tentang
                 </a>
               </li>
               <li>
-                <a
-                  href="#contact"
-                  className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <a href="#contact" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Kontak
                 </a>
               </li>

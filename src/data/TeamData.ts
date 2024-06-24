@@ -23,7 +23,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Raffa Nur Listiawan D.E.S",
     role: "Business Analyst",
-    imgSrc: "https://res.cloudinary.com/dszhlpm81/image/upload/v1717047597/assets/caridosen/RapoL_m9cmxd.jpg",
+    imgSrc: "https://res.cloudinary.com/dszhlpm81/image/upload/c_crop,ar_3:4/v1717047597/assets/caridosen/RapoL_m9cmxd.jpg",
   },
   {
     name: "Fauzan Lutfi Muzaki",

@@ -10,6 +10,7 @@ import { AppShell, Burger, Group, Menu, rem, Breadcrumbs, Anchor } from "@mantin
 import { useDisclosure } from "@mantine/hooks";
 import { IconUserFilled, IconCirclePlus } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type SidebarProps = {
   children: ReactNode;
@@ -20,7 +21,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const pathname = usePathname();
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
   const [opened, { toggle }] = useDisclosure();
+
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,6 +48,18 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       }
     };
     getUser();
+  }, [user]);
+  useEffect(() => {
+    const getUserSuperAdmin = async () => {
+      if (user) {
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setIsSuperAdmin(doc.data().roles === "superadmin");
+        });
+      }
+    };
+    getUserSuperAdmin();
   }, [user]);
 
   const generateBreadcrumbs = () => {
@@ -85,6 +101,60 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               </li>
 
               {isAdmin && (
+                <>
+                  <li className="hs-accordion" id="projects-accordion">
+                    <Menu shadow="md" width={200}>
+                      <Menu.Target>
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+                          <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                          </svg>
+                          Dosen
+                          <svg
+                            className="hs-accordion-active:hidden ms-auto block size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                          <svg
+                            className="hs-accordion-active:block ms-auto hidden size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="m18 15-6-6-6 6" />
+                          </svg>
+                        </button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        <Menu.Item onClick={() => router.push("/dashboard/dosen/list-dosen")} leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />}>
+                          <Anchor style={{ color: "black" }}>List Dosen</Anchor>
+                        </Menu.Item>
+                        <Menu.Item onClick={() => router.push("/dashboard/dosen/tambah-dosen")} leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />}>
+                          <Anchor style={{ color: "black" }}>Tambah Dosen</Anchor>
+                        </Menu.Item>
+                      </Menu.Dropdown>
+                    </Menu>
+                  </li>
+                </>
+              )}
+
+              {isSuperAdmin && (
                 <>
                   <li>
                     <a href="/dashboard/manajemen-users" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
@@ -138,10 +208,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                         </button>
                       </Menu.Target>
                       <Menu.Dropdown>
-                        <Menu.Item leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />}>
-                          <Link href="/dashboard/dosen/list-dosen">
-                            <Anchor style={{ color: "black" }}>List Dosen</Anchor>
-                          </Link>
+                        <Menu.Item onClick={() => router.push("/dashboard/dosen/list-dosen")} leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />}>
+                          <Anchor style={{ color: "black" }}>List Dosen</Anchor>
                         </Menu.Item>
                         <Menu.Item leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />}>
                           <Link href="/dashboard/dosen/tambah-dosen">

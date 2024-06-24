@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import { useCreateUserWithEmailAndPassword, useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "@config/FirebaseConfig";
@@ -99,19 +99,6 @@ const SignUp: React.FC = () => {
                       </svg>
                     </div>
                     <span className="ml-4">Sign Up with Google</span>
-                  </button>
-
-                  <button
-                    disabled
-                    className="disabled:cursor-not-allowed w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5">
-                    <div className="bg-white p-1 rounded-full">
-                      <svg className="w-6" viewBox="0 0 32 32">
-                        <path
-                          fillRule="evenodd"
-                          d="M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.302 1.23.96-.267 1.984-.4 3.003-.404 1.02.004 2.043.137 3.003.404 2.293-1.552 3.3-1.23 3.3-1.23.653 1.653.24 2.873.12 3.176.767.84 1.232 1.91 1.232 3.223 0 4.61-2.803 5.625-5.473 5.92.432.372.815 1.103.815 2.222 0 1.606-.015 2.9-.015 3.293 0 .324.216.694.826.576C24.565 25.8 28 21.3 28 16c0-6.629-5.371-12-12-12z"></path>
-                      </svg>
-                    </div>
-                    <span className="ml-4">Sign Up with GitHub</span>
                   </button>
                 </div>
 

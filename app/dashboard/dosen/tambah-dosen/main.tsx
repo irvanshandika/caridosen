@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { db, storage } from "@config/FirebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 async function addDosen(nama: string, nip: string, email: string, urlFoto: string, tanggalLahir: string, deskripsi: string, universitas: string, createdBy: string) {
@@ -33,6 +33,7 @@ const TambahDosen = () => {
   const auth = getAuth();
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
+  const [hasAccess, setHasAccess] = useState<boolean>(false);
   const [nama, setNama] = useState("");
   const [nip, setNip] = useState("");
   const [email, setEmail] = useState("");
@@ -117,9 +118,22 @@ const TambahDosen = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        let hasAccess = false;
+        querySnapshot.forEach((doc) => {
+          const role = doc.data().roles;
+          if (role === "admin" || role === "superadmin") {
+            hasAccess = true;
+          }
+        });
+        setHasAccess(hasAccess);
+        if (!hasAccess) {
+          router.push("/forbidden");
+        }
       } else {
         router.push("/forbidden");
       }
