@@ -90,15 +90,6 @@ export default function RootLayout({
             `,
           }}
         />
-        <script
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `
-              kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'E1E0ZPGJQ');kofiwidget2.draw();
-            `,
-          }}
-        />
-        
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562971560092974" crossOrigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/c7e6574aa8.js" crossOrigin="anonymous"></script>
         <script src="https://unicons.iconscout.com/release/v4.0.8/script/monochrome/bundle.js" />
