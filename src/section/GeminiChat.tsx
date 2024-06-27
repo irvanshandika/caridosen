@@ -148,6 +148,7 @@ const GeminiChat = () => {
         </div>
       </Modal>
       <button onClick={open} className="fixed right-[1rem] bottom-[1rem] z-20">
+        <span className="sr-only">Chat Gemini AI</span>
         <IconRobot className="text-blue-400 lg:size-[50px] size-[40px]" />
       </button>
     </>
