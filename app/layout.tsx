@@ -91,8 +91,8 @@ export default function RootLayout({
           }}
         />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562971560092974" crossOrigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/c7e6574aa8.js" crossOrigin="anonymous"></script>
-        <script src="https://unicons.iconscout.com/release/v4.0.8/script/monochrome/bundle.js" />
+        <script async src="https://kit.fontawesome.com/c7e6574aa8.js" crossOrigin="anonymous"></script>
+        <script async src="https://unicons.iconscout.com/release/v4.0.8/script/monochrome/bundle.js" />
       </body>
     </html>
   );
