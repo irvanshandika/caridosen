@@ -7,6 +7,7 @@ import { Menu, Text, rem } from "@mantine/core";
 import { IconUserCircle, IconRun } from "@tabler/icons-react";
 import UserIcon from "@components/icons/UserIcon";
 import { app } from "@config/FirebaseConfig";
+import Image from "next/image";
 
 const DropdownSidebar = () => {
   const [user, setUser] = useState<any>(null);
@@ -39,7 +40,7 @@ const DropdownSidebar = () => {
     <div className="lg:pl-[80vw] pl-[40vw]">
       <Menu shadow="md">
         <Menu.Target>
-          <button>{user && user.photoURL ? <img src={user.photoURL} alt="Profile Picture" className="w-8 h-8 rounded-full ml-2" fetchPriority="high" loading="lazy" /> : <UserIcon />}</button>
+          <button>{user && user.photoURL ? <Image src={user.photoURL} alt="Profile Picture" className="w-8 h-8 rounded-full ml-2" width={32} height={32} /> : <UserIcon />}</button>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>

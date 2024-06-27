@@ -1,6 +1,5 @@
 "use client";
-import { IconUser } from "@tabler/icons-react"; // Placeholder for the UserIcon component
-
+import { IconUser } from "@tabler/icons-react";
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { db, storage } from "@config/FirebaseConfig";
 import { doc, collection, query, where, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Image from "next/image";
 
 const Dashboard: React.FC = () => {
   const auth = getAuth();
@@ -131,7 +131,7 @@ const Dashboard: React.FC = () => {
     <>
       <div className="flex justify-center items-center">
         <button onClick={openDropzoneModal}>
-          {photoURL ? <img src={photoURL} alt="Profile Preview" className="w-[200px] h-[200px] object-cover rounded-[50%]" fetchPriority="high" loading="lazy" /> : <IconUser size={200} className="text-gray-500" />}
+          {photoURL ? <Image src={photoURL} alt="Profile Preview" className="w-[200px] h-[200px] object-cover rounded-[50%]" width={200} height={200} /> : <IconUser size={200} className="text-gray-500" />}
           <IconEdit size={24} className="translate-x-[180px] -translate-y-[40px]" />
         </button>
 

@@ -9,6 +9,7 @@ import { Rating, Textarea, Button, Card } from "@mantine/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ListKomentar from "@section/ListKomentar";
 import { IconTrashFilled, IconPencil } from "@tabler/icons-react";
+import Image from "next/image";
 
 const RatingDosen = ({ id }: { id: string }) => {
   const auth = getAuth();
@@ -154,7 +155,7 @@ const RatingDosen = ({ id }: { id: string }) => {
         <Card className="lg:px-16 lg:mx-40 mx-4 px-2">
           <div>
             <div>
-              <img src={dosenDetail.urlFoto} alt={dosenDetail.nama} className="w-32 h-32 lg:w-48 lg:h-48 rounded-full mx-auto" fetchPriority="high" />
+              <Image src={dosenDetail.urlFoto}  alt={dosenDetail.nama} className="w-32 h-32 lg:w-48 lg:h-48 rounded-full mx-auto" width={128} height={128}/>
             </div>
           </div>
           <div>

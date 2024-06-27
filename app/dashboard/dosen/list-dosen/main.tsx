@@ -10,6 +10,7 @@ import { NewDosenType } from "@src/types/DosenType";
 import { Menu, Button, rem, Modal, TextInput, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconTrashFilled, IconPencil } from "@tabler/icons-react";
+import Link from "next/link";
 
 const Dosen = () => {
   const auth = getAuth();
@@ -178,12 +179,14 @@ const Dosen = () => {
       <span className="hidden">{user?.displayName}</span>
       <h1 className="text-center">Daftar Dosen</h1>
       <div className="mb-2">
-        <Button onClick={() => router.push("/dashboard/dosen/tambah-dosen")}>
-          <span className="mr-1">
-            <i className="fa-solid fa-user-plus"></i>
-          </span>
-          Buat Dosen
-        </Button>
+        <Link href="/dashboard/dosen/tambah-dosen">
+          <Button>
+            <span className="mr-1">
+              <i className="fa-solid fa-user-plus"></i>
+            </span>
+            Buat Dosen
+          </Button>
+        </Link>
       </div>
       {isAdmin && (
         <>
@@ -225,8 +228,8 @@ const Dosen = () => {
                         </Button>
                       </Menu.Target>
                       <Menu.Dropdown>
-                        <Menu.Item leftSection={<IconPencil style={{ width: rem(20), height: rem(20) }} />} onClick={() => router.push(`/dashboard/dosen/edit-dosen/${dosen.id}`)}>
-                          Edit
+                        <Menu.Item leftSection={<IconPencil style={{ width: rem(20), height: rem(20) }} />}>
+                          <Link href={`/dashboard/dosen/edit-dosen/${dosen.id}`}>Edit</Link>
                         </Menu.Item>
                         <Menu.Item
                           leftSection={<IconTrashFilled style={{ width: rem(20), height: rem(20) }} />}

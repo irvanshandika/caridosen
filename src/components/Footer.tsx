@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import React from "react";
 
 function Footer() {
@@ -9,7 +10,7 @@ function Footer() {
         <div className="text-center">
           <div className="flex flex-col justify-center items-center">
             <a className="flex-none text-xl font-semibold text-black dark:text-white" href="/" aria-label="Brand">
-              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[100px]" alt="Logo Brand" loading="lazy" fetchPriority="high" />
+              <Image src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[100px] h-[70px]" height={70} width={100} alt="Logo Brand" loading="lazy" fetchPriority="high" />
             </a>
             <a href="https://ko-fi.com/E1E0ZPGJQ" target="_blank" className="mt-4">
               <img height="36" style={{ border: "0px", height: "36px;" }} src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" alt="Buy Me a Coffee at ko-fi.com" />

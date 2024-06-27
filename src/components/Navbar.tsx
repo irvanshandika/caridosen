@@ -5,6 +5,8 @@ import { app } from "@config/FirebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import DropdownProfile from "@components/DropdownProfile";
+import Link from "next/link";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +32,9 @@ const Navbar = () => {
     <>
       <nav className="bg-white border-solid border-y fixed w-full z-20 top-0 start-0 border-[#7ECBFF]">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px] h-[46px]" alt="CariDosen Logo" fetchPriority="high" loading="lazy" />
-          </a>
+          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <Image src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px] h-[46px]" width={70} height={46} alt="CariDosen Logo" />
+          </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {user ? (
               <>
@@ -40,16 +42,16 @@ const Navbar = () => {
               </>
             ) : (
               <div className="flex flex-row gap-2">
-                <a href="/auth/signin">
+                <Link href="/auth/signin">
                   <button type="button" className="text-[#1E96FC] bg-white border-[#1E96FC] border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium lg:mr-2 mr-0 rounded-lg text-sm px-4 py-2 text-center">
                     Masuk
                   </button>
-                </a>
-                <a href="/auth/signup">
+                </Link>
+                <Link href="/auth/signup">
                   <button type="button" className="text-white bg-[#1E96FC] hover:bg-blue-700 border-[#1E96FC] border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium lg:mr-2 mr-0 rounded-lg text-sm px-4 py-2 text-center">
                     Daftar
                   </button>
-                </a>
+                </Link>
               </div>
             )}
             <button
@@ -66,24 +68,24 @@ const Navbar = () => {
           <div className={`${isOpen ? "block" : "hidden"} items-center justify-between w-full md:flex md:w-auto md:order-1`} id="navbar-cta">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
               <li>
-                <a href="/" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <Link href="/" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#fitur" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <Link href="#fitur" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Fitur
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <Link href="#" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Tentang
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
+                <Link href="#contact" className="block py-2 px-3 md:p-0 text-[#003566] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">
                   Kontak
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

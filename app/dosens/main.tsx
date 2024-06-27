@@ -1,19 +1,20 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import { useState, useEffect, Suspense } from "react";
 import { db } from "@config/FirebaseConfig";
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Alert, Card, Text, Badge, Group } from "@mantine/core";
 import { IconStarFilled, IconInfoCircleFilled } from "@tabler/icons-react";
+import Link from "next/link";
 
 function Dosens() {
   const [Data, setData] = useState<any[]>([]);
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const handleSearch = (e: { preventDefault: () => void }) => {
@@ -77,7 +78,7 @@ function Dosens() {
             </div>
           ) : (
             filteredData.map((data: any) => (
-              <button key={data.id} onClick={() => router.push(`/rating/${data.id}`)}>
+              <Link href={`/rating/${data.id}`} key={data.id}>
                 <Card shadow="xs" className="m-4 w-80">
                   <Card.Section>
                     <img src={data.urlFoto} alt={data.nama} className="w-full h-48 object-cover" />
@@ -101,7 +102,7 @@ function Dosens() {
                     </Group>
                   </div>
                 </Card>
-              </button>
+              </Link>
             ))
           )}
         </div>

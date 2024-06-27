@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { app } from "@config/FirebaseConfig";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,8 @@ import UserIcon from "@components/icons/UserIcon";
 // import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@components/ui/dropdown-menu";
 import { Menu, Text, rem } from "@mantine/core";
 import { IconRun, IconLayoutDashboardFilled } from "@tabler/icons-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const DropdownSidebar = () => {
   const [user, setUser] = useState<any>(null);
@@ -39,7 +41,7 @@ const DropdownSidebar = () => {
     <>
       <Menu shadow="md">
         <Menu.Target>
-          <button>{user && user.photoURL ? <img src={user.photoURL} alt="Profile Picture" className="lg:size-11 size-11 rounded-full ml-2" fetchPriority="high" /> : <UserIcon />}</button>
+          <button>{user && user.photoURL ? <Image src={user.photoURL} alt="Profile Picture" className="lg:size-11 size-11 rounded-full ml-2" width={44} height={44} /> : <UserIcon />}</button>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>
@@ -50,8 +52,8 @@ const DropdownSidebar = () => {
               {user && user.displayName}
             </Text>
           </Menu.Label>
-          <Menu.Item onClick={() => router.push("/dashboard")} leftSection={<IconLayoutDashboardFilled style={{ width: rem(14), height: rem(14) }} />}>
-            Dashboard
+          <Menu.Item leftSection={<IconLayoutDashboardFilled style={{ width: rem(14), height: rem(14) }} />}>
+            <Link href="/dashboard">Dashboard</Link>
           </Menu.Item>
           <Menu.Item onClick={handleLogout} leftSection={<IconRun style={{ width: rem(14), height: rem(14) }} />}>
             Logout

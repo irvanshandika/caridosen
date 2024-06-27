@@ -11,6 +11,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconUserFilled, IconCirclePlus } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type SidebarProps = {
   children: ReactNode;
@@ -81,9 +82,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         <AppShell.Header>
           <Group h="100%" className="lg:px-20 px-5">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <button onClick={() => (window.location.href = "/")}>
-              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px]" alt="Logo CariDosen" fetchPriority="high" />
-            </button>
+            <Link href="/">
+              <Image src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-[70px] h-[40px]" width={70} height={40} alt="Logo CariDosen" fetchPriority="high" />
+            </Link>
             <DropdownSidebar />
           </Group>
         </AppShell.Header>
@@ -91,13 +92,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <nav className="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
             <ul className="space-y-1.5">
               <li>
-                <a href="/dashboard" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+                <Link href="/dashboard" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
                   <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                     <polyline points="9 22 9 12 15 12 15 22" />
                   </svg>
                   Dashboard
-                </a>
+                </Link>
               </li>
 
               {isAdmin && (
@@ -157,7 +158,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               {isSuperAdmin && (
                 <>
                   <li>
-                    <a href="/dashboard/manajemen-users" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+                    <Link href="/dashboard/manajemen-users" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
                       <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 mt-0.5 size-4" width="32" height="32" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -166,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                         </g>
                       </svg>
                       Manajement Users
-                    </a>
+                    </Link>
                   </li>
                   <li className="hs-accordion" id="projects-accordion">
                     <Menu shadow="md" width={200}>
@@ -208,21 +209,23 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                         </button>
                       </Menu.Target>
                       <Menu.Dropdown>
-                        <Menu.Item onClick={() => router.push("/dashboard/dosen/list-dosen")} leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />}>
-                          <Anchor style={{ color: "black" }}>List Dosen</Anchor>
-                        </Menu.Item>
-                        <Menu.Item leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />}>
-                          <Link href="/dashboard/dosen/tambah-dosen">
+                        <Link href="/dashboard/dosen/list-dosen">
+                          <Menu.Item leftSection={<IconUserFilled style={{ width: rem(14), height: rem(14) }} />}>
+                            <Anchor style={{ color: "black" }}>List Dosen</Anchor>
+                          </Menu.Item>
+                        </Link>
+                        <Link href="/dashboard/dosen/tambah-dosen">
+                          <Menu.Item leftSection={<IconCirclePlus style={{ width: rem(14), height: rem(14) }} />}>
                             <Anchor style={{ color: "black" }}>Tambah Dosen</Anchor>
-                          </Link>
-                        </Menu.Item>
+                          </Menu.Item>
+                        </Link>
                       </Menu.Dropdown>
                     </Menu>
                   </li>
                 </>
               )}
               <li>
-                <a href="/dashboard/kalender" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+                <Link href="/dashboard/kalender" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
                   <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 mt-0.5 size-4" width="24" height="24" viewBox="0 0 24 24">
                     <path
                       fill="none"
@@ -234,15 +237,15 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                     />
                   </svg>
                   Kalender
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/dashboard/dokumentasi" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+                <Link href="/dashboard/dokumentasi" className="cursor-pointer w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
                   <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 mt-0.5 size-4" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6h-4Zm2 3v5h5m-5 8h-4m4-4h-4" />
                   </svg>
                   Dokumentasi
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>

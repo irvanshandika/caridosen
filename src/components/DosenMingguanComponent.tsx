@@ -6,6 +6,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@config/FirebaseConfig";
 import { Card, Text, Button, Group } from "@mantine/core";
 import { IconStarFilled } from "@tabler/icons-react";
+import Image from "next/image";
+import Link from "next/link";
 
 type NewDosenType = {
   id: string;
@@ -81,7 +83,7 @@ const DosenMingguanComponent = () => {
             <Carousel.Slide key={item.id}>
               <Card shadow="sm" p="lg" radius="md" withBorder style={{ height: "100%" }}>
                 <Card.Section>
-                  <img src={item.urlFoto} alt={item.nama} className="object-cover w-full h-52 rounded-t-lg" fetchPriority="high" loading="lazy" />
+                  <Image src={item.urlFoto} alt={item.nama} className="object-cover w-full h-52 rounded-t-lg" width={100} height={208} />
                 </Card.Section>
 
                 <Group mt="md" mb="xs">
@@ -99,10 +101,11 @@ const DosenMingguanComponent = () => {
                     <Text className="ml-1">({item.ratingCount})</Text>
                   </div>
                 </Group>
-
-                <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={() => router.push(`/rating/${item.id}`)}>
-                  Beri Rating
-                </Button>
+                <Link href={`/rating/${item.id}`}>
+                  <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+                    Beri Rating
+                  </Button>
+                </Link>
               </Card>
             </Carousel.Slide>
           ))}
