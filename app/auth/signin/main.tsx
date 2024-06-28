@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Alert, TextInput, PasswordInput } from "@mantine/core";
 import { IconAlertTriangle } from "@tabler/icons-react";
+import Link from "next/link";
+import Image from "next/image";
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -85,7 +87,9 @@ function SignIn() {
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div>
-              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-32 mx-auto" fetchPriority="high" />
+              <Link href="/">
+                <Image src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-32 mx-auto" alt="Dekorasi" width={128} height={0} />
+              </Link>
             </div>
             <div className="mt-12 flex flex-col items-center">
               <h1 className="text-2xl xl:text-3xl font-extrabold">Sign In</h1>
@@ -130,15 +134,15 @@ function SignIn() {
                     <div className="flex flex-col justify-end items-end my-5">
                       <p>
                         Belum Punya Akun?
-                        <a href="/auth/signup" className="ml-1 underline decoration-indigo-400 underline-offset-2">
+                        <Link href="/auth/signup" className="ml-1 underline decoration-indigo-400 underline-offset-2">
                           Daftar
-                        </a>
+                        </Link>
                       </p>
                       <p>
                         Lupa Password?
-                        <a href="/auth/forgot-password" className="ml-1 underline decoration-indigo-400 underline-offset-2">
+                        <Link href="/auth/forgot-password" className="ml-1 underline decoration-indigo-400 underline-offset-2">
                           Lupa Password
-                        </a>
+                        </Link>
                       </p>
                     </div>
                     <button
@@ -154,13 +158,13 @@ function SignIn() {
                   </form>
                   <p className="mt-6 text-xs text-gray-600 text-center">
                     I agree to abide by templatana's
-                    <a href="https://policies.google.com/terms?hl=en" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
+                    <Link href="https://policies.google.com/terms?hl=en" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
                       Terms of Service
-                    </a>
+                    </Link>
                     and its
-                    <a href="https://policies.google.com/privacy?hl=en-US" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
+                    <Link href="https://policies.google.com/privacy?hl=en-US" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
                       Privacy Policy
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </div>

@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import React, { useState } from "react";
 import { auth } from "@config/FirebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Alert } from "@mantine/core";
 import { IconRocket } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 const ForgotPassword: React.FC = () => {
   const router = useRouter();
@@ -31,7 +33,9 @@ const ForgotPassword: React.FC = () => {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-28 w-auto" src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" alt="Your Company" />
+          <Link href="/">
+            <Image className="mx-auto h-28 w-auto" width={112} height={100} src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" alt="Your Company" />
+          </Link>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Lupa Password</h2>
         </div>
 

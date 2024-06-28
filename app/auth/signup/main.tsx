@@ -10,6 +10,8 @@ import { collection, addDoc } from "firebase/firestore";
 import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import { Modal, TextInput, PasswordInput } from "@mantine/core";
 import useSignInWithGoogle from "@hooks/GoogleSignIn";
+import Image from "next/image";
+import Link from "next/link";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -81,7 +83,7 @@ const SignUp: React.FC = () => {
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div>
-              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-32 mx-auto" fetchPriority="low" />
+              <Image src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-32 mx-auto" alt="Dekorasi" width={128} height={0} />
             </div>
             <div className="mt-12 flex flex-col items-center">
               <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
@@ -113,9 +115,9 @@ const SignUp: React.FC = () => {
                     <div className="flex justify-end my-5">
                       <p>
                         Sudah Punya Akun?
-                        <a href="/auth/signin" className="ml-1 underline decoration-indigo-400 underline-offset-2">
+                        <Link href="/auth/signin" className="ml-1 underline decoration-indigo-400 underline-offset-2">
                           Masuk
-                        </a>
+                        </Link>
                       </p>
                     </div>
                     <button
@@ -133,13 +135,13 @@ const SignUp: React.FC = () => {
                   </form>
                   <p className="mt-6 text-xs text-gray-600 text-center">
                     I agree to abide by templatana's
-                    <a href="https://policies.google.com/terms?hl=en" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
+                    <Link href="https://policies.google.com/terms?hl=en" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
                       Terms of Service
-                    </a>
+                    </Link>
                     and its
-                    <a href="https://policies.google.com/privacy?hl=en-US" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
+                    <Link href="https://policies.google.com/privacy?hl=en-US" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
                       Privacy Policy
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </div>
