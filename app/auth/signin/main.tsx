@@ -4,13 +4,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { app, auth } from "@config/FirebaseConfig";
-import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, getRedirectResult } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Alert, TextInput, PasswordInput } from "@mantine/core";
 import { IconAlertTriangle } from "@tabler/icons-react";
-import Link from "next/link";
-import Image from "next/image";
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -33,30 +31,22 @@ function SignIn() {
     return () => unsubscribe();
   }, [router]);
 
-  useEffect(() => {
-    const checkRedirectResult = async () => {
-      const authInstance = getAuth(app);
-      try {
-        const result = await getRedirectResult(authInstance);
-        if (result?.user) {
-          router.push("/");
-        }
-      } catch (error) {
-        console.log("Redirect result error:", error);
-        setAlertError(true);
-      }
-    };
-    checkRedirectResult();
-  }, [router]);
-
   const signInWithGoogle = async () => {
     setLoading(true);
     const authInstance = getAuth(app);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithRedirect(authInstance, provider);
+      const result = await signInWithPopup(authInstance, provider);
+      const user = result.user;
+      // Check if the user is in the Firebase auth table
+      if (user) {
+        router.push("/");
+      } else {
+        setAlertError(true);
+        authInstance.signOut();
+      }
     } catch (error) {
-      console.log("Google sign-in error:", error);
+      console.log(error);
       setAlertError(true);
     } finally {
       setLoading(false);
@@ -76,7 +66,7 @@ function SignIn() {
         setAlertError(true);
       }
     } catch (e) {
-      console.error("Email sign-in error:", e);
+      console.error(e);
       setAlertError(true);
     }
   };
@@ -87,9 +77,7 @@ function SignIn() {
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div>
-              <Link href="/">
-                <Image src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-32 mx-auto" alt="Dekorasi" width={128} height={0} />
-              </Link>
+              <img src="https://res.cloudinary.com/dszhlpm81/image/upload/v1711041098/assets/caridosen/logo_nf7fd1.png" className="w-32 mx-auto" fetchPriority="high" />
             </div>
             <div className="mt-12 flex flex-col items-center">
               <h1 className="text-2xl xl:text-3xl font-extrabold">Sign In</h1>
@@ -134,15 +122,15 @@ function SignIn() {
                     <div className="flex flex-col justify-end items-end my-5">
                       <p>
                         Belum Punya Akun?
-                        <Link href="/auth/signup" className="ml-1 underline decoration-indigo-400 underline-offset-2">
+                        <a href="/auth/signup" className="ml-1 underline decoration-indigo-400 underline-offset-2">
                           Daftar
-                        </Link>
+                        </a>
                       </p>
                       <p>
                         Lupa Password?
-                        <Link href="/auth/forgot-password" className="ml-1 underline decoration-indigo-400 underline-offset-2">
+                        <a href="/auth/forgot-password" className="ml-1 underline decoration-indigo-400 underline-offset-2">
                           Lupa Password
-                        </Link>
+                        </a>
                       </p>
                     </div>
                     <button
@@ -158,13 +146,13 @@ function SignIn() {
                   </form>
                   <p className="mt-6 text-xs text-gray-600 text-center">
                     I agree to abide by templatana's
-                    <Link href="https://policies.google.com/terms?hl=en" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
+                    <a href="https://policies.google.com/terms?hl=en" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
                       Terms of Service
-                    </Link>
+                    </a>
                     and its
-                    <Link href="https://policies.google.com/privacy?hl=en-US" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
+                    <a href="https://policies.google.com/privacy?hl=en-US" className="mx-1 border-b border-gray-500 border-dotted" target="_blank" rel="noreferrer">
                       Privacy Policy
-                    </Link>
+                    </a>
                   </p>
                 </div>
               </div>
