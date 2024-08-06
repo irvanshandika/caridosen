@@ -2,7 +2,7 @@ import React from "react";
 import Main from "./main";
 
 export const metadata = {
-  title: "SignIn",
+  title: "Sign In | CariDosen",
 };
 
 function SignIn() {
